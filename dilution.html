@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dilution · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Dilution</h1>
+        <span class="brand-sub">Outil 3 / 6 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Dilution</span></span>
+    <h2>Dilution</h2>
+    <p class="tool-desc">Calcule le pourcentage de dilution des actionnaires existants après l'émission de nouvelles actions. Affichage de la répartition pré / post.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Saisie</h2><p>Actions avant / nouvelles actions.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row2">
+        <div class="tf">
+          <label for="existing">
+            <span>Actions existantes (avant)</span>
+            <button type="button" class="help-btn" data-tip="Nombre total d'actions détenues par les actionnaires existants avant l'opération.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">№</span>
+            <input type="text" id="existing" value="100 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="newShares">
+            <span>Nouvelles actions émises</span>
+            <button type="button" class="help-btn" data-tip="Toutes les actions créées au cours de l'opération : pool nouveau + convertibles converties + investisseurs du tour.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">№</span>
+            <input type="text" id="newShares" value="53 847" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">Dilution des actionnaires existants</span>
+      <span class="out-v" id="r_dilution">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Anciens actionnaires : 100 % avant →</span>
+      <span class="out-v" id="r_before">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Nouveaux entrants : 0 % avant →</span>
+      <span class="out-v" id="r_after">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Total d'actions après opération</span>
+      <span class="out-v" id="r_total">—</span>
+    </div>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <div><h2>Répartition visuelle</h2><p>Avant / après opération.</p></div>
+    </header>
+    <div class="section-body">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <div style="font-size:11.5px;color:var(--on-surface-2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Avant</div>
+          <div class="dilution-bar"><span class="dil-existing" style="width:100%"></span></div>
+        </div>
+        <div>
+          <div style="font-size:11.5px;color:var(--on-surface-2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Après</div>
+          <div class="dilution-bar"><span class="dil-existing" id="bar_old"></span><span class="dil-new" id="bar_new"></span></div>
+        </div>
+        <div class="dilution-legend">
+          <span class="leg"><span class="sw sw-existing"></span><span>Anciens actionnaires</span></span>
+          <span class="leg"><span class="sw sw-new"></span><span>Nouveaux entrants</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Dilution = nouvelles actions ÷ total d'actions après. Méthode "full-dilution simple" : ne distingue pas pool / convertibles / preferred.</p>
+    </div>
+  </footer>
+</main>
+
+<style>
+/* Reuse the dilution-bar visuals from the main tool */
+.dilution-bar { display: flex; height: 16px; border-radius: var(--radius-pill); overflow: hidden; background: var(--surface-2); }
+.dilution-bar span { display: block; transition: width .35s ease; }
+.dil-existing { background: var(--primary); }
+.dil-new { background: var(--green); }
+.dilution-legend { display: flex; gap: 22px; flex-wrap: wrap; font-size: 12.5px; }
+.leg { display: inline-flex; align-items: center; gap: 8px; color: var(--on-surface-2); }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.sw-existing { background: var(--primary); }
+.sw-new { background: var(--green); }
+</style>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function compute() {
+  const E   = parseNum($('existing').value);
+  const N   = parseNum($('newShares').value);
+  const total = E + N;
+  const oldPct = total > 0 ? E / total : 1;
+  const newPct = total > 0 ? N / total : 0;
+  $('r_dilution').textContent = fmtPct(newPct, 2);
+  $('r_before').textContent = fmtPct(oldPct, 2);
+  $('r_after').textContent  = fmtPct(newPct, 2);
+  $('r_total').textContent  = fmtNum(total, 0);
+  $('bar_old').style.width = (oldPct * 100).toFixed(2) + '%';
+  $('bar_new').style.width = (newPct * 100).toFixed(2) + '%';
+}
+['existing','newShares'].forEach(id => $(id).addEventListener('input', compute));
+['existing','newShares'].forEach(id => $(id).addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); }));
+compute();
+</script>
+</body>
+</html>

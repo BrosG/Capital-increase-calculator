@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="meta_title">Calcul d'Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span>
+        <span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span>
+        <span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1 data-i18n="app_title">Augmentation de Capital</h1>
+        <span class="brand-sub" data-i18n="app_subtitle">Pré-money · BSA AIR · ESOP · Dilution · Waterfall</span>
+      </div>
+    </div>
+
+    <div class="app-bar-actions">
+      <a href="index.html" class="nav-back" title="Outils rapides">
+        <span class="material-symbols-outlined">apps</span>
+        <span>Outils</span>
+      </a>
+      <div class="chip-select" id="langPick" role="group" aria-label="Language">
+        <span class="material-symbols-outlined chip-leading">language</span>
+        <button data-lang="fr" class="on">FR</button>
+        <button data-lang="en">EN</button>
+        <button data-lang="de">DE</button>
+        <button data-lang="es">ES</button>
+      </div>
+
+      <div class="chip-select" id="currencyPick" role="group" aria-label="Currency">
+        <span class="material-symbols-outlined chip-leading">payments</span>
+        <button data-cur="EUR" class="on">EUR</button>
+        <button data-cur="USD">USD</button>
+        <button data-cur="GBP">GBP</button>
+        <button data-cur="CHF">CHF</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-summary" id="stickySummary" aria-hidden="true">
+    <div class="sticky-summary-inner">
+      <span class="ss-k" data-i18n="result_postMoney">Post-money</span>
+      <span class="ss-v" id="ss_postMoney">—</span>
+      <span class="ss-sep"></span>
+      <span class="ss-k" data-i18n="result_pricePerShare">Prix / action</span>
+      <span class="ss-v" id="ss_price">—</span>
+      <span class="ss-sep"></span>
+      <span class="ss-k" data-i18n="legend_new">Nouveaux investisseurs</span>
+      <span class="ss-v" id="ss_dilNew">—</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Print-only report header (dossier metadata) -->
+  <section class="print-header" aria-hidden="true">
+    <h1 data-i18n="print_title">Augmentation de capital</h1>
+    <dl>
+      <div><dt data-i18n="dossier_company">Société</dt><dd id="ph_company">—</dd></div>
+      <div><dt data-i18n="dossier_date">Date d'opération</dt><dd id="ph_date">—</dd></div>
+      <div><dt data-i18n="dossier_reference">Référence dossier</dt><dd id="ph_reference">—</dd></div>
+      <div><dt data-i18n="dossier_operator">Opérateur</dt><dd id="ph_operator">—</dd></div>
+      <div><dt data-i18n="print_scenario">Scénario</dt><dd id="ph_scenario">—</dd></div>
+      <div><dt data-i18n="print_printedAt">Édité le</dt><dd id="ph_printedAt">—</dd></div>
+    </dl>
+  </section>
+
+
+  <!-- ════════ 00 · HERO ════════ -->
+  <section class="hero-block">
+    <div class="hero-eyebrow">
+      <span class="num">00</span>
+      <span data-i18n="hero_eyebrow">Vue d'ensemble · live</span>
+    </div>
+    <div class="hero-card">
+      <div class="hero-left">
+        <span class="hero-k" data-i18n="result_postMoney">Valorisation post-money</span>
+        <span class="hero-v" id="r_postMoney">—</span>
+        <div class="hero-meta">
+          <span><i data-i18n="hero_investment">Investissement total</i><b id="r_totalInvest">—</b></span>
+          <span><i data-i18n="hero_implied">Post-money implicite (prix × actions)</i><b id="r_postImplied">—</b></span>
+          <span><i data-i18n="hero_dilution">Dilution fondateurs</i><b id="r_heroDilution">—</b></span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-bar" aria-hidden="true">
+          <span class="dil-existing" id="dilExisting"></span>
+          <span class="dil-pool"     id="dilPool"></span>
+          <span class="dil-conv"     id="dilConv"></span>
+          <span class="dil-new"      id="dilNew"></span>
+        </div>
+        <div class="hero-legend">
+          <span class="leg"><span class="sw sw-existing"></span><span data-i18n="legend_existing">Actionnaires existants</span><b id="legExistingPct">—</b></span>
+          <span class="leg"><span class="sw sw-pool"></span><span data-i18n="legend_pool">Pool</span><b id="legPoolPct">—</b></span>
+          <span class="leg"><span class="sw sw-conv"></span><span data-i18n="legend_conv">Convertibles</span><b id="legConvPct">—</b></span>
+          <span class="leg"><span class="sw sw-new"></span><span data-i18n="legend_new">Nouveaux</span><b id="legNewPct">—</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 01 · Dossier ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div class="head-grow">
+        <h2 data-i18n="section_dossier">Dossier</h2>
+        <p data-i18n="section_dossier_sub">Identification de l'opération · scénarios</p>
+      </div>
+      <div class="scenario-pick" id="scenarioPick" role="group" aria-label="Scenario">
+        <button data-sc="base" class="on" data-i18n="sc_base">Base</button>
+        <button data-sc="bull" data-i18n="sc_bull">Bull</button>
+        <button data-sc="bear" data-i18n="sc_bear">Bear</button>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row4">
+        <div class="tf">
+          <label for="dossierCompany" data-i18n="dossier_company">Société</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">business</span></span>
+            <input type="text" id="dossierCompany" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dossierDate" data-i18n="dossier_date">Date d'opération</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="dossierDate" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dossierReference" data-i18n="dossier_reference">Référence dossier</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">tag</span></span>
+            <input type="text" id="dossierReference" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dossierOperator" data-i18n="dossier_operator">Opérateur</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">person</span></span>
+            <input type="text" id="dossierOperator" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 02 · Hypothèses ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <div>
+        <h2 data-i18n="section_assumptions">Hypothèses du tour</h2>
+        <p data-i18n="section_assumptions_sub">Pré-money · actions · nominale</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="preMoney">
+            <span data-i18n="label_preMoney">Valorisation pré-money</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_preMoney" aria-label="?">?</button>
+          </label>
+          <div class="tf-input">
+            <span class="tf-prefix cur-symbol">€</span>
+            <input type="text" id="preMoney" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_preMoney_hint">Valeur entreprise avant l'opération (fully-diluted, ESOP inclus)</span>
+        </div>
+        <div class="tf">
+          <label for="existingShares" data-i18n="label_existingShares">Actions existantes</label>
+          <div class="tf-input">
+            <span class="tf-prefix">№</span>
+            <input type="text" id="existingShares" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_existingShares_hint">Total pré-opération</span>
+        </div>
+        <div class="tf">
+          <label for="nominalValue">
+            <span data-i18n="label_nominalValue">Valeur nominale</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_nominalValue" aria-label="?">?</button>
+          </label>
+          <div class="tf-input">
+            <span class="tf-prefix cur-symbol">€</span>
+            <input type="text" id="nominalValue" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_nominalValue_hint">Par action</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 03 · Pool ESOP/BSPCE ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">03</span>
+      <div class="head-grow">
+        <h2 data-i18n="section_pool">Pool d'options (ESOP / BSPCE)</h2>
+        <p data-i18n="section_pool_sub">Réservé aux salariés · BSPCE, AGA, BSA</p>
+      </div>
+      <label class="switch" title="Enabled">
+        <input type="checkbox" id="poolEnabled">
+        <span class="track"></span>
+      </label>
+    </header>
+    <div class="section-body" id="poolBody">
+      <div class="row2">
+        <div class="tf">
+          <label for="poolTargetPct">
+            <span data-i18n="label_poolTargetPct">Cible post-tour</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_poolTargetPct" aria-label="?">?</button>
+          </label>
+          <div class="tf-input">
+            <span class="tf-prefix">%</span>
+            <input type="text" id="poolTargetPct" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_poolTargetPct_hint">% du capital fully-diluted post-opération</span>
+        </div>
+        <div class="tf">
+          <label>
+            <span data-i18n="label_poolTiming">Création du pool</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_poolTiming" aria-label="?">?</button>
+          </label>
+          <div class="seg" id="poolTiming" role="radiogroup">
+            <button data-val="pre" class="on" data-i18n="poolTiming_pre">Pré-money</button>
+            <button data-val="post" data-i18n="poolTiming_post">Post-money</button>
+          </div>
+          <span class="tf-helper" data-i18n="label_poolTiming_hint">Pré-money : dilue les fondateurs · Post-money : dilue tous</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 04 · Actionnaires ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">04</span>
+      <div>
+        <h2 data-i18n="section_holders">Actionnaires existants</h2>
+        <p data-i18n="section_holders_sub">Capital actuel · actions ordinaires</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row-list" id="holderList"></div>
+      <button class="btn-ghost btn-add" id="addHolder">
+        <span class="material-symbols-outlined">add</span>
+        <span data-i18n="button_addHolder">Ajouter un actionnaire</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════ 05 · Convertibles ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">05</span>
+      <div>
+        <h2 data-i18n="section_convertibles">Obligations convertibles · BSA AIR</h2>
+        <p data-i18n="section_convertibles_sub">Convertissent au prix du tour (décote + plafond)</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row-list" id="convList"></div>
+      <button class="btn-ghost btn-add" id="addConv">
+        <span class="material-symbols-outlined">add</span>
+        <span data-i18n="button_addConv">Ajouter une convertible</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════ 06 · Investisseurs ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">06</span>
+      <div>
+        <h2 data-i18n="section_investors">Investisseurs · tour de financement</h2>
+        <p data-i18n="section_investors_sub">Souscripteurs · actions de préférence</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row-list" id="investorList"></div>
+      <button class="btn-ghost btn-add" id="addInv">
+        <span class="material-symbols-outlined">add</span>
+        <span data-i18n="button_addInvestor">Ajouter un investisseur</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Alerts inline (between inputs and results) -->
+  <div class="alerts">
+    <div class="alert alert-warn" id="warn" hidden>
+      <span class="material-symbols-outlined">warning</span>
+      <span data-i18n="warn_nominal">Valeur nominale supérieure au prix d'émission — émission impossible à ce nominal.</span>
+    </div>
+    <div class="alert alert-warn" id="warnHolders" hidden>
+      <span class="material-symbols-outlined">info</span>
+      <span data-i18n="warn_holders">La somme des actionnaires existants ne correspond pas au total d'actions déclaré.</span>
+    </div>
+    <div class="alert alert-warn" id="warnPool" hidden>
+      <span class="material-symbols-outlined">block</span>
+      <span data-i18n="warn_pool">Taille de pool incompatible avec le tour : réduisez la cible.</span>
+    </div>
+  </div>
+
+  <!-- ════════ 07 · Indicateurs clés ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">07</span>
+      <div>
+        <h2 data-i18n="section_metrics">Indicateurs clés</h2>
+        <p data-i18n="section_metrics_sub">Prix, dilution, augmentation, prime</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="k" data-i18n="result_pricePerShare">Prix par action</span>
+          <span class="v" id="r_pricePerShare">—</span>
+          <span class="sub" data-i18n="result_pricePerShare_sub">Pré-money ÷ FD pré-money</span>
+        </div>
+        <div class="stat">
+          <span class="k" data-i18n="result_newShares">Actions émises</span>
+          <span class="v" id="r_newShares">—</span>
+          <span class="sub" data-i18n="result_newShares_sub">Pool + conv. + nouveaux</span>
+        </div>
+        <div class="stat">
+          <span class="k" data-i18n="result_nominalIncrease">Augmentation nominale</span>
+          <span class="v" id="r_nominalIncrease">—</span>
+          <span class="sub" data-i18n="result_nominalIncrease_sub">Impact capital social</span>
+        </div>
+        <div class="stat">
+          <span class="k" data-i18n="result_premiumTotal">Prime d'émission</span>
+          <span class="v" id="r_premiumTotal">—</span>
+          <span class="sub" data-i18n="result_premiumTotal_sub">Investissement − nominale</span>
+        </div>
+      </div>
+      <div class="dilution-foot" id="r_dilutionSub">—</div>
+    </div>
+  </section>
+
+  <!-- ════════ 08 · Comptabilité & bilan ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">08</span>
+      <div>
+        <h2 data-i18n="section_accounting">Comptabilité & bilan capital social</h2>
+        <p data-i18n="section_accounting_sub">Écritures · plan comptable général · variation</p>
+      </div>
+    </header>
+    <div class="section-body acc-body">
+      <div class="acc-block">
+        <div class="acc-block-head">
+          <div class="acc-block-title" data-i18n="accounting_journal">Écritures comptables (PCG)</div>
+          <button class="btn-copy" data-copy="accountingTable">
+            <span class="material-symbols-outlined">content_copy</span>
+            <span data-i18n="button_copy">Copier</span>
+          </button>
+        </div>
+        <div class="acc-table-wrap">
+          <table class="acc" id="accountingTable">
+            <thead>
+              <tr>
+                <th data-i18n="accounting_account">Compte</th>
+                <th data-i18n="accounting_label">Libellé</th>
+                <th data-i18n="accounting_debit">Débit</th>
+                <th data-i18n="accounting_credit">Crédit</th>
+              </tr>
+            </thead>
+            <tbody id="accountingBody"></tbody>
+          </table>
+        </div>
+        <p class="acc-note" id="accountingNote">—</p>
+      </div>
+
+      <div class="acc-block">
+        <div class="acc-block-head">
+          <div class="acc-block-title" data-i18n="bilan_title">Bilan capital social — variation</div>
+          <button class="btn-copy" data-copy="bilanTable">
+            <span class="material-symbols-outlined">content_copy</span>
+            <span data-i18n="button_copy">Copier</span>
+          </button>
+        </div>
+        <div class="acc-table-wrap">
+          <table class="acc bilan" id="bilanTable">
+            <thead>
+              <tr>
+                <th data-i18n="bilan_item">Poste</th>
+                <th data-i18n="bilan_before">Avant</th>
+                <th data-i18n="bilan_delta">Variation</th>
+                <th data-i18n="bilan_after">Après</th>
+              </tr>
+            </thead>
+            <tbody id="bilanBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 09 · Cap table ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">09</span>
+      <div>
+        <h2 data-i18n="captable_title">Table de capitalisation</h2>
+        <p data-i18n="captable_subtitle">Avant et après l'opération · fully-diluted</p>
+      </div>
+    </header>
+    <div class="section-body cap-body">
+      <div class="table-tools">
+        <button class="btn-copy" data-copy="capTable">
+          <span class="material-symbols-outlined">content_copy</span>
+          <span data-i18n="button_copy">Copier</span>
+        </button>
+      </div>
+      <table class="cap" id="capTable">
+        <thead>
+          <tr>
+            <th data-i18n="captable_holder">Détenteur</th>
+            <th data-i18n="captable_before_shares">Avant</th>
+            <th>%</th>
+            <th data-i18n="captable_after_shares">Après</th>
+            <th>%</th>
+            <th data-i18n="captable_liqPref">Liq. pref.</th>
+            <th data-i18n="captable_distribution">Répartition</th>
+          </tr>
+        </thead>
+        <tbody id="capBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════ 10 · Waterfall ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">10</span>
+      <div class="head-grow">
+        <h2 data-i18n="section_exit">Scénario de sortie · waterfall</h2>
+        <p data-i18n="section_exit_sub">Préférence de liquidation et participation</p>
+      </div>
+      <label class="switch" title="Enabled">
+        <input type="checkbox" id="exitEnabled">
+        <span class="track"></span>
+      </label>
+    </header>
+    <div class="section-body" id="exitBody">
+      <div class="tf">
+        <label for="exitValue">
+          <span data-i18n="label_exitValue">Valeur de sortie (exit)</span>
+          <button type="button" class="help-btn" data-i18n-tip="tip_exitValue" aria-label="?">?</button>
+        </label>
+        <div class="tf-input">
+          <span class="tf-prefix cur-symbol">€</span>
+          <input type="text" id="exitValue" inputmode="decimal" autocomplete="off">
+        </div>
+        <input type="range" id="exitSlider" class="slider" min="0" max="100" step="1">
+        <span class="tf-helper" data-i18n="label_exitValue_hint">Glisser pour explorer plusieurs scénarios</span>
+      </div>
+
+      <div class="waterfall-summary" id="waterfallSummary"></div>
+
+      <div class="cap-body">
+        <div class="table-tools">
+          <button class="btn-copy" data-copy="waterfallTable">
+            <span class="material-symbols-outlined">content_copy</span>
+            <span data-i18n="button_copy">Copier</span>
+          </button>
+        </div>
+        <table class="cap waterfall" id="waterfallTable">
+          <thead>
+            <tr>
+              <th data-i18n="waterfall_holder">Détenteur</th>
+              <th data-i18n="waterfall_shares">Actions</th>
+              <th>%</th>
+              <th data-i18n="waterfall_liqPref">Pref.</th>
+              <th data-i18n="waterfall_payout">Reçu</th>
+              <th data-i18n="waterfall_payoutPct">% sortie</th>
+              <th data-i18n="waterfall_treatment">Traitement</th>
+            </tr>
+          </thead>
+          <tbody id="waterfallBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 11 · Contrôles & réconciliation ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">11</span>
+      <div>
+        <h2 data-i18n="section_recon">Contrôles & réconciliation</h2>
+        <p data-i18n="section_recon_sub">Invariants de cohérence · audit back-office</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <ul class="recon-list" id="reconList"></ul>
+    </div>
+  </section>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p data-i18n="footer_disclaimer">Outil indicatif — à valider avec votre conseil juridique et Bpifrance le cas échéant.</p>
+      <p class="muted" data-i18n="footer_method">Méthode : prix par action = pré-money ÷ actions fully-diluted, dilution full-dilution. Waterfall : préférence de liquidation 1× par défaut, non-cumulative, sans seniorité.</p>
+    </div>
+    <div class="foot-actions">
+      <button class="btn-outline" id="resetBtn">
+        <span class="material-symbols-outlined">restart_alt</span>
+        <span data-i18n="button_reset">Réinitialiser</span>
+      </button>
+      <button class="btn-outline" id="exportJsonBtn">
+        <span class="material-symbols-outlined">data_object</span>
+        <span data-i18n="button_exportJson">Exporter JSON</span>
+      </button>
+      <button class="btn-outline" id="exportBtn">
+        <span class="material-symbols-outlined">download</span>
+        <span data-i18n="button_export">Exporter CSV</span>
+      </button>
+      <button class="btn-filled" id="printBtn">
+        <span class="material-symbols-outlined">print</span>
+        <span data-i18n="button_print">Imprimer / PDF</span>
+      </button>
+    </div>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

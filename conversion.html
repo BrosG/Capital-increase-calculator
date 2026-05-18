@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversion BSA AIR / SAFE · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Conversion BSA AIR / SAFE</h1>
+        <span class="brand-sub">Outil 4 / 6 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Conversion BSA AIR / SAFE</span></span>
+    <h2>Conversion BSA AIR / SAFE</h2>
+    <p class="tool-desc">Calcule le prix effectif de conversion d'un BSA AIR, SAFE ou OC : arbitrage entre la décote et le plafond pré-money, puis le nombre d'actions créées.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Paramètres du contrat</h2><p>Montant, décote, plafond.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="amount">
+            <span>Montant à convertir</span>
+            <button type="button" class="help-btn" data-tip="Montant en euros déjà investi via le BSA AIR / SAFE / OC, à convertir en actions.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="amount" value="500 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="discount">
+            <span>Décote (%)</span>
+            <button type="button" class="help-btn" data-tip="Réduction sur le prix du prochain tour, accordée à l'investisseur. Typiquement 15–25 %. Mettre 0 si pas de décote.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">%</span>
+            <input type="text" id="discount" value="20" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="cap">
+            <span>Plafond pré-money</span>
+            <button type="button" class="help-btn" data-tip="Valorisation pré-money maximum à laquelle le BSA AIR / SAFE peut convertir. Laisser à 0 si pas de plafond.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="cap" value="6 000 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <div><h2>Tour de référence</h2><p>Pré-money et actions FD du tour.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row2">
+        <div class="tf">
+          <label for="preMoney">
+            <span>Pré-money du tour</span>
+            <button type="button" class="help-btn" data-tip="Valorisation pré-money à laquelle l'opération de conversion se fait.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="preMoney" value="8 000 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="fdShares">
+            <span>Actions FD pré-money</span>
+            <button type="button" class="help-btn" data-tip="Nombre total d'actions sur une base fully-diluted à la date du tour, pool inclus si pré-money.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">№</span>
+            <input type="text" id="fdShares" value="115 385" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">Prix effectif de conversion</span>
+      <span class="out-v" id="r_price">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Branche engageante</span>
+      <span class="out-v"><span id="r_bindingPill" class="pill pill-cap">—</span></span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Actions converties</span>
+      <span class="out-v" id="r_shares">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Prix décote (pré × (1−décote) ÷ FD)</span>
+      <span class="out-v" id="r_discPrice">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Prix plafond (cap ÷ FD)</span>
+      <span class="out-v" id="r_capPrice">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Prix tour standard (pré ÷ FD)</span>
+      <span class="out-v" id="r_roundPrice">—</span>
+    </div>
+  </div>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Convention : effective price = min(prix_décote, prix_plafond). Plafond vide ou nul = pas de plafond. Décote nulle = pas de décote.</p>
+    </div>
+  </footer>
+</main>
+
+<style>
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; font-family: var(--font-sans); letter-spacing: .02em; }
+.pill-cap   { background: var(--purple-soft); color: var(--purple); }
+.pill-disc  { background: var(--primary-soft); color: var(--primary-ink); }
+.pill-none  { background: var(--surface-2); color: var(--on-surface-3); }
+</style>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function compute() {
+  const amount   = parseNum($('amount').value);
+  const discPct  = Math.max(0, Math.min(99, parseNum($('discount').value))) / 100;
+  const cap      = parseNum($('cap').value);
+  const pre      = parseNum($('preMoney').value);
+  const fd       = parseNum($('fdShares').value);
+
+  const roundPrice = fd > 0 ? pre / fd : 0;
+  const discPrice  = roundPrice * (1 - discPct);
+  const capPrice   = (cap > 0 && fd > 0) ? cap / fd : Infinity;
+  const effPrice   = Math.min(discPrice || Infinity, capPrice);
+  const usingCap   = cap > 0 && capPrice < discPrice;
+  const usingDisc  = !usingCap && discPct > 0;
+
+  const shares = effPrice > 0 && isFinite(effPrice) ? amount / effPrice : 0;
+
+  $('r_price').textContent      = isFinite(effPrice) ? fmtMoneyCompact(effPrice) : '—';
+  $('r_shares').textContent     = fmtNum(shares, 0);
+  $('r_discPrice').textContent  = fmtMoneyCompact(discPrice);
+  $('r_capPrice').textContent   = isFinite(capPrice) ? fmtMoneyCompact(capPrice) : '— (pas de plafond)';
+  $('r_roundPrice').textContent = fmtMoneyCompact(roundPrice);
+
+  const pill = $('r_bindingPill');
+  if (usingCap) {
+    pill.className = 'pill pill-cap'; pill.textContent = 'Plafond engageant';
+  } else if (usingDisc) {
+    pill.className = 'pill pill-disc'; pill.textContent = 'Décote engageante';
+  } else {
+    pill.className = 'pill pill-none'; pill.textContent = 'Pas de contrainte (= prix tour)';
+  }
+}
+['amount','discount','cap','preMoney','fdShares'].forEach(id => $(id).addEventListener('input', compute));
+['amount','cap','preMoney','fdShares'].forEach(id => $(id).addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); }));
+$('discount').addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); });
+compute();
+</script>
+</body>
+</html>

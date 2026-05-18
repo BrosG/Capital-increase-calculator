@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waterfall de sortie · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Waterfall de sortie</h1>
+        <span class="brand-sub">Outil 6 / 6 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Waterfall de sortie</span></span>
+    <h2>Waterfall de sortie</h2>
+    <p class="tool-desc">Simule la répartition du produit d'une sortie entre actionnaires : préférence de liquidation (1× non-participante ou participante), pro-rata du reliquat. Convention 1 niveau, non-cumulative, sans seniorité.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Valeur de sortie</h2><p>Montant total reçu à la sortie.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="tf">
+        <label for="exit"><span>Exit value</span></label>
+        <div class="tf-input"><span class="tf-prefix">€</span>
+          <input type="text" id="exit" value="30 000 000" inputmode="decimal" autocomplete="off">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <div><h2>Actionnaires</h2><p>Commons et préférés. Liq. pref. = 0 pour les commons.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row-list" id="holderList"></div>
+      <button class="btn-ghost btn-add" id="addHolder">
+        <span class="material-symbols-outlined">add</span><span>Ajouter un actionnaire</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">03</span>
+      <div><h2>Répartition</h2><p>Résultat du waterfall.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="waterfall-summary" id="wfSummary"></div>
+      <div class="cap-body">
+        <div class="table-tools">
+          <button class="btn-copy" id="copyBtn"><span class="material-symbols-outlined">content_copy</span><span>Copier</span></button>
+        </div>
+        <table class="cap waterfall" id="wfTable">
+          <thead>
+            <tr>
+              <th>Détenteur</th>
+              <th>Actions</th>
+              <th>%</th>
+              <th>Liq. pref.</th>
+              <th>Reçu</th>
+              <th>% sortie</th>
+              <th>Traitement</th>
+            </tr>
+          </thead>
+          <tbody id="wfBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Hypothèses : 1× non-participante par défaut, mais le multiplicateur et la participation sont par-investisseur. Les commons ont liq. pref. = 0. Algorithme : décision per-investisseur sur "prendre pref" ou "convertir" avec une passe de réévaluation pour les cas limites.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const list = $('holderList');
+
+let holders = [
+  { name: 'Fondateurs (commun)', shares: 100000, liqPref: 0, mult: 0, part: 'common' },
+  { name: 'Pool ESOP',           shares:  15385, liqPref: 0, mult: 0, part: 'common' },
+  { name: 'BSA AIR Bpifrance',   shares:   9615, liqPref: 500000, mult: 1, part: 'non-participating' },
+  { name: 'Bpifrance Innovation',shares:  21635, liqPref: 1500000, mult: 1, part: 'non-participating' },
+  { name: 'Business Angel',      shares:   7212, liqPref: 500000, mult: 1, part: 'non-participating' },
+];
+
+function renderRows() {
+  list.innerHTML = '';
+  holders.forEach((h, i) => {
+    const card = document.createElement('div');
+    card.className = 'row-card';
+    card.innerHTML = `
+      <div class="row-main">
+        <input type="text" class="name" placeholder="Nom" value="${escapeHtml(h.name)}">
+        <input type="text" class="amount numeric" placeholder="Actions" value="${fmtNum(h.shares,0)}" inputmode="decimal">
+        <button class="del" aria-label="Supprimer"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>
+      </div>
+      <div class="row-extra row-extra-3">
+        <div class="mini"><label><span>Liq. pref. (€)</span></label>
+          <input type="text" class="liqPref numeric" value="${fmtNum(h.liqPref,0)}" inputmode="decimal"></div>
+        <div class="mini"><label><span>Multiplicateur ×</span></label>
+          <input type="text" class="mult numeric" value="${fmtNum(h.mult,2)}" inputmode="decimal"></div>
+        <div class="mini"><label><span>Type</span></label>
+          <select class="part">
+            <option value="common" ${h.part==='common'?'selected':''}>Ordinaire</option>
+            <option value="non-participating" ${h.part==='non-participating'?'selected':''}>Préféré non-part.</option>
+            <option value="participating" ${h.part==='participating'?'selected':''}>Préféré participant</option>
+          </select>
+        </div>
+      </div>
+    `;
+    card.querySelector('.name').addEventListener('input', e => { holders[i].name = e.target.value; compute(); });
+    const sh = card.querySelector('.amount');
+    sh.addEventListener('input', e => { holders[i].shares = parseNum(e.target.value); compute(); });
+    sh.addEventListener('blur', e => { e.target.value = fmtNum(holders[i].shares, 0); });
+    const lp = card.querySelector('.liqPref');
+    lp.addEventListener('input', e => { holders[i].liqPref = parseNum(e.target.value); compute(); });
+    lp.addEventListener('blur', e => { e.target.value = fmtNum(holders[i].liqPref, 0); });
+    const mu = card.querySelector('.mult');
+    mu.addEventListener('input', e => { holders[i].mult = parseNum(e.target.value); compute(); });
+    mu.addEventListener('blur', e => { e.target.value = fmtNum(holders[i].mult, 2); });
+    card.querySelector('.part').addEventListener('change', e => { holders[i].part = e.target.value; compute(); });
+    card.querySelector('.del').addEventListener('click', () => { holders.splice(i, 1); renderRows(); compute(); });
+    list.appendChild(card);
+  });
+}
+$('addHolder').addEventListener('click', () => {
+  holders.push({ name: 'Nouvel actionnaire', shares: 0, liqPref: 0, mult: 1, part: 'non-participating' });
+  renderRows(); compute();
+});
+$('exit').addEventListener('input', compute);
+$('exit').addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); });
+
+function compute() {
+  const exitValue = Math.max(0, parseNum($('exit').value));
+  const totalShares = holders.reduce((s, h) => s + h.shares, 0);
+
+  const work = holders.map(h => ({
+    ...h,
+    pref: (h.part !== 'common' ? h.liqPref * (h.mult || 1) : 0),
+    payout: 0,
+    payoutPct: 0,
+    treatment: '—',
+    takingPref: false,
+  }));
+
+  if (exitValue > 0 && totalShares > 0) {
+    work.forEach(h => {
+      if (h.part === 'participating') h._take = h.pref > 0;
+      else if (h.part === 'non-participating') h._take = h.pref > (h.shares / totalShares) * exitValue;
+      else h._take = false;
+    });
+    // One safety re-check pass
+    for (let pass = 0; pass < 2; pass++) {
+      const conv = work.reduce((s, h) => s + ((!h._take || h.part==='participating') ? h.shares : 0), 0);
+      let stable = true;
+      work.forEach(h => {
+        if (h.part !== 'non-participating') return;
+        const lprefTaken = work.reduce((s, x) => s + (x !== h && x._take ? x.pref : 0), 0);
+        const remainder = Math.max(0, exitValue - lprefTaken);
+        const cs = conv + (h._take ? h.shares : 0);
+        const proRata = cs > 0 ? (h.shares / cs) * remainder : 0;
+        const nd = h.pref > proRata;
+        if (nd !== h._take) { h._take = nd; stable = false; }
+      });
+      if (stable) break;
+    }
+    const lprefTotal = work.reduce((s, h) => s + (h._take ? h.pref : 0), 0);
+    if (lprefTotal >= exitValue) {
+      work.forEach(h => {
+        h.payout = h._take ? (h.pref / lprefTotal) * exitValue : 0;
+        h.takingPref = h._take;
+        h.treatment = h._take ? 'Liq. pref. (pro-rata)' : 'Ordinaire';
+      });
+    } else {
+      const remainder = exitValue - lprefTotal;
+      const pool = work.filter(h => !h._take || h.part === 'participating');
+      const poolShares = pool.reduce((s, h) => s + h.shares, 0);
+      work.forEach(h => {
+        let p = h._take ? h.pref : 0;
+        if ((!h._take || h.part === 'participating') && poolShares > 0) {
+          p += (h.shares / poolShares) * remainder;
+        }
+        h.payout = p;
+        h.takingPref = h._take;
+        if (h.part === 'common') h.treatment = 'Ordinaire (pro-rata)';
+        else if (h.part === 'participating' && h._take) h.treatment = 'Pref. + pro-rata';
+        else if (h._take) h.treatment = 'Liq. pref.';
+        else h.treatment = 'Converti → ordinaire';
+      });
+    }
+    work.forEach(h => { h.payoutPct = exitValue > 0 ? h.payout / exitValue : 0; });
+  }
+
+  // Summary
+  const prefPaid = work.reduce((s, h) => s + (h.takingPref ? Math.min(h.payout, h.pref) : 0), 0);
+  const commonDist = work.reduce((s, h) => s + (h.takingPref ? Math.max(0, h.payout - h.pref) : h.payout), 0);
+  $('wfSummary').innerHTML = `
+    <div class="wf-stat"><span class="k">Sortie</span><span class="v">${fmtMoney(exitValue, 0)}</span></div>
+    <div class="wf-stat"><span class="k">Préférences payées</span><span class="v">${fmtMoney(prefPaid, 0)}</span></div>
+    <div class="wf-stat"><span class="k">Distribué aux ordinaires</span><span class="v">${fmtMoney(commonDist, 0)}</span></div>
+  `;
+
+  const body = $('wfBody');
+  body.innerHTML = '';
+  work.forEach(h => {
+    const pct = totalShares > 0 ? h.shares / totalShares : 0;
+    const trClass = h.takingPref ? 'treat-pref' : (h.part === 'non-participating' ? 'treat-convert' : 'treat-common');
+    body.insertAdjacentHTML('beforeend', `
+      <tr class="${trClass}">
+        <td>${escapeHtml(h.name)}</td>
+        <td>${fmtNum(h.shares, 0)}</td>
+        <td>${fmtPct(pct, 2)}</td>
+        <td>${h.pref > 0 ? fmtMoney(h.pref, 0) : '—'}</td>
+        <td>${fmtMoney(h.payout, 0)}</td>
+        <td>${fmtPct(h.payoutPct, 2)}</td>
+        <td>${escapeHtml(h.treatment)}</td>
+      </tr>
+    `);
+  });
+}
+
+$('copyBtn').addEventListener('click', async () => {
+  const tbl = $('wfTable');
+  const tsv = Array.from(tbl.querySelectorAll('tr')).map(r =>
+    Array.from(r.querySelectorAll('th,td')).map(c => c.textContent.replace(/\s+/g, ' ').trim()).join('\t')
+  ).join('\n');
+  try { await navigator.clipboard.writeText(tsv); } catch {}
+  const btn = $('copyBtn');
+  btn.classList.add('done');
+  btn.querySelector('span:last-child').textContent = 'Copié';
+  setTimeout(() => { btn.classList.remove('done'); btn.querySelector('span:last-child').textContent = 'Copier'; }, 1400);
+});
+
+renderRows();
+compute();
+</script>
+</body>
+</html>

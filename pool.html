@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pool d'options (ESOP) · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Pool d'options (ESOP)</h1>
+        <span class="brand-sub">Outil 5 / 6 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Pool d'options (ESOP)</span></span>
+    <h2>Pool d'options (ESOP / BSPCE)</h2>
+    <p class="tool-desc">Calcule la taille du pool d'options à créer pour atteindre une cible post-opération, en choisissant le timing pré-money ou post-money.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Saisie</h2><p>Cible et tour de financement.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="existing">
+            <span>Actions existantes</span>
+            <button type="button" class="help-btn" data-tip="Nombre total d'actions avant l'opération (avant pool nouveau).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">№</span>
+            <input type="text" id="existing" value="100 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="target">
+            <span>Cible post-opération (%)</span>
+            <button type="button" class="help-btn" data-tip="Pourcentage du capital fully-diluted post-opération que le pool doit représenter. Typiquement 5–15 %.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">%</span>
+            <input type="text" id="target" value="10" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="timing">
+            <span>Création du pool</span>
+            <button type="button" class="help-btn" data-tip="Pré-money : seuls les fondateurs sont dilués (investor-friendly). Post-money : tout le monde est dilué (founder-friendly).">?</button>
+          </label>
+          <select id="timing" class="head-mini-select" style="width:100%; padding:11px 32px 11px 14px; font-size:15px; font-family: var(--font-mono)">
+            <option value="pre" selected>Pré-money (fondateurs)</option>
+            <option value="post">Post-money (tous)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row2" style="margin-top:14px">
+        <div class="tf">
+          <label for="preMoney">
+            <span>Valorisation pré-money</span>
+            <button type="button" class="help-btn" data-tip="Sert à calculer le prix du tour et le poids du nouvel investissement Y.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="preMoney" value="8 000 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="invest">
+            <span>Investissement total du tour</span>
+            <button type="button" class="help-btn" data-tip="Montant à investir dans le tour priced. N'inclut PAS les convertibles convertis (pour un calcul incluant les conv, utiliser le calculateur complet).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="invest" value="2 500 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">Taille du pool</span>
+      <span class="out-v" id="r_pool">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">% post-opération atteint</span>
+      <span class="out-v" id="r_finalPct">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Actions FD pré-money (existant + pool si pré)</span>
+      <span class="out-v" id="r_fdPre">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Prix par action du tour</span>
+      <span class="out-v" id="r_price">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Total d'actions après opération</span>
+      <span class="out-v" id="r_totalAfter">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Formule</span>
+      <span class="out-v" style="font-size:13px; font-family:var(--font-mono); color:var(--on-surface-2)" id="r_formula">—</span>
+    </div>
+  </div>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Forme close : <span style="font-family:var(--font-mono)">pool = E × p × (1 + Y) / (1 − p × (1 + Y))</span> en pré-money, <span style="font-family:var(--font-mono)">pool = p / (1−p) × (E + N_new)</span> en post-money.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function compute() {
+  const E      = parseNum($('existing').value);
+  const target = Math.max(0, Math.min(0.95, parseNum($('target').value) / 100));
+  const timing = $('timing').value;
+  const pre    = parseNum($('preMoney').value);
+  const invest = parseNum($('invest').value);
+
+  const Y = pre > 0 ? invest / pre : 0;
+
+  let pool = 0, fdPre = E, price = 0, totalAfter = E, feasible = true, formula = '—';
+
+  if (timing === 'pre') {
+    const denom = 1 - target * (1 + Y);
+    if (target === 0) { pool = 0; }
+    else if (denom > 0) { pool = E * target * (1 + Y) / denom; }
+    else { pool = 0; feasible = false; }
+    fdPre = E + pool;
+    price = fdPre > 0 ? pre / fdPre : 0;
+    const newShares = price > 0 ? invest / price : 0;
+    totalAfter = E + pool + newShares;
+    formula = `pool = ${fmtNum(E,0)} × ${fmtPct(target,2)} × (1 + ${fmtNum(Y,4)}) / (1 − ${fmtPct(target,2)} × (1 + ${fmtNum(Y,4)}))`;
+  } else {
+    fdPre = E;
+    price = E > 0 ? pre / E : 0;
+    const newShares = price > 0 ? invest / price : 0;
+    const subTotal = E + newShares;
+    if (target > 0 && target < 1) pool = (target / (1 - target)) * subTotal;
+    totalAfter = subTotal + pool;
+    formula = `pool = ${fmtPct(target,2)} / (1 − ${fmtPct(target,2)}) × (${fmtNum(E,0)} + ${fmtNum(newShares,0)})`;
+  }
+
+  const finalPct = totalAfter > 0 ? pool / totalAfter : 0;
+  $('r_pool').textContent      = fmtNum(pool, 0);
+  $('r_finalPct').textContent  = fmtPct(finalPct, 2) + (feasible ? '' : ' (incompatible)');
+  $('r_fdPre').textContent     = fmtNum(fdPre, 0);
+  $('r_price').textContent     = fmtMoneyCompact(price);
+  $('r_totalAfter').textContent= fmtNum(totalAfter, 0);
+  $('r_formula').textContent   = formula;
+}
+['existing','target','preMoney','invest'].forEach(id => $(id).addEventListener('input', compute));
+['existing','preMoney','invest'].forEach(id => $(id).addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); }));
+$('target').addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 1); });
+$('timing').addEventListener('change', compute);
+compute();
+</script>
+</body>
+</html>

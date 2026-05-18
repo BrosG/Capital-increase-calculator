@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime d'émission · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Prime d'émission</h1>
+        <span class="brand-sub">Outil 1 / 6 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Prime d'émission</span></span>
+    <h2>Prime d'émission</h2>
+    <p class="tool-desc">Décompose un montant investi entre augmentation du capital social (compte 101) et prime d'émission (compte 1041). Affiche l'écriture comptable correspondante.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Saisie</h2><p>Trois données suffisent.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="invest">
+            <span>Investissement total</span>
+            <button type="button" class="help-btn" data-tip="Montant total apporté par les souscripteurs (toutes sources confondues).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="invest" value="2 500 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="shares">
+            <span>Nombre d'actions émises</span>
+            <button type="button" class="help-btn" data-tip="Nombre total d'actions nouvellement créées et souscrites lors de l'opération.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">№</span>
+            <input type="text" id="shares" value="38 462" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="nominal">
+            <span>Valeur nominale</span>
+            <button type="button" class="help-btn" data-tip="Valeur 'comptable' fixée dans les statuts, par action. Souvent 1 € ou 0,10 €.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="nominal" value="1,00" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">Prime d'émission totale</span>
+      <span class="out-v" id="r_prime">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Augmentation du capital social (nominale × actions)</span>
+      <span class="out-v" id="r_cap">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Prix d'émission par action (invest. ÷ actions)</span>
+      <span class="out-v" id="r_price">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Prime par action</span>
+      <span class="out-v" id="r_premPerShare">—</span>
+    </div>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <div><h2>Écriture comptable</h2><p>Format Plan Comptable Général.</p></div>
+    </header>
+    <div class="section-body acc-body">
+      <div class="acc-block">
+        <div class="acc-block-head">
+          <div class="acc-block-title">Journal — augmentation de capital</div>
+          <button class="btn-copy" data-copy="accTable"><span class="material-symbols-outlined">content_copy</span><span>Copier</span></button>
+        </div>
+        <div class="acc-table-wrap">
+          <table class="acc" id="accTable">
+            <thead>
+              <tr><th>Compte</th><th>Libellé</th><th>Débit</th><th>Crédit</th></tr>
+            </thead>
+            <tbody id="accBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Hypothèse : émission en numéraire fully paid-up, tous fonds reçus à la date de l'opération. Pour les conversions de BSA AIR / SAFE (compte 1675), utiliser le calculateur complet.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function compute() {
+  const invest  = parseNum($('invest').value);
+  const shares  = parseNum($('shares').value);
+  const nominal = parseNum($('nominal').value);
+  const cap = shares * nominal;
+  const prime = invest - cap;
+  const price = shares > 0 ? invest / shares : 0;
+  const premPerShare = price - nominal;
+  $('r_prime').textContent = fmtMoney(prime, 0);
+  $('r_cap').textContent   = fmtMoney(cap, 0);
+  $('r_price').textContent = fmtMoneyCompact(price);
+  $('r_premPerShare').textContent = fmtMoneyCompact(premPerShare);
+  const body = $('accBody');
+  body.innerHTML = `
+    <tr><td>512</td><td class="label-col">Banque — souscription reçue</td><td>${fmtMoney(invest, 0)}</td><td>—</td></tr>
+    <tr class="credit"><td>101</td><td class="label-col">Capital social — émission au pair</td><td>—</td><td>${fmtMoney(cap, 0)}</td></tr>
+    <tr class="credit"><td>1041</td><td class="label-col">Prime d'émission</td><td>—</td><td>${fmtMoney(prime, 0)}</td></tr>
+    <tr class="subtotal"><td colspan="2">Total</td><td>${fmtMoney(invest, 0)}</td><td>${fmtMoney(cap + prime, 0)}</td></tr>
+  `;
+}
+['invest','shares','nominal'].forEach(id => $(id).addEventListener('input', compute));
+['invest','shares'].forEach(id => $(id).addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); }));
+$('nominal').addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 2); });
+document.querySelector('.btn-copy').addEventListener('click', async () => {
+  const tbl = document.getElementById('accTable');
+  const tsv = Array.from(tbl.querySelectorAll('tr')).map(r =>
+    Array.from(r.querySelectorAll('th,td')).map(c => c.textContent.replace(/\s+/g, ' ').trim()).join('\t')
+  ).join('\n');
+  try { await navigator.clipboard.writeText(tsv); } catch {}
+  const btn = document.querySelector('.btn-copy');
+  btn.classList.add('done');
+  btn.querySelector('span:last-child').textContent = 'Copié';
+  setTimeout(() => { btn.classList.remove('done'); btn.querySelector('span:last-child').textContent = 'Copier'; }, 1400);
+});
+compute();
+</script>
+</body>
+</html>

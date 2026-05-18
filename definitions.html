@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Définitions · Cheat sheet Bpifrance · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Définitions · Cheat sheet</h1>
+        <span class="brand-sub">Glossaire BO / MO / RH equity · Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Définitions</span></span>
+    <h2>Cheat sheet du cap table</h2>
+    <p class="tool-desc">Glossaire des termes du cap table, des opérations d'augmentation de capital, du vesting et de la fiscalité startup française — à l'usage des équipes BO / MO / RH equity Bpifrance qui supportent les opérations sans être expertes finance.</p>
+  </div>
+
+  <div class="def-search">
+    <span class="material-symbols-outlined">search</span>
+    <input type="search" id="searchInput" placeholder="Rechercher un terme (ex. BSPCE, prime d'émission, vesting, cliff, IRR…)">
+    <span class="def-count" id="defCount"></span>
+  </div>
+
+  <nav class="def-toc">
+    <a href="#capital">Capital & valorisation</a>
+    <a href="#actions">Types d'actions</a>
+    <a href="#convertibles">Convertibles & hybrides</a>
+    <a href="#equity">Equity employés</a>
+    <a href="#tour">Mécanique du tour</a>
+    <a href="#liquidation">Préférences & liquidité</a>
+    <a href="#perf">Performance & retour</a>
+    <a href="#compta">Compta & juridique</a>
+    <a href="#bpi">Écosystème Bpifrance</a>
+    <a href="#fiscal">Statut fiscal startup</a>
+  </nav>
+
+  <!-- ════════ 1. Capital & valorisation ════════ -->
+  <section class="def-group" id="capital">
+    <h3>Capital & valorisation</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">Capital social <span class="def-alt">PCG 101</span></div>
+        <div class="def-text">Somme des valeurs nominales de toutes les actions émises et libérées. Visible au passif du bilan, première composante des capitaux propres. Augmenté lors d'une émission, diminué lors d'un rachat ou d'une réduction de capital.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Valeur nominale</div>
+        <div class="def-text">Valeur "comptable" d'une action, fixée dans les statuts. Souvent 1 € ou 0,10 €. Ne se confond pas avec le prix d'émission (le prix réellement payé par l'investisseur). Le capital social = nominale × actions émises.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Prime d'émission <span class="def-alt">PCG 1041</span></div>
+        <div class="def-text">Différence entre le prix d'émission et la valeur nominale, multipliée par les actions émises. Inscrite séparément du capital social mais incluse dans les capitaux propres. Émettre au-dessus du pair est la norme dès qu'il y a création de valeur. <a href="prime.html">→ Outil Prime d'émission</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Fully diluted (FD) <span class="def-alt">post-money inclus pool, conv.</span></div>
+        <div class="def-text">Vue du capital en supposant que toutes les options, BSA, BSPCE, convertibles sont exercés/convertis. C'est la base de calcul standard du % de détention dans les term sheets.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Valorisation pré-money</div>
+        <div class="def-text">Valeur de l'entreprise <em>avant</em> que les nouveaux investisseurs n'apportent leur argent. Base de calcul du prix par action du tour : prix = pré-money ÷ actions FD pré-money.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Valorisation post-money</div>
+        <div class="def-text">Pré-money + investissement total. C'est la valeur "officielle" après l'opération. Investisseur post-money % = montant investi ÷ post-money. Pour une émission propre sans convertibles : post-money implicite = prix × actions FD post-money.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Pari (au pair)</div>
+        <div class="def-text">Émettre "au pair" = prix d'émission égal à la valeur nominale, donc pas de prime d'émission. Rare hors création de société ou réduction non motivée par des pertes.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Capital autorisé</div>
+        <div class="def-text">Plafond d'augmentation de capital voté en AGE et délégué à la présidence/conseil pour utilisation ultérieure. Permet d'émettre sans nouvelle AGE tant qu'on est sous le plafond.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 2. Types d'actions ════════ -->
+  <section class="def-group" id="actions">
+    <h3>Types d'actions</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">Actions ordinaires <span class="def-alt">AO</span></div>
+        <div class="def-text">Catégorie d'actions standard, sans droits particuliers. Droit de vote ordinaire, dividende ordinaire, partage proportionnel à la sortie. Détenues typiquement par les fondateurs et les salariés.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Actions de préférence <span class="def-alt">AP · ADP</span></div>
+        <div class="def-text">Catégorie d'actions assortie de droits spécifiques : préférence de liquidation, anti-dilution, droits d'information renforcés, sièges au board, droits de veto. Émises aux investisseurs financiers (VC, Bpifrance).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Catégorie d'actions</div>
+        <div class="def-text">Série d'actions partageant les mêmes droits. Une SAS peut créer librement des catégories (statuts). Standard : AO pour fondateurs, AP Série A / Série B / etc. pour chaque tour d'investissement.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Conversion forcée</div>
+        <div class="def-text">Conversion automatique des AP en AO lors d'une IPO ou d'un événement défini (souvent à 1:1, sauf antidilution). Permet une cap table simple au moment du listing.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 3. Convertibles & hybrides ════════ -->
+  <section class="def-group" id="convertibles">
+    <h3>Convertibles & hybrides</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">BSA <span class="def-alt">Bon de Souscription d'Actions</span></div>
+        <div class="def-text">Droit attribué à un bénéficiaire de souscrire un nombre déterminé d'actions à un prix d'exercice fixé, pendant une période. Outil standard côté investisseur et côté salarié (cf. BSPCE).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">BSA AIR <span class="def-alt">Accord d'Investissement Rapide</span></div>
+        <div class="def-text">Contrat type français standardisé (Bpifrance / French Tech), équivalent du SAFE américain. L'investisseur verse des fonds immédiatement et reçoit des actions au prochain tour priced, avec une décote et/ou un plafond pré-money. <a href="conversion.html">→ Outil Conversion</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">SAFE <span class="def-alt">Simple Agreement for Future Equity</span></div>
+        <div class="def-text">Pendant américain du BSA AIR (créé par Y Combinator). Pas de maturité, pas d'intérêts, conversion au prochain tour priced ou à une "liquidity event". Forme post-money standard depuis 2018.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">OC <span class="def-alt">Obligation Convertible</span></div>
+        <div class="def-text">Titre de créance émis avec une option de conversion en actions. Porte un taux d'intérêt nominal, une maturité, et un mécanisme de conversion (au prochain tour ou à l'échéance). Comptabilisée en PCG 161 / 1675. <a href="oc.html">→ Outil Intérêts courus</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">OCABSA</div>
+        <div class="def-text">Obligation Convertible Assortie de Bons de Souscription d'Actions. Hybride agressif : l'OC se convertit ET donne droit à des BSA additionnels. Souvent utilisée en sauvetage ou bridge difficile.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Décote <span class="def-alt">discount</span></div>
+        <div class="def-text">Réduction sur le prix du prochain tour accordée à l'investisseur en BSA AIR / SAFE / OC pour récompenser sa prise de risque précoce. Typiquement 15–25 %. Prix décote = prix du tour × (1 − décote).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Plafond <span class="def-alt">cap · valuation cap</span></div>
+        <div class="def-text">Valorisation pré-money maximum à laquelle la convertible peut convertir. Si le tour priced se fait au-dessus du plafond, l'investisseur convertit comme si le pré-money était plafonné — il obtient plus d'actions. Prix cap = plafond ÷ FD pré-money.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Plancher <span class="def-alt">floor</span></div>
+        <div class="def-text">Symétrique du plafond mais protégeant l'émetteur : valorisation pré-money minimum à laquelle la convertible peut convertir. Rare en BSA AIR français, plus courant en OC.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Débouclage</div>
+        <div class="def-text">Conversion effective d'une convertible en actions, lors du tour priced. La créance (PCG 1675) est soldée et le capital + prime sont crédités. La liquidité ne change pas — c'est purement une bascule comptable.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 4. Equity employés ════════ -->
+  <section class="def-group" id="equity">
+    <h3>Equity employés</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">BSPCE <span class="def-alt">Bons de Souscription de Parts de Créateur d'Entreprise</span></div>
+        <div class="def-text">Mécanisme français très favorable fiscalement, réservé aux salariés/dirigeants des startups éligibles : société &lt; 15 ans, &gt; 25 % détenu par des personnes physiques, IS, non issue d'une concentration. Imposition à 12,8–30 % à la cession des actions issues de l'exercice, pas de cotisations sociales.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">AGA <span class="def-alt">Actions Gratuites Attribuées</span></div>
+        <div class="def-text">Attribution gratuite d'actions à un salarié, avec une période d'acquisition (≥ 1 an) puis de conservation (≥ 1 an). Régime fiscal moins favorable que les BSPCE mais accessible aux sociétés non éligibles BSPCE.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Stock-options <span class="def-alt">SO</span></div>
+        <div class="def-text">Option de souscription ou d'achat d'actions, donnée à un salarié à un prix d'exercice fixé. Régime fiscal moins avantageux que BSPCE depuis 2012, surtout utilisé dans les groupes cotés.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Pool d'options <span class="def-alt">ESOP · Employee Stock Option Pool</span></div>
+        <div class="def-text">Réserve d'actions ou de BSPCE destinée aux salariés actuels et futurs. Typiquement 5–15 % du capital fully diluted post-tour. Peut être créé en pré-money (les fondateurs sont seuls dilués) ou post-money (tout le monde dilué). <a href="pool.html">→ Outil Pool ESOP</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Vesting</div>
+        <div class="def-text">Calendrier d'acquisition progressive des droits sur les actions / BSPCE / BSA. Standard : 4 ans linéaire avec cliff d'1 an. Si le bénéficiaire part avant la fin, il ne conserve que ce qui est vested. <a href="vesting.html">→ Outil Vesting</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Cliff</div>
+        <div class="def-text">Période initiale du vesting pendant laquelle aucune action n'est acquise. Au terme du cliff, la part proportionnelle (souvent 25 %) est acquise d'un coup. Standard : 12 mois sur un vesting de 48 mois.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Strike price <span class="def-alt">prix d'exercice</span></div>
+        <div class="def-text">Prix auquel le titulaire d'une option (BSPCE, BSA, SO) peut souscrire l'action sous-jacente. Fixé à l'attribution, en principe à la valeur de marché à cette date (FMV) — sinon risque de requalification fiscale.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Good leaver / Bad leaver</div>
+        <div class="def-text">Catégorisation du départ d'un fondateur / cadre. Good leaver (maladie, décès, licenciement sans faute, retraite) : conserve ses parts vested. Bad leaver (démission rapide, faute grave) : rachat forcé, souvent au pair ou au moins-disant.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 5. Mécanique du tour ════════ -->
+  <section class="def-group" id="tour">
+    <h3>Mécanique du tour</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">Tour de table <span class="def-alt">levée · round</span></div>
+        <div class="def-text">Opération d'augmentation de capital coordonnée auprès de plusieurs investisseurs nouveaux et/ou existants. Précédé d'un term sheet, suivi d'un closing en AGE.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Prix par action du tour</div>
+        <div class="def-text">Pré-money ÷ actions FD pré-money. Tous les souscripteurs en numéraire du tour priced paient ce prix. Les BSA AIR / SAFE convertissent à ce prix moins la décote, ou au prix-plafond si plus favorable. <a href="prix.html">→ Outil Prix par action</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Pré-money pool vs post-money pool</div>
+        <div class="def-text">Pré-money : le pool est créé avant le tour et donc inclus dans la FD pré-money, ce qui réduit le prix par action ; les fondateurs supportent seuls la dilution du pool. Post-money : pool créé après ; investisseurs et fondateurs subissent la dilution proportionnellement. Pré-money est plus favorable à l'investisseur.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Dilution</div>
+        <div class="def-text">Réduction du pourcentage de détention d'un actionnaire causée par l'émission de nouvelles actions. Dilution fondateurs = 1 − actions existantes ÷ total post-tour. <a href="dilution.html">→ Outil Dilution</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Effet "promote"</div>
+        <div class="def-text">Astuce de term sheet : l'investisseur exige un pool pré-money "ajusté" à la cible post-tour. La conséquence est que les fondateurs paient pour le futur pool dans leur valorisation pré-money — c'est une réduction implicite du pré-money réel.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Tour priced vs SAFE round</div>
+        <div class="def-text">Tour priced : prix par action déterminé, émission immédiate d'actions de préférence. SAFE round (BSA AIR) : pas de prix fixé, les actions seront émises au prochain priced round avec décote/cap.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bridge round</div>
+        <div class="def-text">Tour intermédiaire, souvent sous forme de BSA AIR ou OC, destiné à "tenir" la société jusqu'au prochain tour priced. Peut signaler une difficulté ou simplement un timing de marché.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Down round</div>
+        <div class="def-text">Tour réalisé à un pré-money inférieur au post-money du tour précédent. Déclenche les clauses antidilution des AP existantes. Souvent signal négatif mais parfois nécessaire (correction marché, pivot).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 6. Préférences & liquidité ════════ -->
+  <section class="def-group" id="liquidation">
+    <h3>Préférences & liquidité</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">Préférence de liquidation <span class="def-alt">liq pref</span></div>
+        <div class="def-text">Droit donné aux AP de récupérer leur investissement (×multiplicateur) avant tout partage avec les AO, lors d'un événement de liquidité (cession, IPO). Si l'exit est insuffisant, les AP scaling pro-rata sur les préférences. <a href="waterfall.html">→ Outil Waterfall</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Multiplicateur <span class="def-alt">1× · 2× · …</span></div>
+        <div class="def-text">Combien de fois l'investissement est récupéré en priorité. 1× = standard du marché. 2× ou plus = clauses agressives, rares hors situations distressed ou tours de sauvetage.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Non-participante</div>
+        <div class="def-text">Configuration standard : à la sortie, l'AP choisit entre prendre sa préférence ou convertir en AO et prendre son pro-rata. Le bénéficiaire prend la meilleure option, jamais les deux.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Participante <span class="def-alt">double dip</span></div>
+        <div class="def-text">Configuration agressive : l'AP prend sa préférence ET son pro-rata sur le reliquat. Parfois plafonnée ("capped participating") à 2× ou 3× du multiple. Rare aujourd'hui en France hors situations spéciales.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Waterfall <span class="def-alt">cascade de liquidité</span></div>
+        <div class="def-text">Algorithme de répartition du produit de cession : 1) paiement des préférences aux AP qui les prennent, 2) reliquat distribué pro-rata aux AO et aux AP participantes (et aux AP non-participantes qui ont préféré convertir).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Drag-along <span class="def-alt">clause d'entraînement</span></div>
+        <div class="def-text">Permet à une majorité (souvent 66 % ou 75 %) des actionnaires d'obliger les autres à vendre dans les mêmes conditions. Évite les blocages d'une minorité opportuniste lors d'une offre d'achat.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Tag-along <span class="def-alt">clause de sortie conjointe</span></div>
+        <div class="def-text">Permet à un actionnaire minoritaire de se joindre à une vente initiée par un actionnaire majoritaire, aux mêmes conditions. Protège les minoritaires.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Antidilution <span class="def-alt">weighted-average · full ratchet</span></div>
+        <div class="def-text">Protection des AP existantes en cas de down round : ajustement du prix de conversion AP→AO pour leur donner plus d'actions communes. Weighted-average broad-based = standard du marché ; full ratchet = punitif pour les fondateurs.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Pari passu</div>
+        <div class="def-text">"À pied d'égalité". Deux contextes : (a) entre séries d'AP — les préférences sont scaling pro-rata, pas par seniorité ; (b) règle Bpifrance — son fonds ne représente jamais plus de 50 % du tour (co-investissement obligatoire avec privé).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Préemption <span class="def-alt">droit de préemption</span></div>
+        <div class="def-text">Droit pour les actionnaires existants de souscrire en priorité aux nouvelles actions, à due proportion de leur détention. Renoncé en AGE pour permettre l'entrée de nouveaux investisseurs.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 7. Performance & retour ════════ -->
+  <section class="def-group" id="perf">
+    <h3>Performance & retour</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">MOIC <span class="def-alt">Multiple on Invested Capital</span></div>
+        <div class="def-text">Multiple cash-on-cash : valeur actuelle (ou de sortie) ÷ montant investi. Mesure intuitive du gain. Un MOIC de 3× = l'investissement a triplé. <a href="multiple.html">→ Outil Multiple & IRR</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">TVPI <span class="def-alt">Total Value to Paid-In</span></div>
+        <div class="def-text">Identique au MOIC mais souvent décomposé : TVPI = DPI + RVPI. Standard pour le reporting LP / GP des fonds VC.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">DPI <span class="def-alt">Distribution to Paid-In</span></div>
+        <div class="def-text">Cash rendu aux LP ÷ cash investi. Mesure la liquidité effective d'un fonds. DPI = 0 tant qu'aucune sortie n'a eu lieu. Très scruté en milieu / fin de vie d'un fonds.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">RVPI <span class="def-alt">Residual Value to Paid-In</span></div>
+        <div class="def-text">Valeur des participations non encore cédées ÷ cash investi. Complémentaire du DPI : TVPI = DPI + RVPI.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">IRR / TRI</div>
+        <div class="def-text">Taux de Rendement Interne annualisé. Tient compte du temps : un MOIC de 3× sur 5 ans (~25 %) est meilleur que sur 10 ans (~12 %). Pour des cash-flows multiples, utiliser XIRR. <a href="multiple.html">→ Outil Multiple & IRR</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Carry <span class="def-alt">carried interest</span></div>
+        <div class="def-text">Quote-part des plus-values d'un fonds versée aux GP (gérants), typiquement 20 % au-dessus d'un hurdle de 6–8 %. Aligne les intérêts gérant / investisseur.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Hurdle</div>
+        <div class="def-text">Rendement minimum (souvent 6–8 % annualisé) que doit dépasser un fonds avant que le carry soit déclenché. Mécanisme de protection des LP.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Plus-value de cession</div>
+        <div class="def-text">Différence entre prix de cession et prix d'acquisition. Pour Bpifrance : imposée à l'IS au taux normal (25 % en 2026) sauf régime mère-fille ou abattement long terme.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 8. Compta & juridique ════════ -->
+  <section class="def-group" id="compta">
+    <h3>Compta & juridique</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">PCG <span class="def-alt">Plan Comptable Général</span></div>
+        <div class="def-text">Référentiel comptable français. Numérotation des comptes par classes (1 à 7). Pour le cap table : classe 1 (capitaux propres et emprunts assimilés) — 101 capital social, 1041 prime d'émission, 1675 emprunts obligataires convertibles.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Compte 101 — Capital social</div>
+        <div class="def-text">Comptabilise les sommes versées par les actionnaires au titre de la valeur nominale des actions. Augmenté à chaque émission au prorata du nominal × nouvelles actions. <a href="prime.html">→ Outil Prime d'émission</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Compte 1041 — Prime d'émission</div>
+        <div class="def-text">Comptabilise la partie du prix d'émission qui excède la valeur nominale. Reliquat de l'investissement après dotation du 101. Incorporable au capital social par décision d'AGE.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Compte 1675 — EOC</div>
+        <div class="def-text">Emprunts obligataires convertibles. Reçoit les fonds versés au titre des BSA AIR / SAFE / OC en attendant leur conversion. Soldé au moment du débouclage par DR 1675, CR 101 + CR 1041.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Compte 16881 — Intérêts courus EOC</div>
+        <div class="def-text">Intérêts non échus accumulés sur les obligations convertibles. Comptabilisés à chaque arrêté (trimestriel). À la conversion, les intérêts sont souvent capitalisés au principal et débouclés dans le 1675. <a href="oc.html">→ Outil OC Intérêts</a></div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">AGE <span class="def-alt">Assemblée Générale Extraordinaire</span></div>
+        <div class="def-text">Assemblée des actionnaires statuant sur les décisions modifiant les statuts (augmentation/réduction de capital, fusion, dissolution). Majorité requise : SAS selon statuts, SA 2/3 des votants, SARL 3/4 des parts.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Statuts</div>
+        <div class="def-text">"Constitution" juridique de la société. Définissent forme, capital, catégories d'actions, mode de gouvernance, clauses (préemption, agrément…). Toute modification passe par AGE et est déposée au greffe.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Pacte d'actionnaires</div>
+        <div class="def-text">Contrat entre actionnaires (souvent à durée de 10 ans renouvelable) qui complète les statuts : drag/tag, gouvernance détaillée, info rights, clauses de leaver, exclusivité. Confidentiel — pas déposé au greffe.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Formulaire M2</div>
+        <div class="def-text">Formulaire CERFA déposé au greffe pour toute modification statutaire (changement de capital, dirigeants, siège). À déposer dans le mois suivant l'AGE. Coût ~150 €.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Greffe / RCS</div>
+        <div class="def-text">Registre du Commerce et des Sociétés tenu par les greffes des tribunaux de commerce. Centralise les actes officiels d'une société. Consultable publiquement via infogreffe.fr.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">BODACC</div>
+        <div class="def-text">Bulletin Officiel des Annonces Civiles et Commerciales. Publication automatique des actes après dépôt au greffe (augmentation de capital, fusion, dissolution). Sert d'avis légal aux tiers.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">INPI / RNE</div>
+        <div class="def-text">Institut National de la Propriété Industrielle. Tient le Registre National des Entreprises (RNE) depuis 2023, qui centralise les données légales de toutes les entreprises françaises. Remplace partiellement le RCS.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Réserve légale</div>
+        <div class="def-text">Dotation obligatoire de 5 % du bénéfice annuel, jusqu'à atteindre 10 % du capital social. Bloquée et non distribuable. Concerne SA et SARL — SAS par défaut non concernées (mais souvent prévues par les statuts).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Apport en nature</div>
+        <div class="def-text">Souscription d'actions en échange de biens autres que du cash (propriété intellectuelle, fonds de commerce, titres d'une autre société). Nécessite un commissaire aux apports si la valeur dépasse certains seuils.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 9. Écosystème Bpifrance ════════ -->
+  <section class="def-group" id="bpi">
+    <h3>Écosystème Bpifrance</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">Bpifrance Investissement</div>
+        <div class="def-text">Filiale de Bpifrance dédiée à l'investissement en fonds propres dans les entreprises françaises, de l'amorçage au LBO. Investit en direct via plusieurs fonds spécialisés et indirectement comme LP de fonds privés.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance Large Venture</div>
+        <div class="def-text">Fonds Bpifrance dédié aux tours de croissance (Series B+) de l'ordre de 10–200 M€. Cible les futurs champions tech français à fort potentiel d'internationalisation.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance French Tech Souveraineté</div>
+        <div class="def-text">Fonds dédié aux technologies stratégiques pour la souveraineté française et européenne (deep tech, défense, cyber, énergie). Tickets ~5 M€ et au-delà.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance Innobio</div>
+        <div class="def-text">Fonds spécialisé life sciences et biotech, gérant un portefeuille pluri-générationnel d'investissements en innovation thérapeutique.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance Patient Capital</div>
+        <div class="def-text">Capital patient à très long terme (10–15 ans+), destiné aux entreprises à cycle de retour long (matériaux, climatech, infrastructure tech).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance French Tech Seed</div>
+        <div class="def-text">Fonds d'amorçage Bpifrance (~500 k€ par ticket), souvent via instruments convertibles type BSA AIR aux côtés d'autres co-investisseurs early-stage.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance Définvest</div>
+        <div class="def-text">Fonds dédié à la base industrielle et technologique de défense (BITD). Co-investissement aux côtés de l'AID (Agence de l'Innovation de Défense).</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance Lac1</div>
+        <div class="def-text">Fonds mid-cap (50 M€ — 1 Md€ de CA) destiné à accompagner sur le long terme les ETI françaises. Tickets de 20 M€+.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Pari passu Bpifrance</div>
+        <div class="def-text">Règle de co-investissement : un fonds Bpifrance n'investit jamais plus que 50 % du tour, et toujours aux mêmes conditions que les co-investisseurs privés. Garantit l'alignement et évite l'effet d'éviction.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Hub Bpifrance</div>
+        <div class="def-text">Plateforme web destinée aux entrepreneurs : diagnostics, communauté, accès aux financements, parcours. Point d'entrée digital de l'écosystème Bpifrance.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Bpifrance Création</div>
+        <div class="def-text">Pôle d'accompagnement à la création et à la reprise d'entreprise. Édite Bpifrance-Création.fr (anciennement APCE) avec démarches, juridique, business plans types.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">French Tech</div>
+        <div class="def-text">Mission publique de soutien à l'écosystème startup français, animée par Bpifrance et le Secrétariat d'État au Numérique. Communautés régionales (Capitales), label French Tech, labels FT 120 / Next 40.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 10. Statut fiscal startup ════════ -->
+  <section class="def-group" id="fiscal">
+    <h3>Statut fiscal startup</h3>
+    <div class="def-grid">
+      <div class="def-card">
+        <div class="def-term">JEI <span class="def-alt">Jeune Entreprise Innovante</span></div>
+        <div class="def-text">Statut fiscal pour une société &lt; 8 ans dont les dépenses de R&D représentent &gt; 15 % des charges. Exonération d'IS la première année, dégressive ensuite. Exonération des cotisations patronales sur certains salariés R&D.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">CIR <span class="def-alt">Crédit d'Impôt Recherche</span></div>
+        <div class="def-text">Crédit d'impôt français de 30 % des dépenses de R&D éligibles, jusqu'à 100 M€ de dépenses (5 % au-delà). Cumulable avec JEI. Remboursable pour les PME / JEI.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">CII <span class="def-alt">Crédit d'Impôt Innovation</span></div>
+        <div class="def-text">Extension du CIR pour les dépenses d'innovation (prototypes, installations pilotes) des PME au sens européen. Taux 20 % dans la limite de 400 k€ de dépenses par an.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">PEA-PME</div>
+        <div class="def-text">Plan d'Épargne en Actions ciblé PME / ETI européennes. Plafond 225 k€. Plus-values exonérées d'impôt sur le revenu après 5 ans (prélèvements sociaux dus). Critères d'éligibilité de la société à vérifier.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">IR-PME / Madelin</div>
+        <div class="def-text">Réduction d'impôt sur le revenu de 18–25 % du montant investi en capital de PME française (souscription primaire), plafonnée à 50 k€ par an pour un célibataire, 100 k€ pour un couple.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Article 150-0 B ter</div>
+        <div class="def-text">Mécanisme de report d'imposition lors d'un apport de titres à une holding contrôlée par l'apporteur. Permet de différer la plus-value tant que la holding n'est pas cédée. Très utilisé en structuration patrimoniale fondateur.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Régime mère-fille</div>
+        <div class="def-text">Exonération de 95 % des dividendes perçus par une société mère détenant au moins 5 % des titres d'une filiale pendant 2 ans (charges et frais réintégrés à 5 %). Réduit considérablement la fiscalité des participations longues.</div>
+      </div>
+      <div class="def-card">
+        <div class="def-term">Plus-value long terme <span class="def-alt">titres de participation</span></div>
+        <div class="def-text">Exonération quasi-totale (~88 %) de la plus-value de cession sur des titres de participation détenus depuis &gt; 2 ans. Quote-part de frais et charges de 12 % réintégrée. Régime favorable pour les participations Bpifrance.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p>Glossaire indicatif — à valider avec votre conseil juridique, fiscal et Bpifrance le cas échéant.</p>
+      <p class="muted">Sources : PCG, Code de commerce, BOI (Bulletin Officiel des Impôts), Bpifrance.fr. Termes mis à jour 2026.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="shared.js"></script>
+<script>
+const search = document.getElementById('searchInput');
+const countEl = document.getElementById('defCount');
+const allCards = document.querySelectorAll('.def-card');
+const allGroups = document.querySelectorAll('.def-group');
+
+function updateCount(visible) {
+  countEl.textContent = visible === allCards.length
+    ? `${allCards.length} définitions`
+    : `${visible} / ${allCards.length}`;
+}
+
+function filter() {
+  const q = search.value.toLowerCase().trim();
+  let visibleCount = 0;
+  allCards.forEach(card => {
+    const txt = card.textContent.toLowerCase();
+    const show = !q || txt.includes(q);
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
+  });
+  allGroups.forEach(group => {
+    const visible = Array.from(group.querySelectorAll('.def-card'))
+      .some(c => c.style.display !== 'none');
+    group.style.display = visible ? '' : 'none';
+  });
+  updateCount(visibleCount);
+}
+search.addEventListener('input', filter);
+updateCount(allCards.length);
+</script>
+</body>
+</html>

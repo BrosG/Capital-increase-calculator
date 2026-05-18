@@ -752,6 +752,143 @@ table.waterfall tr.treat-pref td:last-child { color: var(--primary-ink); }
 table.waterfall tr.treat-convert td:last-child { color: var(--green); }
 table.waterfall tr.treat-common td:last-child { color: var(--on-surface-3); }
 
+/* ═══ Accounting & bilan ═════════════════════════════════ */
+.acc-body { display: flex; flex-direction: column; gap: 24px; }
+.acc-block-title {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--on-surface-2);
+  margin-bottom: 10px;
+}
+.acc-table-wrap { overflow-x: auto; }
+table.acc {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+  min-width: 520px;
+}
+table.acc th, table.acc td {
+  padding: 11px 12px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum';
+  white-space: nowrap;
+}
+table.acc th {
+  font-family: var(--font-sans); font-weight: 500;
+  color: var(--on-surface-2);
+  font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  border-bottom: 1px solid var(--outline);
+}
+table.acc td { border-bottom: 1px solid var(--outline-soft); }
+table.acc th:first-child, table.acc td:first-child {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--on-surface);
+}
+table.acc td.label-col {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: var(--on-surface-2);
+  text-align: left;
+}
+table.acc tr.credit td:first-child { padding-left: 28px; color: var(--on-surface-2); }
+table.acc tr.subtotal td {
+  border-top: 2px solid var(--on-surface);
+  border-bottom: 0;
+  font-weight: 600;
+  color: var(--on-surface);
+  padding-top: 14px;
+}
+.acc-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--on-surface-3);
+  line-height: 1.5;
+}
+table.acc.bilan tr.bilan-delta td:not(:first-child):not(.label-col) {
+  color: var(--primary-ink);
+  font-weight: 500;
+}
+
+/* ═══ Conversion detail (inline in conv row) ═════════════ */
+.conv-detail {
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum';
+  font-size: 11.5px;
+  color: var(--on-surface-2);
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.conv-detail .pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 1px 8px; border-radius: var(--radius-pill);
+  font-size: 10.5px; font-weight: 500;
+  font-family: var(--font-sans); letter-spacing: .02em;
+}
+.conv-detail .pill-cap   { background: var(--purple-soft); color: var(--purple); }
+.conv-detail .pill-disc  { background: var(--primary-soft); color: var(--primary-ink); }
+.conv-detail .pill-none  { background: var(--surface-2); color: var(--on-surface-3); }
+.conv-detail b { color: var(--on-surface); font-weight: 500; }
+
+/* ═══ Notes input (per row) ══════════════════════════════ */
+.row-note {
+  display: flex; flex-direction: column; gap: 4px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--outline-soft);
+}
+.row-note label {
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: .04em; text-transform: uppercase;
+  color: var(--on-surface-3);
+}
+.row-note input {
+  appearance: none; border: 1px solid var(--outline-soft);
+  background: var(--surface);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans); font-size: 12.5px;
+  color: var(--on-surface); outline: none; width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+}
+.row-note input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26,115,232,.18);
+}
+.row-note input::placeholder { color: var(--on-surface-3); font-style: italic; }
+
+/* ═══ Reconciliation list ════════════════════════════════ */
+.recon-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.recon-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--outline-soft);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 13px;
+}
+.recon-item.ok       { color: var(--green); border-color: #c8e6c9; background: var(--green-soft); }
+.recon-item.warn     { color: var(--warn-ink); border-color: #fcd980; background: var(--warn-bg); }
+.recon-item.error    { color: var(--red); border-color: #f5c6c1; background: var(--red-soft); }
+.recon-item .recon-icon { font-size: 18px !important; line-height: 1.2; flex: 0 0 auto; }
+.recon-item .recon-text {
+  display: flex; flex-direction: column; gap: 2px;
+  min-width: 0; flex: 1;
+}
+.recon-item .recon-title { font-weight: 500; color: inherit; line-height: 1.3; }
+.recon-item .recon-detail {
+  font-family: var(--font-mono); font-feature-settings: 'tnum';
+  font-size: 12px;
+  color: var(--on-surface-2);
+}
+.recon-item.ok    .recon-detail,
+.recon-item.warn  .recon-detail,
+.recon-item.error .recon-detail { color: inherit; opacity: .8; }
+
 /* ═══ Footer ═════════════════════════════════════════════ */
 .page-foot {
   margin-top: 16px;

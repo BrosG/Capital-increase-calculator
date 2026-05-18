@@ -275,10 +275,57 @@
     </div>
   </section>
 
-  <!-- ════════ 07 · Cap table ════════ -->
+  <!-- ════════ 07 · Comptabilité & bilan ════════ -->
   <section class="section">
     <header class="section-head">
       <span class="section-num">07</span>
+      <div>
+        <h2 data-i18n="section_accounting">Comptabilité & bilan capital social</h2>
+        <p data-i18n="section_accounting_sub">Écritures, plan comptable général · capital social et prime d'émission</p>
+      </div>
+    </header>
+    <div class="section-body acc-body">
+      <div class="acc-block">
+        <div class="acc-block-title" data-i18n="accounting_journal">Écritures comptables (PCG)</div>
+        <div class="acc-table-wrap">
+          <table class="acc">
+            <thead>
+              <tr>
+                <th data-i18n="accounting_account">Compte</th>
+                <th data-i18n="accounting_label">Libellé</th>
+                <th data-i18n="accounting_debit">Débit</th>
+                <th data-i18n="accounting_credit">Crédit</th>
+              </tr>
+            </thead>
+            <tbody id="accountingBody"></tbody>
+          </table>
+        </div>
+        <p class="acc-note" id="accountingNote">—</p>
+      </div>
+
+      <div class="acc-block">
+        <div class="acc-block-title" data-i18n="bilan_title">Bilan capital social — variation</div>
+        <div class="acc-table-wrap">
+          <table class="acc bilan">
+            <thead>
+              <tr>
+                <th data-i18n="bilan_item">Poste</th>
+                <th data-i18n="bilan_before">Avant</th>
+                <th data-i18n="bilan_delta">Variation</th>
+                <th data-i18n="bilan_after">Après</th>
+              </tr>
+            </thead>
+            <tbody id="bilanBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 08 · Cap table ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">08</span>
       <div>
         <h2 data-i18n="captable_title">Table de capitalisation</h2>
         <p data-i18n="captable_subtitle">Avant et après l'opération · fully-diluted</p>
@@ -302,10 +349,10 @@
     </div>
   </section>
 
-  <!-- ════════ 08 · Waterfall ════════ -->
+  <!-- ════════ 09 · Waterfall ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">08</span>
+      <span class="section-num">09</span>
       <div class="head-grow">
         <h2 data-i18n="section_exit">Scénario de sortie · waterfall</h2>
         <p data-i18n="section_exit_sub">Préférence de liquidation et participation</p>
@@ -347,6 +394,20 @@
     </div>
   </section>
 
+  <!-- ════════ 10 · Contrôles & réconciliation ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">10</span>
+      <div>
+        <h2 data-i18n="section_recon">Contrôles & réconciliation</h2>
+        <p data-i18n="section_recon_sub">Invariants de cohérence · audit back-office</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <ul class="recon-list" id="reconList"></ul>
+    </div>
+  </section>
+
   <footer class="page-foot">
     <div class="foot-text">
       <p data-i18n="footer_disclaimer">Outil indicatif — à valider avec votre conseil juridique et Bpifrance le cas échéant.</p>
@@ -356,6 +417,10 @@
       <button class="btn-outline" id="resetBtn">
         <span class="material-symbols-outlined">restart_alt</span>
         <span data-i18n="button_reset">Réinitialiser</span>
+      </button>
+      <button class="btn-outline" id="exportJsonBtn">
+        <span class="material-symbols-outlined">data_object</span>
+        <span data-i18n="button_exportJson">Exporter JSON</span>
       </button>
       <button class="btn-outline" id="exportBtn">
         <span class="material-symbols-outlined">download</span>

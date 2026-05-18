@@ -16,9 +16,9 @@ const DEFAULTS = {
   },
 
   existingHolders: [
-    { name: 'Fondateur A',    shares: 55_000 },
-    { name: 'Fondateur B',    shares: 35_000 },
-    { name: 'ESOP existant',  shares: 10_000 },
+    { name: 'Fondateur A',    shares: 55_000, note: '' },
+    { name: 'Fondateur B',    shares: 35_000, note: '' },
+    { name: 'ESOP existant',  shares: 10_000, note: '' },
   ],
 
   convertibles: [
@@ -28,6 +28,7 @@ const DEFAULTS = {
       amount: 500_000,
       discountPct: 20,
       cap: 6_000_000,
+      note: '',
     },
   ],
 
@@ -37,12 +38,14 @@ const DEFAULTS = {
       amount: 1_500_000,
       liqMultiple: 1,
       participation: 'non-participating',  // 'non-participating' | 'participating'
+      note: '',
     },
     {
       name: 'Business Angel',
       amount: 500_000,
       liqMultiple: 1,
       participation: 'non-participating',
+      note: '',
     },
   ],
 
@@ -181,6 +184,52 @@ const I18N = {
     new_holder_default: "Nouvel actionnaire",
     new_investor_default: "Nouvel investisseur",
     new_conv_default: "Nouvelle convertible",
+
+    note_label: "Note",
+    note_placeholder: "Référence interne, dossier, commentaire back-office…",
+
+    section_accounting: "Comptabilité & bilan capital social",
+    section_accounting_sub: "Écritures · plan comptable général · variation",
+    accounting_journal: "Écritures comptables (PCG)",
+    accounting_account: "Compte",
+    accounting_label: "Libellé",
+    accounting_debit: "Débit",
+    accounting_credit: "Crédit",
+    acc_512: "Banque — fonds reçus de la souscription",
+    acc_101: "Capital social — émission au pair",
+    acc_1041: "Prime d'émission — au-delà du nominal",
+    acc_total: "Total",
+    acc_note_pool: "Pool d'options : {count} actions autorisées (réserve hors capital social, à émettre au fur et à mesure des attributions / exercices).",
+
+    bilan_title: "Bilan capital social — variation",
+    bilan_item: "Poste",
+    bilan_before: "Avant",
+    bilan_delta: "Variation",
+    bilan_after: "Après",
+    bilan_capital: "Capital social (101)",
+    bilan_prime: "Prime d'émission (1041) — variation",
+    bilan_shares: "Actions émises (cumul)",
+    bilan_pool: "Pool autorisé hors capital social",
+
+    section_recon: "Contrôles & réconciliation",
+    section_recon_sub: "Invariants de cohérence · audit back-office",
+    recon_sum_after: "Σ % post-opération = 100,00 %",
+    recon_holders: "Détail actionnaires existants ≈ total déclaré",
+    recon_price_check: "Prix × actions ≈ post-money implicite",
+    recon_nominal: "Valeur nominale ≤ prix d'émission",
+    recon_premium: "Prime d'émission ≥ 0",
+    recon_pool: "Faisabilité du pool",
+    recon_pool_ok: "Compatible avec la cible",
+    recon_pool_warn: "Cible incompatible : p × (1 + Y) ≥ 1",
+    recon_balance: "Cash reçu = capital + prime",
+
+    conv_binding_cap: "Plafond engageant",
+    conv_binding_discount: "Décote engageante",
+    conv_binding_none: "Pas de contrainte",
+    conv_eff_price: "Prix effectif",
+    conv_eff_shares: "Actions",
+
+    button_exportJson: "Exporter JSON",
   },
 
   en: {
@@ -306,6 +355,52 @@ const I18N = {
     new_holder_default: "New shareholder",
     new_investor_default: "New investor",
     new_conv_default: "New convertible",
+
+    note_label: "Note",
+    note_placeholder: "Reference, dossier, back-office comment…",
+
+    section_accounting: "Accounting & share-capital balance",
+    section_accounting_sub: "Journal entries · French GAAP · variation",
+    accounting_journal: "Journal entries (PCG)",
+    accounting_account: "Account",
+    accounting_label: "Label",
+    accounting_debit: "Debit",
+    accounting_credit: "Credit",
+    acc_512: "Bank — subscription funds received",
+    acc_101: "Share capital — issuance at par",
+    acc_1041: "Share premium — above par",
+    acc_total: "Total",
+    acc_note_pool: "Option pool: {count} authorized shares (reserve, outside share capital, to be issued upon grant/exercise).",
+
+    bilan_title: "Share-capital balance — variation",
+    bilan_item: "Item",
+    bilan_before: "Before",
+    bilan_delta: "Delta",
+    bilan_after: "After",
+    bilan_capital: "Share capital (101)",
+    bilan_prime: "Share premium (1041) — delta",
+    bilan_shares: "Shares issued (cumulative)",
+    bilan_pool: "Authorized pool (off-balance)",
+
+    section_recon: "Checks & reconciliation",
+    section_recon_sub: "Consistency invariants · back-office audit",
+    recon_sum_after: "Σ % post-round = 100.00%",
+    recon_holders: "Existing-holder detail ≈ declared total",
+    recon_price_check: "Price × shares ≈ implied post-money",
+    recon_nominal: "Par value ≤ issue price",
+    recon_premium: "Share premium ≥ 0",
+    recon_pool: "Pool feasibility",
+    recon_pool_ok: "Compatible with target",
+    recon_pool_warn: "Target infeasible: p × (1 + Y) ≥ 1",
+    recon_balance: "Cash received = capital + premium",
+
+    conv_binding_cap: "Cap binding",
+    conv_binding_discount: "Discount binding",
+    conv_binding_none: "No binding constraint",
+    conv_eff_price: "Effective price",
+    conv_eff_shares: "Shares",
+
+    button_exportJson: "Export JSON",
   },
 
   de: {
@@ -431,6 +526,52 @@ const I18N = {
     new_holder_default: "Neuer Aktionär",
     new_investor_default: "Neuer Investor",
     new_conv_default: "Neue Wandelanleihe",
+
+    note_label: "Notiz",
+    note_placeholder: "Referenz, Vorgang, Back-Office-Kommentar…",
+
+    section_accounting: "Buchhaltung & Grundkapital",
+    section_accounting_sub: "Buchungssätze · franz. GAAP · Veränderung",
+    accounting_journal: "Buchungssätze (PCG)",
+    accounting_account: "Konto",
+    accounting_label: "Bezeichnung",
+    accounting_debit: "Soll",
+    accounting_credit: "Haben",
+    acc_512: "Bank — Zeichnungsgelder erhalten",
+    acc_101: "Grundkapital — Emission zum Nennwert",
+    acc_1041: "Agio — über Nennwert",
+    acc_total: "Gesamt",
+    acc_note_pool: "Optionspool: {count} genehmigte Aktien (Reserve, außerhalb Grundkapital, bei Gewährung/Ausübung auszugeben).",
+
+    bilan_title: "Grundkapital — Veränderung",
+    bilan_item: "Position",
+    bilan_before: "Vorher",
+    bilan_delta: "Veränderung",
+    bilan_after: "Nachher",
+    bilan_capital: "Grundkapital (101)",
+    bilan_prime: "Agio (1041) — Veränderung",
+    bilan_shares: "Ausgegebene Aktien (kumuliert)",
+    bilan_pool: "Genehmigter Pool (außerhalb Bilanz)",
+
+    section_recon: "Kontrollen & Abstimmung",
+    section_recon_sub: "Konsistenz-Invarianten · Back-Office-Audit",
+    recon_sum_after: "Σ % post-Runde = 100,00 %",
+    recon_holders: "Aktionärsdetail ≈ deklarierte Summe",
+    recon_price_check: "Preis × Aktien ≈ implizit post-Money",
+    recon_nominal: "Nennwert ≤ Ausgabepreis",
+    recon_premium: "Agio ≥ 0",
+    recon_pool: "Pool-Machbarkeit",
+    recon_pool_ok: "Mit Ziel kompatibel",
+    recon_pool_warn: "Ziel unrealisierbar: p × (1 + Y) ≥ 1",
+    recon_balance: "Cash erhalten = Kapital + Agio",
+
+    conv_binding_cap: "Cap bindend",
+    conv_binding_discount: "Discount bindend",
+    conv_binding_none: "Keine Bindung",
+    conv_eff_price: "Effektivpreis",
+    conv_eff_shares: "Aktien",
+
+    button_exportJson: "JSON exportieren",
   },
 
   es: {
@@ -556,6 +697,52 @@ const I18N = {
     new_holder_default: "Nuevo accionista",
     new_investor_default: "Nuevo inversor",
     new_conv_default: "Nuevo convertible",
+
+    note_label: "Nota",
+    note_placeholder: "Referencia, expediente, comentario back-office…",
+
+    section_accounting: "Contabilidad & capital social",
+    section_accounting_sub: "Asientos · PCG francés · variación",
+    accounting_journal: "Asientos contables (PCG)",
+    accounting_account: "Cuenta",
+    accounting_label: "Concepto",
+    accounting_debit: "Debe",
+    accounting_credit: "Haber",
+    acc_512: "Banco — fondos recibidos de la suscripción",
+    acc_101: "Capital social — emisión al nominal",
+    acc_1041: "Prima de emisión — sobre nominal",
+    acc_total: "Total",
+    acc_note_pool: "Pool de opciones: {count} acciones autorizadas (reserva, fuera del capital social, a emitir al ejercitar).",
+
+    bilan_title: "Capital social — variación",
+    bilan_item: "Concepto",
+    bilan_before: "Antes",
+    bilan_delta: "Variación",
+    bilan_after: "Después",
+    bilan_capital: "Capital social (101)",
+    bilan_prime: "Prima de emisión (1041) — variación",
+    bilan_shares: "Acciones emitidas (acumulado)",
+    bilan_pool: "Pool autorizado (fuera de balance)",
+
+    section_recon: "Controles & reconciliación",
+    section_recon_sub: "Invariantes de consistencia · auditoría back-office",
+    recon_sum_after: "Σ % post-ronda = 100,00 %",
+    recon_holders: "Accionistas existentes ≈ total declarado",
+    recon_price_check: "Precio × acciones ≈ post-money implícito",
+    recon_nominal: "Valor nominal ≤ precio de emisión",
+    recon_premium: "Prima de emisión ≥ 0",
+    recon_pool: "Viabilidad del pool",
+    recon_pool_ok: "Compatible con el objetivo",
+    recon_pool_warn: "Objetivo inviable: p × (1 + Y) ≥ 1",
+    recon_balance: "Cash recibido = capital + prima",
+
+    conv_binding_cap: "Cap vinculante",
+    conv_binding_discount: "Descuento vinculante",
+    conv_binding_none: "Sin restricción",
+    conv_eff_price: "Precio efectivo",
+    conv_eff_shares: "Acciones",
+
+    button_exportJson: "Exportar JSON",
   },
 };
 
@@ -588,7 +775,11 @@ function loadState() {
           ? p.pool.timing : DEFAULTS.pool.timing,
       },
       existingHolders: Array.isArray(p.existingHolders) && p.existingHolders.length
-        ? p.existingHolders.map(h => ({ name: String(h.name ?? ''), shares: Number(h.shares) || 0 }))
+        ? p.existingHolders.map(h => ({
+            name: String(h.name ?? ''),
+            shares: Number(h.shares) || 0,
+            note: String(h.note ?? ''),
+          }))
         : structuredClone(DEFAULTS.existingHolders),
       convertibles: Array.isArray(p.convertibles)
         ? p.convertibles.map(c => ({
@@ -597,6 +788,7 @@ function loadState() {
             amount: Number(c.amount) || 0,
             discountPct: Number(c.discountPct) || 0,
             cap: Number(c.cap) || 0,
+            note: String(c.note ?? ''),
           }))
         : structuredClone(DEFAULTS.convertibles),
       investors: Array.isArray(p.investors)
@@ -605,6 +797,7 @@ function loadState() {
             amount: Number(i.amount) || 0,
             liqMultiple: Number(i.liqMultiple) || 1,
             participation: i.participation === 'participating' ? 'participating' : 'non-participating',
+            note: String(i.note ?? ''),
           }))
         : structuredClone(DEFAULTS.investors),
       exit: {
@@ -698,6 +891,10 @@ function renderHolders() {
           <span class="material-symbols-outlined" style="font-size:18px">close</span>
         </button>
       </div>
+      <div class="row-note">
+        <label>${escapeHtml(t('note_label'))}</label>
+        <input type="text" class="note" placeholder="${escapeHtml(t('note_placeholder'))}" value="${escapeHtml(h.note || '')}">
+      </div>
     `;
     card.querySelector('.name').addEventListener('input', e => {
       state.existingHolders[i].name = e.target.value;
@@ -711,6 +908,10 @@ function renderHolders() {
     sharesInput.addEventListener('blur', e => {
       e.target.value = fmtNum(state.existingHolders[i].shares, 0);
     });
+    card.querySelector('.note').addEventListener('input', e => {
+      state.existingHolders[i].note = e.target.value;
+      saveState();
+    });
     card.querySelector('.del').addEventListener('click', () => {
       state.existingHolders.splice(i, 1);
       renderHolders(); saveState(); compute();
@@ -719,7 +920,7 @@ function renderHolders() {
   });
 }
 document.getElementById('addHolder').addEventListener('click', () => {
-  state.existingHolders.push({ name: t('new_holder_default'), shares: 0 });
+  state.existingHolders.push({ name: t('new_holder_default'), shares: 0, note: '' });
   renderHolders(); saveState(); compute();
 });
 
@@ -756,6 +957,11 @@ function renderConvertibles() {
           <input type="text" class="cap numeric" placeholder="${escapeHtml(t('conv_placeholder_cap'))}" value="${cv.cap > 0 ? fmtNum(cv.cap, 0) : ''}" inputmode="decimal">
         </div>
       </div>
+      <div class="conv-detail" data-conv-detail></div>
+      <div class="row-note">
+        <label>${escapeHtml(t('note_label'))}</label>
+        <input type="text" class="note" placeholder="${escapeHtml(t('note_placeholder'))}" value="${escapeHtml(cv.note || '')}">
+      </div>
     `;
     card.querySelector('.name').addEventListener('input', e => {
       state.convertibles[i].name = e.target.value; saveState(); compute();
@@ -781,6 +987,10 @@ function renderConvertibles() {
     card.querySelector('.cap').addEventListener('blur', e => {
       e.target.value = state.convertibles[i].cap > 0 ? fmtNum(state.convertibles[i].cap, 0) : '';
     });
+    card.querySelector('.note').addEventListener('input', e => {
+      state.convertibles[i].note = e.target.value;
+      saveState();
+    });
     card.querySelector('.del').addEventListener('click', () => {
       state.convertibles.splice(i, 1);
       renderConvertibles(); saveState(); compute();
@@ -795,6 +1005,7 @@ document.getElementById('addConv').addEventListener('click', () => {
     amount: 250_000,
     discountPct: 20,
     cap: 0,
+    note: '',
   });
   renderConvertibles(); saveState(); compute();
 });
@@ -827,6 +1038,10 @@ function renderInvestors() {
           </select>
         </div>
       </div>
+      <div class="row-note">
+        <label>${escapeHtml(t('note_label'))}</label>
+        <input type="text" class="note" placeholder="${escapeHtml(t('note_placeholder'))}" value="${escapeHtml(inv.note || '')}">
+      </div>
     `;
     card.querySelector('.name').addEventListener('input', e => {
       state.investors[i].name = e.target.value; saveState(); compute();
@@ -846,6 +1061,10 @@ function renderInvestors() {
     card.querySelector('.part').addEventListener('change', e => {
       state.investors[i].participation = e.target.value; saveState(); compute();
     });
+    card.querySelector('.note').addEventListener('input', e => {
+      state.investors[i].note = e.target.value;
+      saveState();
+    });
     card.querySelector('.del').addEventListener('click', () => {
       state.investors.splice(i, 1);
       renderInvestors(); saveState(); compute();
@@ -859,6 +1078,7 @@ document.getElementById('addInv').addEventListener('click', () => {
     amount: 250_000,
     liqMultiple: 1,
     participation: 'non-participating',
+    note: '',
   });
   renderInvestors(); saveState(); compute();
 });
@@ -981,6 +1201,71 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 });
 
 document.getElementById('exportBtn').addEventListener('click', exportCSV);
+document.getElementById('exportJsonBtn').addEventListener('click', exportJSON);
+
+function exportJSON() {
+  const c = currentComputation();
+  const payload = {
+    timestamp: new Date().toISOString(),
+    currency: state.currency,
+    inputs: structuredClone(state),
+    outputs: {
+      preMoney: c.V,
+      postMoneyHeadline: c.postMoney,
+      postMoneyImplied: c.postImplied,
+      pricePerShare: c.P_round,
+      fdPreMoneyShares: c.FD_pre,
+      totalSharesAfter: c.totalSharesAfter,
+      newSharesIssued: c.totalConvShares + c.totalNewShares,
+      poolShares: c.totalPoolPost,
+      capitalIncreaseNominal: (c.totalConvShares + c.totalNewShares) * c.nom,
+      premiumTotal: c.premiumTotal,
+      premiumPerShare: c.premiumPerShare,
+      founderDilution: c.dilution,
+      existingHolderPctAfter: c.existingNewPct,
+      capTable: c.capRows.map(r => ({
+        name: r.name,
+        class: r.classKey,
+        classLabel: r.classLabel,
+        beforeShares: r.beforeShares,
+        beforePct: r.beforePct,
+        afterShares: r.afterShares,
+        afterPct: r.afterPct,
+        liqPref: r.liqPref,
+        participation: r.participation,
+      })),
+      convertibles: state.convertibles.map((cv, i) => ({
+        name: cv.name,
+        type: cv.type,
+        amount: cv.amount,
+        discountPct: cv.discountPct,
+        cap: cv.cap || null,
+        effectivePrice: c.FD_pre > 0 && c.convRates[i] && isFinite(c.convRates[i].effDenom)
+          ? c.convRates[i].effDenom / c.FD_pre : null,
+        binding: c.convRates[i] && c.convRates[i].usingCap && cv.cap > 0
+          ? 'cap' : (cv.discountPct > 0 ? 'discount' : 'none'),
+        sharesIssued: c.convShares[i],
+      })),
+      waterfall: c.waterfall.map(w => ({
+        name: w.name,
+        shares: w.shares,
+        liqPref: w.liqPref,
+        payout: w.payout,
+        payoutPct: w.payoutPct,
+        treatment: w.treatmentLabel,
+      })),
+    },
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cap-table-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 
 function exportCSV() {
   const c = currentComputation();
@@ -1388,6 +1673,215 @@ function compute() {
   // Waterfall
   renderWaterfall(c);
   syncExitSlider(c);
+
+  // Back-office views
+  renderAccounting(c);
+  renderBilan(c);
+  renderConvDetails(c);
+  renderReconciliation(c);
+}
+
+function renderAccounting(c) {
+  const body = document.getElementById('accountingBody');
+  if (!body) return;
+  body.innerHTML = '';
+
+  const issued = c.totalConvShares + c.totalNewShares;
+  const cash = c.totalInvestment;
+  const capIncrease = issued * c.nom;
+  const premium = cash - capIncrease;
+
+  if (cash === 0 && issued === 0) {
+    body.insertAdjacentHTML('beforeend', `
+      <tr><td colspan="4" class="label-col" style="text-align:center; color:var(--on-surface-3)">—</td></tr>
+    `);
+  } else {
+    body.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td>512</td>
+        <td class="label-col">${escapeHtml(t('acc_512'))}</td>
+        <td>${fmtMoney(cash, 0)}</td>
+        <td>—</td>
+      </tr>
+      <tr class="credit">
+        <td>101</td>
+        <td class="label-col">${escapeHtml(t('acc_101'))}</td>
+        <td>—</td>
+        <td>${fmtMoney(capIncrease, 0)}</td>
+      </tr>
+      <tr class="credit">
+        <td>1041</td>
+        <td class="label-col">${escapeHtml(t('acc_1041'))}</td>
+        <td>—</td>
+        <td>${fmtMoney(premium, 0)}</td>
+      </tr>
+      <tr class="subtotal">
+        <td colspan="2">${escapeHtml(t('acc_total'))}</td>
+        <td>${fmtMoney(cash, 0)}</td>
+        <td>${fmtMoney(capIncrease + premium, 0)}</td>
+      </tr>
+    `);
+  }
+
+  const noteEl = document.getElementById('accountingNote');
+  if (c.totalPoolPost > 0) {
+    noteEl.textContent = t('acc_note_pool', { count: fmtNum(c.totalPoolPost, 0) });
+  } else {
+    noteEl.textContent = '';
+  }
+}
+
+function renderBilan(c) {
+  const body = document.getElementById('bilanBody');
+  if (!body) return;
+  body.innerHTML = '';
+
+  const issued = c.totalConvShares + c.totalNewShares;
+  const capBefore = c.E * c.nom;
+  const capDelta  = issued * c.nom;
+  const capAfter  = capBefore + capDelta;
+
+  body.insertAdjacentHTML('beforeend', `
+    <tr class="bilan-delta">
+      <td class="label-col">${escapeHtml(t('bilan_capital'))}</td>
+      <td>${fmtMoney(capBefore, 0)}</td>
+      <td>${fmtMoney(capDelta, 0)}</td>
+      <td>${fmtMoney(capAfter, 0)}</td>
+    </tr>
+    <tr class="bilan-delta">
+      <td class="label-col">${escapeHtml(t('bilan_prime'))}</td>
+      <td>—</td>
+      <td>${fmtMoney(c.premiumTotal, 0)}</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td class="label-col">${escapeHtml(t('bilan_shares'))}</td>
+      <td>${fmtNum(c.E, 0)}</td>
+      <td>${fmtNum(issued, 0)}</td>
+      <td>${fmtNum(c.E + issued, 0)}</td>
+    </tr>
+    <tr>
+      <td class="label-col">${escapeHtml(t('bilan_pool'))}</td>
+      <td>—</td>
+      <td>${fmtNum(c.totalPoolPost, 0)}</td>
+      <td>${fmtNum(c.totalPoolPost, 0)}</td>
+    </tr>
+  `);
+}
+
+function renderConvDetails(c) {
+  state.convertibles.forEach((cv, i) => {
+    const card = convListEl.children[i];
+    if (!card) return;
+    const detail = card.querySelector('[data-conv-detail]');
+    if (!detail) return;
+
+    const rate = c.convRates[i];
+    const shares = c.convShares[i];
+    if (!rate || !isFinite(rate.effDenom) || c.FD_pre <= 0) {
+      detail.innerHTML = '';
+      return;
+    }
+
+    const effPrice = rate.effDenom / c.FD_pre;
+    const hasCap = cv.cap && cv.cap > 0;
+    const hasDisc = (cv.discountPct || 0) > 0;
+    let pillLabel, pillClass;
+    if (hasCap && rate.usingCap) {
+      pillLabel = t('conv_binding_cap'); pillClass = 'pill-cap';
+    } else if (hasDisc) {
+      pillLabel = t('conv_binding_discount'); pillClass = 'pill-disc';
+    } else {
+      pillLabel = t('conv_binding_none'); pillClass = 'pill-none';
+    }
+
+    detail.innerHTML = `
+      <span class="pill ${pillClass}">${escapeHtml(pillLabel)}</span>
+      <span>${escapeHtml(t('conv_eff_price'))}: <b>${escapeHtml(fmtMoneyCompact(effPrice))}</b></span>
+      <span>·</span>
+      <span>${escapeHtml(t('conv_eff_shares'))}: <b>${escapeHtml(fmtNum(shares, 0))}</b></span>
+    `;
+  });
+}
+
+function renderReconciliation(c) {
+  const el = document.getElementById('reconList');
+  if (!el) return;
+  el.innerHTML = '';
+
+  const checks = [];
+
+  const sumAfterPct = c.capRows.reduce((s, r) => s + (r.afterPct || 0), 0);
+  checks.push({
+    title: t('recon_sum_after'),
+    detail: fmtPct(sumAfterPct, 4),
+    status: Math.abs(sumAfterPct - 1) < 0.0001 ? 'ok' : 'error',
+  });
+
+  const holdersSum = state.existingHolders.reduce((s, h) => s + h.shares, 0);
+  let holdersStatus = 'ok';
+  let holdersDetail = `${fmtNum(holdersSum, 0)} = ${fmtNum(c.E, 0)}`;
+  if (c.E > 0 && holdersSum > 0) {
+    const delta = holdersSum - c.E;
+    if (Math.abs(delta) / c.E > 0.0001) {
+      holdersStatus = 'warn';
+      holdersDetail = `${fmtNum(holdersSum, 0)} ≠ ${fmtNum(c.E, 0)} (Δ ${fmtNum(delta, 0)})`;
+    }
+  }
+  checks.push({ title: t('recon_holders'), detail: holdersDetail, status: holdersStatus });
+
+  const implied = c.P_round * c.totalSharesAfter;
+  checks.push({
+    title: t('recon_price_check'),
+    detail: `${fmtMoneyCompact(c.P_round)} × ${fmtNum(c.totalSharesAfter, 0)} = ${fmtMoney(implied, 0)}`,
+    status: 'ok',
+  });
+
+  let nomStatus = 'ok';
+  let nomDetail = `${fmtMoneyCompact(c.nom)} ≤ ${fmtMoneyCompact(c.P_round)}`;
+  if (c.nom > c.P_round && c.P_round > 0) {
+    nomStatus = 'error';
+    nomDetail = `${fmtMoneyCompact(c.nom)} > ${fmtMoneyCompact(c.P_round)}`;
+  }
+  checks.push({ title: t('recon_nominal'), detail: nomDetail, status: nomStatus });
+
+  checks.push({
+    title: t('recon_premium'),
+    detail: fmtMoney(c.premiumTotal, 0),
+    status: c.premiumTotal >= 0 ? 'ok' : 'error',
+  });
+
+  if (state.pool.enabled) {
+    checks.push({
+      title: t('recon_pool'),
+      detail: c.poolFeasible ? t('recon_pool_ok') : t('recon_pool_warn'),
+      status: c.poolFeasible ? 'ok' : 'error',
+    });
+  }
+
+  const issuedSold = c.totalConvShares + c.totalNewShares;
+  const lhs = issuedSold * c.nom + c.premiumTotal;
+  const rhs = c.totalInvestment;
+  const balDelta = Math.abs(lhs - rhs);
+  checks.push({
+    title: t('recon_balance'),
+    detail: `${fmtMoney(lhs, 0)} = ${fmtMoney(rhs, 0)}`,
+    status: balDelta < 1 ? 'ok' : 'warn',
+  });
+
+  checks.forEach(chk => {
+    const icon = chk.status === 'ok' ? 'check_circle' : chk.status === 'warn' ? 'warning' : 'cancel';
+    const li = document.createElement('li');
+    li.className = `recon-item ${chk.status}`;
+    li.innerHTML = `
+      <span class="material-symbols-outlined recon-icon">${icon}</span>
+      <div class="recon-text">
+        <span class="recon-title">${escapeHtml(chk.title)}</span>
+        <span class="recon-detail">${escapeHtml(chk.detail)}</span>
+      </div>
+    `;
+    el.appendChild(li);
+  });
 }
 
 function renderCapTable(c) {

@@ -76,7 +76,17 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   gap: 24px; flex-wrap: wrap;
 }
-.brand { display: flex; align-items: center; gap: 14px; }
+.brand {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none; color: inherit;
+  border-radius: var(--radius-sm);
+  padding: 2px 6px; margin-left: -6px;
+  transition: background .15s;
+}
+a.brand { cursor: pointer; }
+a.brand:hover { background: var(--surface-2); }
+a.brand:hover .brand-text h1 { color: var(--primary-ink); }
+a.brand:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
 .logo-mark {
   display: inline-grid;
   grid-template-columns: 8px 8px;

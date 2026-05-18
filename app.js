@@ -260,6 +260,11 @@ const I18N = {
     conv_eff_shares: "Actions",
 
     button_exportJson: "Exporter JSON",
+    button_copy: "Copier",
+    button_copied: "Copié",
+    print_title: "Augmentation de capital",
+    print_scenario: "Scénario",
+    print_printedAt: "Édité le",
   },
 
   en: {
@@ -441,6 +446,11 @@ const I18N = {
     conv_eff_shares: "Shares",
 
     button_exportJson: "Export JSON",
+    button_copy: "Copy",
+    button_copied: "Copied",
+    print_title: "Capital increase",
+    print_scenario: "Scenario",
+    print_printedAt: "Edited on",
   },
 
   de: {
@@ -622,6 +632,11 @@ const I18N = {
     conv_eff_shares: "Aktien",
 
     button_exportJson: "JSON exportieren",
+    button_copy: "Kopieren",
+    button_copied: "Kopiert",
+    print_title: "Kapitalerhöhung",
+    print_scenario: "Szenario",
+    print_printedAt: "Bearbeitet am",
   },
 
   es: {
@@ -803,6 +818,11 @@ const I18N = {
     conv_eff_shares: "Acciones",
 
     button_exportJson: "Exportar JSON",
+    button_copy: "Copiar",
+    button_copied: "Copiado",
+    print_title: "Ampliación de capital",
+    print_scenario: "Escenario",
+    print_printedAt: "Editado el",
   },
 };
 
@@ -1354,7 +1374,77 @@ function syncPoolTimingUI() {
 }
 
 /* ─────────────── Reset / Print / Export ─────────────── */
-document.getElementById('printBtn').addEventListener('click', () => window.print());
+document.getElementById('printBtn').addEventListener('click', () => {
+  updatePrintHeader();
+  window.print();
+});
+
+/* ─── Copy-to-clipboard for tables (TSV → Excel paste) ─── */
+function tableToTSV(tableEl) {
+  if (!tableEl) return '';
+  const rows = Array.from(tableEl.querySelectorAll('tr'));
+  return rows.map(row =>
+    Array.from(row.querySelectorAll('th, td'))
+      .map(cell => {
+        const txt = cell.textContent.replace(/\s+/g, ' ').trim();
+        return txt === '' || txt === '—' ? txt : txt;
+      })
+      .join('\t')
+  ).join('\n');
+}
+
+document.querySelectorAll('.btn-copy').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const targetId = btn.dataset.copy;
+    const table = document.getElementById(targetId);
+    if (!table) return;
+    const tsv = tableToTSV(table);
+    try {
+      await navigator.clipboard.writeText(tsv);
+    } catch {
+      // Fallback for older browsers / non-secure contexts
+      const ta = document.createElement('textarea');
+      ta.value = tsv;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch {}
+      document.body.removeChild(ta);
+    }
+    btn.classList.add('done');
+    const label = btn.querySelector('span:last-child');
+    const originalText = label ? label.textContent : '';
+    if (label) label.textContent = t('button_copied');
+    setTimeout(() => {
+      btn.classList.remove('done');
+      if (label) label.textContent = originalText;
+    }, 1400);
+  });
+});
+
+/* ─── Print-only letterhead ─── */
+function updatePrintHeader() {
+  const $ = id => document.getElementById(id);
+  const d = state.dossier || {};
+  $('ph_company').textContent   = d.company   || '—';
+  $('ph_reference').textContent = d.reference || '—';
+  $('ph_operator').textContent  = d.operator  || '—';
+  $('ph_scenario').textContent  = t('sc_' + state.currentScenario);
+  $('ph_date').textContent      = formatDateFR(d.date);
+  $('ph_printedAt').textContent = formatDateFR(new Date().toISOString().slice(0, 10))
+    + ' ' + new Date().toLocaleTimeString(LOCALES_BY_LANG[state.lang] || 'fr-FR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function formatDateFR(isoDate) {
+  if (!isoDate) return '—';
+  try {
+    const d = new Date(isoDate);
+    if (isNaN(d.getTime())) return isoDate;
+    return d.toLocaleDateString(LOCALES_BY_LANG[state.lang] || 'fr-FR',
+      { day: '2-digit', month: 'long', year: 'numeric' });
+  } catch { return isoDate; }
+}
+window.addEventListener('beforeprint', updatePrintHeader);
 document.getElementById('resetBtn').addEventListener('click', () => {
   if (!confirm(t('reset_confirm'))) return;
   const lang = state.lang, currency = state.currency;

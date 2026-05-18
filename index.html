@@ -3,170 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcul d'Augmentation de Capital — Pre-Money, Prime d'Émission, Dilution</title>
+<title data-i18n="meta_title">Calcul d'Augmentation de Capital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="grain"></div>
 
-<div class="wrap">
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span>
+        <span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span>
+        <span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1 data-i18n="app_title">Augmentation de Capital</h1>
+        <span class="brand-sub" data-i18n="app_subtitle">Pré-money · Prime d'émission · Dilution</span>
+      </div>
+    </div>
 
-  <header class="mast">
-    <div class="left">
-      <span>Édition № 01</span>
-      <span id="todayLabel">—</span>
-    </div>
-    <div class="title">
-      Augmentation<br>
-      <span style="font-style:normal; font-weight: 300;">de Capital</span>
-      <small>Pre-Money · Prime d'Émission · Dilution</small>
-    </div>
-    <div class="right">
-      <span>Devise / Currency</span>
-      <div class="currency-pick" id="currencyPick">
-        <button data-cur="EUR" class="on">EUR €</button>
-        <button data-cur="USD">USD $</button>
-        <button data-cur="GBP">GBP £</button>
+    <div class="app-bar-actions">
+      <div class="chip-select" id="langPick" role="group" aria-label="Language">
+        <span class="material-symbols-outlined chip-leading">language</span>
+        <button data-lang="fr" class="on">FR</button>
+        <button data-lang="en">EN</button>
+        <button data-lang="de">DE</button>
+        <button data-lang="es">ES</button>
+      </div>
+
+      <div class="chip-select" id="currencyPick" role="group" aria-label="Currency">
+        <span class="material-symbols-outlined chip-leading">payments</span>
+        <button data-cur="EUR" class="on">EUR</button>
+        <button data-cur="USD">USD</button>
+        <button data-cur="GBP">GBP</button>
         <button data-cur="CHF">CHF</button>
       </div>
     </div>
-  </header>
+  </div>
+</header>
+
+<main class="wrap">
 
   <div class="grid">
 
     <!-- ── INPUTS ────────────────────────────────────────── -->
-    <section>
-      <p class="eyebrow"><span class="num">I.</span> Hypothèses · Assumptions</p>
-      <div class="panel">
+    <section class="col-inputs">
 
-        <div class="field">
-          <label>
-            Valorisation pré-money
-            <span class="hint">Pre-money valuation</span>
-          </label>
-          <div class="input-shell">
-            <span class="sigil cur-symbol">€</span>
-            <input type="text" id="preMoney" value="8 000 000" inputmode="decimal">
+      <div class="card">
+        <header class="card-head">
+          <span class="material-symbols-outlined card-icon">tune</span>
+          <div>
+            <h2 data-i18n="section_assumptions">Hypothèses</h2>
+            <p class="card-sub" data-i18n="section_assumptions_sub">Données de l'opération</p>
           </div>
-        </div>
+        </header>
 
-        <div class="row2">
-          <div class="field">
-            <label>
-              Actions existantes
-              <span class="hint">Existing shares</span>
-            </label>
-            <div class="input-shell">
-              <span class="sigil">№</span>
-              <input type="text" id="existingShares" value="100 000" inputmode="decimal">
+        <div class="card-body">
+
+          <div class="tf">
+            <label for="preMoney" data-i18n="label_preMoney">Valorisation pré-money</label>
+            <div class="tf-input">
+              <span class="tf-prefix cur-symbol">€</span>
+              <input type="text" id="preMoney" inputmode="decimal" autocomplete="off">
+            </div>
+            <span class="tf-helper" data-i18n="label_preMoney_hint">Valeur de l'entreprise avant l'opération</span>
+          </div>
+
+          <div class="row2">
+            <div class="tf">
+              <label for="existingShares" data-i18n="label_existingShares">Actions existantes</label>
+              <div class="tf-input">
+                <span class="tf-prefix">№</span>
+                <input type="text" id="existingShares" inputmode="decimal" autocomplete="off">
+              </div>
+              <span class="tf-helper" data-i18n="label_existingShares_hint">Avant l'opération</span>
+            </div>
+
+            <div class="tf">
+              <label for="nominalValue" data-i18n="label_nominalValue">Valeur nominale</label>
+              <div class="tf-input">
+                <span class="tf-prefix cur-symbol">€</span>
+                <input type="text" id="nominalValue" inputmode="decimal" autocomplete="off">
+              </div>
+              <span class="tf-helper" data-i18n="label_nominalValue_hint">Par action</span>
             </div>
           </div>
 
-          <div class="field">
-            <label>
-              Valeur nominale
-              <span class="hint">Nominal / par</span>
-            </label>
-            <div class="input-shell">
-              <span class="sigil cur-symbol">€</span>
-              <input type="text" id="nominalValue" value="1.00" inputmode="decimal">
-            </div>
-          </div>
         </div>
-
-        <div class="investors">
-          <p class="eyebrow" style="margin-bottom:14px"><span class="num">II.</span> Actionnaires existants · Existing holders</p>
-          <div id="holderList"></div>
-          <button class="add-investor" id="addHolder">＋ Ajouter un actionnaire</button>
-        </div>
-
-        <div class="investors">
-          <p class="eyebrow" style="margin-bottom:14px"><span class="num">III.</span> Investisseurs · Investors</p>
-          <div id="investorList"></div>
-          <button class="add-investor" id="addInv">＋ Ajouter un investisseur</button>
-        </div>
-
-        <div class="warn-banner" id="warn">⚠ La valeur nominale est supérieure au prix d'émission.</div>
-        <div class="warn-banner" id="warnHolders">⚠ La somme des actionnaires existants ne correspond pas au total d'actions existantes.</div>
       </div>
+
+      <div class="card">
+        <header class="card-head">
+          <span class="material-symbols-outlined card-icon">groups</span>
+          <div>
+            <h2 data-i18n="section_holders">Actionnaires existants</h2>
+            <p class="card-sub" data-i18n="section_holders_sub">Répartition du capital actuel</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <div class="row-list" id="holderList"></div>
+          <button class="btn-ghost btn-add" id="addHolder">
+            <span class="material-symbols-outlined">add</span>
+            <span data-i18n="button_addHolder">Ajouter un actionnaire</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <header class="card-head">
+          <span class="material-symbols-outlined card-icon">trending_up</span>
+          <div>
+            <h2 data-i18n="section_investors">Investisseurs</h2>
+            <p class="card-sub" data-i18n="section_investors_sub">Souscripteurs de la nouvelle émission</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <div class="row-list" id="investorList"></div>
+          <button class="btn-ghost btn-add" id="addInv">
+            <span class="material-symbols-outlined">add</span>
+            <span data-i18n="button_addInvestor">Ajouter un investisseur</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="alert alert-warn" id="warn" hidden>
+        <span class="material-symbols-outlined">warning</span>
+        <span data-i18n="warn_nominal">La valeur nominale est supérieure au prix d'émission.</span>
+      </div>
+      <div class="alert alert-warn" id="warnHolders" hidden>
+        <span class="material-symbols-outlined">info</span>
+        <span data-i18n="warn_holders">La somme des actionnaires existants ne correspond pas au total d'actions.</span>
+      </div>
+
     </section>
 
     <!-- ── RESULTS ───────────────────────────────────────── -->
-    <section class="results">
-      <p class="eyebrow"><span class="num">IV.</span> Résultats · Computation</p>
+    <section class="col-results">
+
+      <div class="card hero">
+        <span class="hero-k" data-i18n="result_postMoney">Valorisation post-money</span>
+        <span class="hero-v" id="r_postMoney">—</span>
+        <span class="hero-sub" data-i18n="result_postMoney_sub">Pré-money + investissement total</span>
+      </div>
 
       <div class="stat-grid">
-        <div class="stat accent span2">
-          <span class="k">Post-money valuation</span>
-          <span class="v" id="r_postMoney">—</span>
-          <span class="sub">Pré-money + investissement total</span>
-        </div>
-
         <div class="stat">
-          <span class="k">Prix par action</span>
+          <span class="k" data-i18n="result_pricePerShare">Prix par action</span>
           <span class="v" id="r_pricePerShare">—</span>
-          <span class="sub">Issue price · pre-money ÷ actions</span>
+          <span class="sub" data-i18n="result_pricePerShare_sub">Pré-money ÷ actions existantes</span>
         </div>
-
         <div class="stat">
-          <span class="k">Actions émises</span>
+          <span class="k" data-i18n="result_newShares">Actions émises</span>
           <span class="v" id="r_newShares">—</span>
-          <span class="sub">Nouvelles actions créées</span>
+          <span class="sub" data-i18n="result_newShares_sub">Nouvelles actions créées</span>
         </div>
-
         <div class="stat">
-          <span class="k">Augmentation nominale</span>
+          <span class="k" data-i18n="result_nominalIncrease">Augmentation nominale</span>
           <span class="v" id="r_nominalIncrease">—</span>
-          <span class="sub">N × valeur nominale → capital social</span>
+          <span class="sub" data-i18n="result_nominalIncrease_sub">Impact sur le capital social</span>
         </div>
-
         <div class="stat">
-          <span class="k">Prime d'émission totale</span>
+          <span class="k" data-i18n="result_premiumTotal">Prime d'émission</span>
           <span class="v" id="r_premiumTotal">—</span>
-          <span class="sub">Investment − nominal increase</span>
-        </div>
-
-        <div class="stat dark span2">
-          <span class="k">Dilution des actionnaires existants</span>
-          <span class="v" id="r_dilution">—</span>
-          <span class="sub" id="r_dilutionSub">Existing holders go from 100 % to —</span>
+          <span class="sub" data-i18n="result_premiumTotal_sub">Investissement − nominale</span>
         </div>
       </div>
 
-      <div class="captable">
-        <h3>Table de capitalisation</h3>
-        <div class="sub-h">Avant / Après opération</div>
-        <table class="cap" id="capTable">
-          <thead>
-            <tr>
-              <th style="width:30%">Détenteur</th>
-              <th>Actions avant</th>
-              <th>%</th>
-              <th>Actions après</th>
-              <th>%</th>
-              <th style="width:18%">Répartition</th>
-            </tr>
-          </thead>
-          <tbody id="capBody"></tbody>
-        </table>
+      <div class="card dilution">
+        <div class="dilution-head">
+          <span class="material-symbols-outlined">pie_chart</span>
+          <span class="dilution-k" data-i18n="result_dilution">Dilution des actionnaires existants</span>
+        </div>
+        <div class="dilution-bar" aria-hidden="true">
+          <span class="dil-existing" id="dilExisting"></span>
+          <span class="dil-new" id="dilNew"></span>
+        </div>
+        <div class="dilution-legend">
+          <span class="leg"><span class="sw sw-existing"></span><span data-i18n="legend_existing">Anciens actionnaires</span><b id="legExistingPct">—</b></span>
+          <span class="leg"><span class="sw sw-new"></span><span data-i18n="legend_new">Nouveaux investisseurs</span><b id="legNewPct">—</b></span>
+        </div>
+        <div class="dilution-foot" id="r_dilutionSub">—</div>
+      </div>
+
+      <div class="card">
+        <header class="card-head">
+          <span class="material-symbols-outlined card-icon">table_chart</span>
+          <div>
+            <h2 data-i18n="captable_title">Table de capitalisation</h2>
+            <p class="card-sub" data-i18n="captable_subtitle">Avant et après l'opération</p>
+          </div>
+        </header>
+        <div class="card-body cap-body">
+          <table class="cap">
+            <thead>
+              <tr>
+                <th data-i18n="captable_holder">Détenteur</th>
+                <th data-i18n="captable_before_shares">Avant</th>
+                <th>%</th>
+                <th data-i18n="captable_after_shares">Après</th>
+                <th>%</th>
+                <th data-i18n="captable_distribution">Répartition</th>
+              </tr>
+            </thead>
+            <tbody id="capBody"></tbody>
+          </table>
+        </div>
       </div>
 
     </section>
   </div>
 
-  <footer class="colophon">
-    <span>Calcul à titre indicatif — vérifier avec votre conseil juridique</span>
-    <em>Méthode : prix par action = pré-money ÷ actions existantes, dilution full-dilution simple.</em>
-    <div class="actions">
-      <button class="ghost" id="resetBtn">Réinitialiser</button>
-      <button class="ghost" id="exportBtn">Exporter · CSV</button>
-      <button id="printBtn">Imprimer · PDF</button>
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p data-i18n="footer_disclaimer">Outil indicatif — à valider avec votre conseil juridique et Bpifrance le cas échéant.</p>
+      <p class="muted" data-i18n="footer_method">Méthode : prix par action = pré-money ÷ actions, dilution full-dilution.</p>
+    </div>
+    <div class="foot-actions">
+      <button class="btn-outline" id="resetBtn">
+        <span class="material-symbols-outlined">restart_alt</span>
+        <span data-i18n="button_reset">Réinitialiser</span>
+      </button>
+      <button class="btn-outline" id="exportBtn">
+        <span class="material-symbols-outlined">download</span>
+        <span data-i18n="button_export">Exporter CSV</span>
+      </button>
+      <button class="btn-filled" id="printBtn">
+        <span class="material-symbols-outlined">print</span>
+        <span data-i18n="button_print">Imprimer / PDF</span>
+      </button>
     </div>
   </footer>
-</div>
+</main>
 
 <script src="app.js"></script>
 </body>

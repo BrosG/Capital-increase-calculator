@@ -169,7 +169,10 @@
     <div class="section-body">
       <div class="row3">
         <div class="tf">
-          <label for="preMoney" data-i18n="label_preMoney">Valorisation pré-money</label>
+          <label for="preMoney">
+            <span data-i18n="label_preMoney">Valorisation pré-money</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_preMoney" aria-label="?">?</button>
+          </label>
           <div class="tf-input">
             <span class="tf-prefix cur-symbol">€</span>
             <input type="text" id="preMoney" inputmode="decimal" autocomplete="off">
@@ -185,7 +188,10 @@
           <span class="tf-helper" data-i18n="label_existingShares_hint">Total pré-opération</span>
         </div>
         <div class="tf">
-          <label for="nominalValue" data-i18n="label_nominalValue">Valeur nominale</label>
+          <label for="nominalValue">
+            <span data-i18n="label_nominalValue">Valeur nominale</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_nominalValue" aria-label="?">?</button>
+          </label>
           <div class="tf-input">
             <span class="tf-prefix cur-symbol">€</span>
             <input type="text" id="nominalValue" inputmode="decimal" autocomplete="off">
@@ -212,7 +218,10 @@
     <div class="section-body" id="poolBody">
       <div class="row2">
         <div class="tf">
-          <label for="poolTargetPct" data-i18n="label_poolTargetPct">Cible post-tour</label>
+          <label for="poolTargetPct">
+            <span data-i18n="label_poolTargetPct">Cible post-tour</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_poolTargetPct" aria-label="?">?</button>
+          </label>
           <div class="tf-input">
             <span class="tf-prefix">%</span>
             <input type="text" id="poolTargetPct" inputmode="decimal" autocomplete="off">
@@ -220,7 +229,10 @@
           <span class="tf-helper" data-i18n="label_poolTargetPct_hint">% du capital fully-diluted post-opération</span>
         </div>
         <div class="tf">
-          <label data-i18n="label_poolTiming">Création</label>
+          <label>
+            <span data-i18n="label_poolTiming">Création</span>
+            <button type="button" class="help-btn" data-i18n-tip="tip_poolTiming" aria-label="?">?</button>
+          </label>
           <div class="seg" id="poolTiming" role="radiogroup">
             <button data-val="pre" class="on" data-i18n="poolTiming_pre">Pré-money</button>
             <button data-val="post" data-i18n="poolTiming_post">Post-money</button>
@@ -444,7 +456,10 @@
     </header>
     <div class="section-body" id="exitBody">
       <div class="tf">
-        <label for="exitValue" data-i18n="label_exitValue">Valeur de sortie (exit)</label>
+        <label for="exitValue">
+          <span data-i18n="label_exitValue">Valeur de sortie (exit)</span>
+          <button type="button" class="help-btn" data-i18n-tip="tip_exitValue" aria-label="?">?</button>
+        </label>
         <div class="tf-input">
           <span class="tf-prefix cur-symbol">€</span>
           <input type="text" id="exitValue" inputmode="decimal" autocomplete="off">

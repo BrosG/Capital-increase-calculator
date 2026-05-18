@@ -267,6 +267,17 @@ const I18N = {
     print_title: "Augmentation de capital",
     print_scenario: "Scénario",
     print_printedAt: "Édité le",
+
+    tip_preMoney: "Valeur de l'entreprise AVANT que les nouveaux investisseurs n'apportent leur argent. Exemple : si l'entreprise vaut 8 M€ et qu'un investisseur apporte 2 M€, l'entreprise vaudra 10 M€ après l'opération (post-money).",
+    tip_nominalValue: "Valeur 'comptable' d'une action, fixée dans les statuts. Souvent 1 € ou 0,10 €. À ne pas confondre avec le prix d'émission (= le prix réel payé par l'investisseur).",
+    tip_poolTargetPct: "Pourcentage du capital total qui sera réservé aux salariés (BSPCE, stock-options, actions gratuites) APRÈS la levée. Typiquement 5 à 15 %.",
+    tip_poolTiming: "Pré-money : le pool est créé AVANT l'opération, seuls les fondateurs sont dilués. Post-money : le pool est créé APRÈS, tout le monde est dilué. Pré-money est plus avantageux pour l'investisseur, post-money plus avantageux pour les fondateurs.",
+    tip_conv_type: "BSA AIR : standard français (Bpifrance / French Tech). SAFE : équivalent américain. OC : obligation convertible (avec intérêts et échéance). Choisir selon le contrat signé.",
+    tip_conv_discount: "Réduction sur le prix du prochain tour, accordée à l'investisseur en BSA AIR / SAFE pour récompenser sa prise de risque précoce. Typiquement 15 à 25 %. Mettre 0 si pas de décote.",
+    tip_conv_cap: "Valorisation pré-money MAXIMUM à laquelle le BSA AIR / SAFE peut convertir. Si le tour se fait au-dessus, l'investisseur bénéficie quand même du plafond (= plus d'actions). Laisser vide si pas de plafond.",
+    tip_investor_liqMult: "À la sortie (vente, IPO), l'investisseur récupère D'ABORD son apport × ce multiplicateur, avant le partage du reste. 1× = standard du marché. 2× ou plus = clauses agressives, rares.",
+    tip_investor_part: "Non-participante : l'investisseur prend LE MEILLEUR entre sa préférence et son prorata (standard). Participante : il prend LES DEUX (sa préférence PUIS son prorata) — clause 'double dip' plus agressive.",
+    tip_exitValue: "Montant total reçu lors d'une éventuelle revente / IPO de l'entreprise. Sert à simuler comment l'argent serait réparti entre actionnaires selon les préférences de liquidation.",
   },
 
   en: {
@@ -455,6 +466,17 @@ const I18N = {
     print_title: "Capital increase",
     print_scenario: "Scenario",
     print_printedAt: "Edited on",
+
+    tip_preMoney: "Company value BEFORE new investors put in their money. Example: if the company is worth €8M and an investor adds €2M, post-money is €10M.",
+    tip_nominalValue: "Accounting 'par' value of a share, set in the articles of association. Often €1 or €0.10. Not to be confused with the issue price (= what the investor actually pays).",
+    tip_poolTargetPct: "Percentage of total post-round capital reserved for employees (stock options, BSPCE in France). Typically 5–15%.",
+    tip_poolTiming: "Pre-money: pool created BEFORE the round, only founders are diluted. Post-money: pool created AFTER, everyone is diluted. Pre-money is investor-friendly, post-money is founder-friendly.",
+    tip_conv_type: "BSA AIR: French standard (Bpifrance / French Tech). SAFE: US equivalent. Convertible note: with interest and maturity. Pick based on the signed contract.",
+    tip_conv_discount: "Reduction on the next-round price granted to the SAFE/BSA AIR investor to reward early risk-taking. Typically 15–25%. Enter 0 if no discount.",
+    tip_conv_cap: "Maximum pre-money valuation at which the SAFE/BSA AIR can convert. If the round is above the cap, the investor still benefits from the cap (= more shares). Leave blank if uncapped.",
+    tip_investor_liqMult: "At exit (sale, IPO), the investor first recovers their investment × this multiplier, before the remainder is split. 1× = market standard. 2× or more = aggressive, uncommon.",
+    tip_investor_part: "Non-participating: investor takes THE BEST of liq pref or pro-rata (standard). Participating: takes BOTH (liq pref THEN pro-rata of remainder) — 'double dip', more aggressive.",
+    tip_exitValue: "Total amount received in a potential sale/IPO of the company. Used to simulate how the proceeds would be split among shareholders given the liquidation preferences.",
   },
 
   de: {
@@ -643,6 +665,17 @@ const I18N = {
     print_title: "Kapitalerhöhung",
     print_scenario: "Szenario",
     print_printedAt: "Bearbeitet am",
+
+    tip_preMoney: "Unternehmenswert VOR der Kapitalrunde. Beispiel: bei 8 Mio € Pre-Money und 2 Mio € neuem Kapital ergibt sich ein Post-Money von 10 Mio €.",
+    tip_nominalValue: "Nennwert pro Aktie laut Satzung. Oft 1 € oder 0,10 €. Nicht zu verwechseln mit dem Ausgabepreis (was der Investor tatsächlich zahlt).",
+    tip_poolTargetPct: "Prozentsatz des Gesamtkapitals nach der Runde, der für Mitarbeiter reserviert ist (Stock Options, BSPCE in Frankreich). Typischerweise 5–15%.",
+    tip_poolTiming: "Pre-Money: Pool wird VOR der Runde erstellt, nur Gründer verwässern. Post-Money: Pool wird DANACH erstellt, alle verwässern. Pre-Money ist investorenfreundlich, Post-Money gründerfreundlich.",
+    tip_conv_type: "BSA AIR: französischer Standard (Bpifrance / French Tech). SAFE: US-Pendant. Wandeldarlehen: mit Zinsen und Laufzeit. Wählen Sie nach Vertrag.",
+    tip_conv_discount: "Preisnachlass auf den Rundenpreis als Belohnung für frühes Risiko. Typischerweise 15–25%. 0 eingeben, wenn kein Discount.",
+    tip_conv_cap: "Maximaler Pre-Money-Wert, zu dem das SAFE/BSA AIR wandeln darf. Liegt die Runde darüber, profitiert der Investor weiterhin vom Cap (= mehr Aktien). Leer = kein Cap.",
+    tip_investor_liqMult: "Beim Exit (Verkauf, IPO) erhält der Investor ZUERST sein Investment × diesen Multiplikator, bevor der Rest verteilt wird. 1× = Marktstandard. 2× oder mehr = aggressiv, selten.",
+    tip_investor_part: "Nicht-partizipierend: Investor wählt das BESSERE aus Liq.-Pref. oder Pro-rata (Standard). Partizipierend: nimmt BEIDES (Liq.-Pref. PLUS Pro-rata) — 'Double-Dip', aggressiver.",
+    tip_exitValue: "Gesamtbetrag, der bei einem Verkauf/IPO des Unternehmens erlöst wird. Simuliert, wie der Erlös unter den Aktionären gemäß den Liquidationspräferenzen verteilt würde.",
   },
 
   es: {
@@ -831,6 +864,17 @@ const I18N = {
     print_title: "Ampliación de capital",
     print_scenario: "Escenario",
     print_printedAt: "Editado el",
+
+    tip_preMoney: "Valor de la empresa ANTES de que entren los nuevos inversores. Ejemplo: si la empresa vale 8 M€ y un inversor aporta 2 M€, el post-money será 10 M€.",
+    tip_nominalValue: "Valor nominal de una acción según los estatutos. A menudo 1 € o 0,10 €. No confundir con el precio de emisión (lo que realmente paga el inversor).",
+    tip_poolTargetPct: "Porcentaje del capital total post-ronda reservado a empleados (stock options, BSPCE en Francia). Normalmente 5–15%.",
+    tip_poolTiming: "Pre-money: el pool se crea ANTES de la ronda, solo los fundadores se diluyen. Post-money: se crea DESPUÉS, todos se diluyen. Pre-money favorece al inversor, post-money a los fundadores.",
+    tip_conv_type: "BSA AIR: estándar francés (Bpifrance / French Tech). SAFE: equivalente estadounidense. Préstamo convertible: con intereses y vencimiento. Elegir según el contrato firmado.",
+    tip_conv_discount: "Descuento sobre el precio de la próxima ronda, otorgado al inversor SAFE/BSA AIR por su riesgo temprano. Normalmente 15–25%. Poner 0 si no hay descuento.",
+    tip_conv_cap: "Valoración pre-money MÁXIMA a la que el SAFE/BSA AIR puede convertir. Si la ronda es superior al cap, el inversor se beneficia del cap (= más acciones). Dejar vacío si no hay cap.",
+    tip_investor_liqMult: "Al salir (venta, IPO), el inversor recupera PRIMERO su aporte × este multiplicador, antes del reparto. 1× = estándar de mercado. 2× o más = agresivo, poco común.",
+    tip_investor_part: "No participante: el inversor toma LO MEJOR entre preferencia o prorrata (estándar). Participante: toma AMBOS (preferencia Y prorrata) — 'double dip', más agresivo.",
+    tip_exitValue: "Importe total recibido en una posible venta/IPO de la empresa. Sirve para simular cómo se repartiría el dinero entre los accionistas según las preferencias de liquidación.",
   },
 };
 
@@ -1019,6 +1063,9 @@ function applyI18n() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
   });
+  document.querySelectorAll('[data-i18n-tip]').forEach(el => {
+    el.setAttribute('data-tip', t(el.dataset.i18nTip));
+  });
   document.querySelectorAll('#langPick button').forEach(b =>
     b.classList.toggle('on', b.dataset.lang === state.lang)
   );
@@ -1089,7 +1136,10 @@ function renderConvertibles() {
       </div>
       <div class="row-extra row-extra-3">
         <div class="mini">
-          <label>${escapeHtml(t('conv_type_label'))}</label>
+          <label>
+            <span>${escapeHtml(t('conv_type_label'))}</span>
+            <button type="button" class="help-btn" data-tip="${escapeHtml(t('tip_conv_type'))}" aria-label="?">?</button>
+          </label>
           <select class="type">
             <option value="bsa-air" ${cv.type === 'bsa-air' ? 'selected' : ''}>${escapeHtml(t('conv_type_bsaair'))}</option>
             <option value="safe"    ${cv.type === 'safe'    ? 'selected' : ''}>${escapeHtml(t('conv_type_safe'))}</option>
@@ -1097,11 +1147,17 @@ function renderConvertibles() {
           </select>
         </div>
         <div class="mini">
-          <label>${escapeHtml(t('conv_discount_label'))} (%)</label>
+          <label>
+            <span>${escapeHtml(t('conv_discount_label'))} (%)</span>
+            <button type="button" class="help-btn" data-tip="${escapeHtml(t('tip_conv_discount'))}" aria-label="?">?</button>
+          </label>
           <input type="text" class="discount numeric" value="${fmtNum(cv.discountPct, 0)}" inputmode="decimal">
         </div>
         <div class="mini">
-          <label>${escapeHtml(t('conv_cap_label'))}</label>
+          <label>
+            <span>${escapeHtml(t('conv_cap_label'))}</span>
+            <button type="button" class="help-btn" data-tip="${escapeHtml(t('tip_conv_cap'))}" aria-label="?">?</button>
+          </label>
           <input type="text" class="cap numeric" placeholder="${escapeHtml(t('conv_placeholder_cap'))}" value="${cv.cap > 0 ? fmtNum(cv.cap, 0) : ''}" inputmode="decimal">
         </div>
       </div>
@@ -1175,11 +1231,17 @@ function renderInvestors() {
       </div>
       <div class="row-extra row-extra-2">
         <div class="mini">
-          <label>${escapeHtml(t('investor_liqMult_label'))}</label>
+          <label>
+            <span>${escapeHtml(t('investor_liqMult_label'))}</span>
+            <button type="button" class="help-btn" data-tip="${escapeHtml(t('tip_investor_liqMult'))}" aria-label="?">?</button>
+          </label>
           <input type="text" class="liq numeric" value="${fmtNum(inv.liqMultiple, 2)}" inputmode="decimal">
         </div>
         <div class="mini">
-          <label>${escapeHtml(t('investor_part_label'))}</label>
+          <label>
+            <span>${escapeHtml(t('investor_part_label'))}</span>
+            <button type="button" class="help-btn" data-tip="${escapeHtml(t('tip_investor_part'))}" aria-label="?">?</button>
+          </label>
           <select class="part">
             <option value="non-participating" ${inv.participation === 'non-participating' ? 'selected' : ''}>${escapeHtml(t('part_non'))}</option>
             <option value="participating"     ${inv.participation === 'participating'     ? 'selected' : ''}>${escapeHtml(t('part_participating'))}</option>

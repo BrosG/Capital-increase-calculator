@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock split · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Stock split</h1>
+        <span class="brand-sub">Outil 10 / 10 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Stock split</span></span>
+    <h2>Stock split / regroupement</h2>
+    <p class="tool-desc">Calcule les actions, le prix et la valeur nominale après un fractionnement (split) ou un regroupement (reverse split). Préserve la valeur des participations et le capital social.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Paramètres</h2><p>Ratio et état avant l'opération.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="mode">
+            <span>Type d'opération</span>
+            <button type="button" class="help-btn" data-tip="Split : 1 action devient N actions (réduit le prix). Reverse split : N actions deviennent 1 (augmente le prix). Souvent fait avant une IPO pour ramener le prix dans une fourchette cible.">?</button>
+          </label>
+          <select id="mode" class="head-mini-select" style="width:100%; padding:11px 32px 11px 14px; font-size:15px">
+            <option value="split" selected>Split (1 → N)</option>
+            <option value="reverse">Reverse split (N → 1)</option>
+          </select>
+        </div>
+        <div class="tf">
+          <label for="ratio">
+            <span>Ratio</span>
+            <button type="button" class="help-btn" data-tip="Pour un split 1→10, saisir 10. Pour un reverse split 10→1, saisir 10. Le ratio est toujours positif.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">×</span>
+            <input type="text" id="ratio" value="10" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="totalShares">
+            <span>Actions avant</span>
+            <button type="button" class="help-btn" data-tip="Nombre total d'actions en circulation avant le split.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">№</span>
+            <input type="text" id="totalShares" value="153 847" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+      <div class="row2" style="margin-top:14px">
+        <div class="tf">
+          <label for="price">
+            <span>Prix par action avant</span>
+            <button type="button" class="help-btn" data-tip="Prix unitaire avant le split. Optionnel — utilisé pour calculer le prix post-split.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="price" value="69,33" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="nominal">
+            <span>Valeur nominale avant</span>
+            <button type="button" class="help-btn" data-tip="Valeur nominale par action avant le split. Le capital social total ne change pas — seule la nominale par action est ajustée par le ratio.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="nominal" value="1,00" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">Actions après l'opération</span>
+      <span class="out-v" id="r_newShares">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Prix par action après</span>
+      <span class="out-v" id="r_newPrice">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Valeur nominale après</span>
+      <span class="out-v" id="r_newNominal">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Capital social (invariant)</span>
+      <span class="out-v" id="r_capital">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Capitalisation (invariante)</span>
+      <span class="out-v" id="r_marketCap">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Effet sur 1 action détenue</span>
+      <span class="out-v" id="r_holder">—</span>
+    </div>
+  </div>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Le split / reverse split ne modifie ni le capital social ni la capitalisation totale — seule la granularité change. Une décision d'AGE est requise. Penser à ajuster les BSPCE / BSA existants dans le même rapport pour préserver leur valeur.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+function compute() {
+  const mode    = $('mode').value;
+  const ratio   = Math.max(1, parseNum($('ratio').value));
+  const total   = parseNum($('totalShares').value);
+  const price   = parseNum($('price').value);
+  const nominal = parseNum($('nominal').value);
+
+  const isSplit = mode === 'split';
+  const newShares  = isSplit ? total * ratio : total / ratio;
+  const newPrice   = isSplit ? price / ratio : price * ratio;
+  const newNominal = isSplit ? nominal / ratio : nominal * ratio;
+  const capital   = total * nominal;
+  const mcap      = total * price;
+  const oneHolderEffect = isSplit
+    ? `1 action → ${fmtNum(ratio, 0)} actions`
+    : `${fmtNum(ratio, 0)} actions → 1 action`;
+
+  $('r_newShares').textContent  = fmtNum(newShares, 0);
+  $('r_newPrice').textContent   = fmtMoneyCompact(newPrice);
+  $('r_newNominal').textContent = fmtMoneyCompact(newNominal);
+  $('r_capital').textContent    = fmtMoney(capital, 2);
+  $('r_marketCap').textContent  = fmtMoney(mcap, 0);
+  $('r_holder').textContent     = oneHolderEffect;
+}
+['mode','ratio','totalShares','price','nominal'].forEach(id => $(id).addEventListener('input', compute));
+['totalShares'].forEach(id => $(id).addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); }));
+['price','nominal'].forEach(id => $(id).addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 2); }));
+compute();
+</script>
+</body>
+</html>

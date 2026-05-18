@@ -1008,6 +1008,16 @@ table.acc.bilan tr.bilan-delta td:not(:first-child):not(.label-col) {
 .recon-item.error .recon-detail { color: inherit; opacity: .8; }
 
 /* ═══ Tools landing page ════════════════════════════════ */
+.tool-group-head {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--on-surface-3);
+  margin: 18px 0 -4px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--outline-soft);
+}
+
 .nav-back {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px;

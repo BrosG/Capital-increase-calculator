@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OC · Intérêts courus · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>OC · Intérêts courus</h1>
+        <span class="brand-sub">Outil 9 / 10 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>OC · Intérêts courus</span></span>
+    <h2>OC convertible · intérêts courus</h2>
+    <p class="tool-desc">Calcule les intérêts courus à une date donnée sur une obligation convertible (OC), ainsi que la valeur de remboursement à l'échéance. Convention act/365.25, intérêts simples ou composés.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Paramètres de l'OC</h2><p>Principal, taux, dates.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="principal">
+            <span>Principal</span>
+            <button type="button" class="help-btn" data-tip="Montant nominal de l'obligation à la date d'émission.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="principal" value="500 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="rate">
+            <span>Taux annuel</span>
+            <button type="button" class="help-btn" data-tip="Taux d'intérêt nominal annuel de l'OC. Typique pour les OC startup : 4–8%.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">%</span>
+            <input type="text" id="rate" value="5,00" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="mode">
+            <span>Mode d'intérêts</span>
+            <button type="button" class="help-btn" data-tip="Simples : I = P × r × t. Composés : I = P × ((1+r)^t − 1). Les OC françaises sont souvent à intérêts simples, les notes US à intérêts composés annuels.">?</button>
+          </label>
+          <select id="mode" class="head-mini-select" style="width:100%; padding:11px 32px 11px 14px; font-size:15px">
+            <option value="simple" selected>Intérêts simples</option>
+            <option value="compound">Intérêts composés annuels</option>
+          </select>
+        </div>
+      </div>
+      <div class="row3" style="margin-top:14px">
+        <div class="tf">
+          <label for="dateIssue">
+            <span>Date d'émission</span>
+            <button type="button" class="help-btn" data-tip="Date de signature et versement de l'OC.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="dateIssue" value="2024-06-01" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dateEval">
+            <span>Date d'évaluation</span>
+            <button type="button" class="help-btn" data-tip="Date à laquelle on calcule les intérêts courus (souvent fin de trimestre pour la NAV).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="dateEval" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dateMaturity">
+            <span>Échéance (optionnelle)</span>
+            <button type="button" class="help-btn" data-tip="Date de maturité de l'OC. Sert à calculer la valeur de remboursement à terme. Laisser vide si non applicable.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="dateMaturity" value="2027-06-01" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">Intérêts courus à la date d'évaluation</span>
+      <span class="out-v" id="r_accrued">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Valeur portée au bilan (principal + intérêts)</span>
+      <span class="out-v" id="r_carry">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Durée écoulée</span>
+      <span class="out-v" id="r_elapsed">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Valeur à l'échéance (principal + intérêts cumulés)</span>
+      <span class="out-v" id="r_maturity">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Durée totale (émission → échéance)</span>
+      <span class="out-v" id="r_total">—</span>
+    </div>
+  </div>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Convention act/365.25. Compte PCG associé : 16881 (intérêts courus non échus sur emprunts obligataires convertibles). Pour la conversion en actions, l'usage est de capitaliser les intérêts au principal au moment du débouclage en 1675.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+$('dateEval').value = new Date().toISOString().slice(0, 10);
+
+function yearsBetween(d1, d2) {
+  return (d2 - d1) / (1000 * 60 * 60 * 24 * 365.25);
+}
+function interestOn(principal, rate, years, mode) {
+  if (years <= 0) return 0;
+  return mode === 'compound'
+    ? principal * (Math.pow(1 + rate, years) - 1)
+    : principal * rate * years;
+}
+
+function compute() {
+  const principal = parseNum($('principal').value);
+  const rate      = parseNum($('rate').value) / 100;
+  const mode      = $('mode').value;
+  const dIssue    = new Date($('dateIssue').value);
+  const dEval     = new Date($('dateEval').value);
+  const dMat      = new Date($('dateMaturity').value);
+
+  if (!isFinite(dIssue.getTime()) || !isFinite(dEval.getTime())) return;
+
+  const elapsed = Math.max(0, yearsBetween(dIssue, dEval));
+  const accrued = interestOn(principal, rate, elapsed, mode);
+  const carry   = principal + accrued;
+
+  $('r_accrued').textContent = fmtMoney(accrued, 2);
+  $('r_carry').textContent   = fmtMoney(carry, 2);
+  $('r_elapsed').textContent = `${fmtNum(elapsed, 3)} ans (${Math.floor(elapsed * 365.25)} jours)`;
+
+  if (isFinite(dMat.getTime())) {
+    const totalYears = Math.max(0, yearsBetween(dIssue, dMat));
+    const matInterest = interestOn(principal, rate, totalYears, mode);
+    $('r_maturity').textContent = fmtMoney(principal + matInterest, 2);
+    $('r_total').textContent    = `${fmtNum(totalYears, 3)} ans`;
+  } else {
+    $('r_maturity').textContent = '—';
+    $('r_total').textContent    = '—';
+  }
+}
+['principal','rate','mode','dateIssue','dateEval','dateMaturity'].forEach(id => $(id).addEventListener('input', compute));
+$('principal').addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); });
+$('rate').addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 2); });
+compute();
+</script>
+</body>
+</html>

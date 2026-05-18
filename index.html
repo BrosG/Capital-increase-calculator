@@ -23,7 +23,7 @@
       </span>
       <div class="brand-text">
         <h1>Augmentation de Capital</h1>
-        <span class="brand-sub">Outils BO · Bpifrance · cap table</span>
+        <span class="brand-sub">Outils BO · Bpifrance · cap table & participations</span>
       </div>
     </div>
   </div>
@@ -33,9 +33,10 @@
 
   <section class="landing-hero">
     <h2 class="landing-title">Outils rapides</h2>
-    <p class="landing-sub">Six calculateurs spécialisés pour le back & middle office.<br>Un seul résultat par outil — pour les calculs ponctuels du quotidien.</p>
+    <p class="landing-sub">Dix calculateurs spécialisés pour le back & middle office.<br>Un résultat par outil — pour les vérifications du quotidien sans ouvrir le calculateur complet.</p>
   </section>
 
+  <div class="tool-group-head">Cap table & opération</div>
   <section class="tool-grid">
 
     <a class="tool-card" href="prime.html">
@@ -55,14 +56,14 @@
     <a class="tool-card" href="dilution.html">
       <span class="tool-icon"><span class="material-symbols-outlined">pie_chart</span></span>
       <h3>Dilution</h3>
-      <p>Calcule la dilution des actionnaires existants après l'émission de nouvelles actions.</p>
+      <p>Dilution des actionnaires existants après l'émission de nouvelles actions, avec frise visuelle.</p>
       <span class="tool-formula">dilution = nouvelles ÷ (existantes + nouvelles)</span>
     </a>
 
     <a class="tool-card" href="conversion.html">
       <span class="tool-icon"><span class="material-symbols-outlined">swap_horiz</span></span>
       <h3>Conversion BSA AIR / SAFE</h3>
-      <p>Prix effectif et nombre d'actions générées par un BSA AIR ou SAFE — avec arbitrage plafond vs décote.</p>
+      <p>Prix effectif et actions générées par un BSA AIR ou SAFE — avec arbitrage plafond vs décote.</p>
       <span class="tool-formula">prix = min(pré × (1−décote), plafond) ÷ FD</span>
     </a>
 
@@ -73,18 +74,56 @@
       <span class="tool-formula">pool = E × p × (1+Y) ÷ (1 − p × (1+Y))</span>
     </a>
 
+    <a class="tool-card" href="split.html">
+      <span class="tool-icon"><span class="material-symbols-outlined">call_split</span></span>
+      <h3>Stock split / regroupement</h3>
+      <p>Actions, prix, nominale après un split ou un reverse split — capital social invariant.</p>
+      <span class="tool-formula">N → N × ratio · prix ÷ ratio</span>
+    </a>
+
+  </section>
+
+  <div class="tool-group-head">Position & participation</div>
+  <section class="tool-grid">
+
+    <a class="tool-card" href="multiple.html">
+      <span class="tool-icon"><span class="material-symbols-outlined">trending_up</span></span>
+      <h3>Multiple & IRR</h3>
+      <p>MOIC, gain, durée et TRI annualisé d'une participation entre la date d'investissement et la date d'évaluation.</p>
+      <span class="tool-formula">TRI = (valeur ÷ investi)<sup>1/années</sup> − 1</span>
+    </a>
+
+    <a class="tool-card" href="vesting.html">
+      <span class="tool-icon"><span class="material-symbols-outlined">timeline</span></span>
+      <h3>Vesting</h3>
+      <p>Actions acquises à une date donnée pour un fondateur ou salarié, avec cliff et durée paramétrables.</p>
+      <span class="tool-formula">vested = (mois ÷ durée) × total</span>
+    </a>
+
+    <a class="tool-card" href="oc.html">
+      <span class="tool-icon"><span class="material-symbols-outlined">percent</span></span>
+      <h3>OC · Intérêts courus</h3>
+      <p>Intérêts courus à date sur une OC, valeur portée au bilan, valeur de remboursement à l'échéance.</p>
+      <span class="tool-formula">I = P × r × t (simple) · P × ((1+r)<sup>t</sup>−1) (composé)</span>
+    </a>
+
     <a class="tool-card" href="waterfall.html">
       <span class="tool-icon"><span class="material-symbols-outlined">water_drop</span></span>
       <h3>Waterfall de sortie</h3>
-      <p>Distribution du payout entre actionnaires lors d'une sortie, selon les préférences de liquidation.</p>
+      <p>Distribution du produit d'une sortie entre actionnaires selon les préférences de liquidation.</p>
       <span class="tool-formula">pref → pro-rata du reliquat</span>
     </a>
+
+  </section>
+
+  <div class="tool-group-head">Workflow complet</div>
+  <section class="tool-grid">
 
     <a class="tool-card tool-card-wide" href="complet.html">
       <span class="tool-icon"><span class="material-symbols-outlined">tune</span></span>
       <h3>Calculateur complet</h3>
-      <p>Toutes les étapes d'une augmentation de capital en un seul flux : dossier, scénarios Base/Bull/Bear, hypothèses, pool, convertibles, investisseurs, comptabilité, cap table, waterfall, contrôles de réconciliation.</p>
-      <span class="tool-formula">→ Workflow back-office complet</span>
+      <p>Toutes les étapes d'une augmentation de capital en un seul flux : dossier, scénarios Base/Bull/Bear, hypothèses, pool, convertibles, investisseurs, comptabilité PCG, cap table, waterfall, contrôles de réconciliation, export CSV/JSON, impression formelle.</p>
+      <span class="tool-formula">→ Workflow back-office complet · 11 sections</span>
     </a>
 
   </section>
@@ -92,7 +131,7 @@
   <footer class="page-foot">
     <div class="foot-text">
       <p>Outil indicatif — à valider avec votre conseil juridique et Bpifrance le cas échéant.</p>
-      <p class="muted">Toutes les valeurs sont saisies en EUR. Les outils rapides ne persistent pas leur état — utiliser le calculateur complet pour conserver le dossier.</p>
+      <p class="muted">Tous les outils rapides utilisent EUR. Les outils rapides ne persistent pas leur état — utiliser le calculateur complet pour conserver le dossier, les scénarios et les notes.</p>
     </div>
   </footer>
 </main>

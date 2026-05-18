@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiple & IRR · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Multiple & IRR</h1>
+        <span class="brand-sub">Outil 7 / 10 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Multiple & IRR</span></span>
+    <h2>Multiple & IRR de la participation</h2>
+    <p class="tool-desc">Calcule le MOIC (cash-on-cash), le gain absolu, la durée et le TRI annualisé d'une participation entre la date d'investissement et la date d'évaluation / sortie.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Position</h2><p>Investissement initial et valeur courante / de sortie.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row2">
+        <div class="tf">
+          <label for="dateInv">
+            <span>Date d'investissement</span>
+            <button type="button" class="help-btn" data-tip="Date de versement effectif des fonds (closing du tour).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="dateInv" value="2023-01-15" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="invest">
+            <span>Montant investi</span>
+            <button type="button" class="help-btn" data-tip="Montant total apporté par Bpifrance à la date d'investissement.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="invest" value="1 500 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dateEval">
+            <span>Date d'évaluation / sortie</span>
+            <button type="button" class="help-btn" data-tip="Date du mark-to-market (NAV) ou de la sortie effective.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="dateEval" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="value">
+            <span>Valeur actuelle / sortie</span>
+            <button type="button" class="help-btn" data-tip="Valeur de la position à la date d'évaluation. Si sortie : produit net de la cession.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">€</span>
+            <input type="text" id="value" value="4 500 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">MOIC (multiple cash-on-cash)</span>
+      <span class="out-v" id="r_moic">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Gain absolu</span>
+      <span class="out-v" id="r_gain">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Durée de détention</span>
+      <span class="out-v" id="r_duration">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">TRI annualisé</span>
+      <span class="out-v" id="r_irr">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Formule TRI</span>
+      <span class="out-v" style="font-size:13px; font-family:var(--font-mono); color:var(--on-surface-2)" id="r_formula">—</span>
+    </div>
+  </div>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">TRI = (valeur / investissement)<sup>1/années</sup> − 1, capitalisé annuellement. Hypothèses : un seul cash-out (pas de tranches), pas de distributions intermédiaires. Pour un IRR avec cash-flows multiples, utiliser une feuille XIRR.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+$('dateEval').value = new Date().toISOString().slice(0, 10);
+
+function compute() {
+  const invest = parseNum($('invest').value);
+  const value  = parseNum($('value').value);
+  const dInv   = new Date($('dateInv').value);
+  const dEval  = new Date($('dateEval').value);
+
+  const moic = invest > 0 ? value / invest : 0;
+  const gain = value - invest;
+  let years = 0;
+  if (isFinite(dInv.getTime()) && isFinite(dEval.getTime())) {
+    years = (dEval - dInv) / (1000 * 60 * 60 * 24 * 365.25);
+  }
+  let irr = 0;
+  if (invest > 0 && value > 0 && years > 0) {
+    irr = Math.pow(value / invest, 1 / years) - 1;
+  }
+
+  $('r_moic').textContent = isFinite(moic) && moic > 0 ? fmtNum(moic, 2) + ' ×' : '—';
+  $('r_gain').textContent = fmtMoney(gain, 0);
+  if (years > 0) {
+    const wholeYears = Math.floor(years);
+    const months = Math.round((years - wholeYears) * 12);
+    $('r_duration').textContent = `${fmtNum(years, 2)} ans (${wholeYears} a. ${months} m.)`;
+  } else {
+    $('r_duration').textContent = '—';
+  }
+  $('r_irr').textContent = years > 0 && invest > 0 && value > 0 ? fmtPct(irr, 2) : '—';
+  $('r_formula').textContent = invest > 0 && years > 0
+    ? `TRI = (${fmtMoney(value, 0)} / ${fmtMoney(invest, 0)})^(1/${fmtNum(years, 2)}) − 1`
+    : '—';
+}
+['dateInv','invest','dateEval','value'].forEach(id => $(id).addEventListener('input', compute));
+['invest','value'].forEach(id => $(id).addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); }));
+compute();
+</script>
+</body>
+</html>

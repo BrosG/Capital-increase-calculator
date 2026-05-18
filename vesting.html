@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vesting · Augmentation de Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-bar">
+  <div class="app-bar-inner">
+    <div class="brand">
+      <span class="logo-mark" aria-hidden="true">
+        <span class="logo-dot dot-blue"></span><span class="logo-dot dot-red"></span>
+        <span class="logo-dot dot-yellow"></span><span class="logo-dot dot-green"></span>
+      </span>
+      <div class="brand-text">
+        <h1>Vesting</h1>
+        <span class="brand-sub">Outil 8 / 10 · BO Bpifrance</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" title="Tous les outils">
+      <span class="material-symbols-outlined">apps</span><span>Outils</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tool-page-head">
+    <span class="crumb"><a href="index.html">Outils</a> <span>›</span> <span>Vesting</span></span>
+    <h2>Calendrier de vesting</h2>
+    <p class="tool-desc">Calcule les actions acquises (vested) à une date donnée pour un fondateur ou un salarié, avec cliff et durée totale paramétrables. Convention : 4 ans / cliff 1 an par défaut.</p>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>Paramètres du plan</h2><p>Date de début, durée, cliff, actions allouées.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="startDate">
+            <span>Date de début du vesting</span>
+            <button type="button" class="help-btn" data-tip="Date de départ du calendrier de vesting (souvent la date d'entrée du fondateur / salarié, ou la signature du plan BSPCE).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="startDate" value="2024-01-15" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="totalShares">
+            <span>Actions totales allouées</span>
+            <button type="button" class="help-btn" data-tip="Nombre d'actions / BSPCE attribuées au bénéficiaire au total, soumis au vesting.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">№</span>
+            <input type="text" id="totalShares" value="48 000" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="evalDate">
+            <span>Date d'évaluation</span>
+            <button type="button" class="help-btn" data-tip="Date à laquelle on souhaite connaître le statut vesting (souvent la date du jour ou une date de leaver).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="evalDate" autocomplete="off">
+          </div>
+        </div>
+      </div>
+      <div class="row2" style="margin-top:14px">
+        <div class="tf">
+          <label for="duration">
+            <span>Durée totale (mois)</span>
+            <button type="button" class="help-btn" data-tip="Durée totale du vesting. Standard : 48 mois (4 ans).">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">m</span>
+            <input type="text" id="duration" value="48" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="cliff">
+            <span>Cliff (mois)</span>
+            <button type="button" class="help-btn" data-tip="Période pendant laquelle aucune action ne vest. Au terme du cliff, la part proportionnelle (cliff/durée) est immédiatement acquise. Standard : 12 mois.">?</button>
+          </label>
+          <div class="tf-input"><span class="tf-prefix">m</span>
+            <input type="text" id="cliff" value="12" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-output">
+    <div class="tool-output-row hero-row">
+      <span class="out-k">Actions vested à la date d'évaluation</span>
+      <span class="out-v" id="r_vested">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Pourcentage vested</span>
+      <span class="out-v" id="r_pct">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Mois écoulés depuis le début</span>
+      <span class="out-v" id="r_months">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Reste à vester</span>
+      <span class="out-v" id="r_remaining">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Date de fin du cliff</span>
+      <span class="out-v" id="r_cliffDate">—</span>
+    </div>
+    <div class="tool-output-row">
+      <span class="out-k">Date de fin du vesting</span>
+      <span class="out-v" id="r_endDate">—</span>
+    </div>
+  </div>
+
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <div><h2>Frise vesting</h2><p>Progression visuelle.</p></div>
+    </header>
+    <div class="section-body">
+      <div class="vest-bar"><span class="vest-prog" id="vestBar"></span></div>
+      <div class="vest-legend">
+        <span><b id="vest_now">—</b> aujourd'hui</span>
+        <span class="muted">0%</span>
+        <span class="muted" id="vest_cliff">Cliff</span>
+        <span class="muted">100%</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-foot">
+    <div class="foot-text">
+      <p class="muted">Convention : vested = 0 avant le cliff, puis (mois écoulés ÷ durée) × total. À durée pleine : 100 %. Formule équivalente avec accélération au cliff. Adapté aux plans BSPCE / stock options français standard.</p>
+    </div>
+  </footer>
+</main>
+
+<style>
+.vest-bar { height: 18px; background: var(--surface-2); border-radius: var(--radius-pill); overflow: hidden; }
+.vest-prog { display: block; height: 100%; background: var(--green); transition: width .35s ease; }
+.vest-legend { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: var(--on-surface-2); }
+.vest-legend b { color: var(--green); font-family: var(--font-mono); font-weight: 500; }
+</style>
+
+<script src="shared.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+$('evalDate').value = new Date().toISOString().slice(0, 10);
+
+function addMonths(date, months) {
+  const d = new Date(date);
+  d.setMonth(d.getMonth() + months);
+  return d;
+}
+function fmtDate(d) {
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+
+function compute() {
+  const start    = new Date($('startDate').value);
+  const evald    = new Date($('evalDate').value);
+  const total    = parseNum($('totalShares').value);
+  const duration = Math.max(1, parseNum($('duration').value));
+  const cliff    = Math.max(0, parseNum($('cliff').value));
+
+  if (!isFinite(start.getTime()) || !isFinite(evald.getTime())) return;
+
+  const monthsElapsed = (evald.getFullYear() - start.getFullYear()) * 12
+                      + (evald.getMonth() - start.getMonth())
+                      + (evald.getDate() >= start.getDate() ? 0 : -1);
+  const fracMonths = Math.max(0, (evald - start) / (1000 * 60 * 60 * 24 * 30.4375));
+
+  let vested = 0;
+  if (fracMonths >= duration) vested = total;
+  else if (fracMonths >= cliff && cliff > 0) vested = (fracMonths / duration) * total;
+  else if (cliff === 0 && fracMonths > 0) vested = (fracMonths / duration) * total;
+  vested = Math.min(total, Math.max(0, vested));
+
+  const pct = total > 0 ? vested / total : 0;
+  $('r_vested').textContent    = fmtNum(vested, 0);
+  $('r_pct').textContent       = fmtPct(pct, 2);
+  $('r_months').textContent    = `${fmtNum(monthsElapsed, 0)} mois (${fmtNum(fracMonths, 1)})`;
+  $('r_remaining').textContent = fmtNum(total - vested, 0);
+  $('r_cliffDate').textContent = cliff > 0 ? fmtDate(addMonths(start, cliff)) : '— (pas de cliff)';
+  $('r_endDate').textContent   = fmtDate(addMonths(start, duration));
+
+  $('vestBar').style.width = (pct * 100).toFixed(2) + '%';
+  $('vest_now').textContent = fmtPct(pct, 0);
+  $('vest_cliff').textContent = `Cliff ${cliff}m`;
+}
+['startDate','evalDate','totalShares','duration','cliff'].forEach(id => $(id).addEventListener('input', compute));
+$('totalShares').addEventListener('blur', e => { e.target.value = fmtNum(parseNum(e.target.value), 0); });
+compute();
+</script>
+</body>
+</html>

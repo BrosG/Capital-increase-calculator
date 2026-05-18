@@ -13,24 +13,6 @@ const DEFAULTS = {
     enabled: true,
     targetPct: 10,       // % of post-round fully-diluted shares
     timing: 'pre',       // 'pre' (founders dilute) | 'post' (everyone dilutes)
-    mode: 'bspce',       // 'bspce' | 'aga' | 'bsa' | 'so'
-  },
-
-  entityType: 'sas',     // 'sas' | 'sa' | 'sarl'
-  pariPassuPct: 50,      // Bpifrance co-investment cap (% of round)
-
-  legalChecklist: {
-    termsheet: false,
-    duediligence: false,
-    convocation: false,
-    age: false,
-    bulletins: false,
-    depositaire: false,
-    statuts: false,
-    greffe: false,
-    bodacc: false,
-    inpi: false,
-    pacte: false,
   },
 
   existingHolders: [
@@ -52,14 +34,12 @@ const DEFAULTS = {
   investors: [
     {
       name: 'Bpifrance — Fonds Innovation',
-      fund: 'bpi-innov',
       amount: 1_500_000,
       liqMultiple: 1,
       participation: 'non-participating',  // 'non-participating' | 'participating'
     },
     {
       name: 'Business Angel',
-      fund: 'ba',
       amount: 500_000,
       liqMultiple: 1,
       participation: 'non-participating',
@@ -75,57 +55,6 @@ const DEFAULTS = {
 const SYMBOLS = { EUR: '€', USD: '$', GBP: '£', CHF: 'CHF' };
 const LOCALES_BY_LANG = { fr: 'fr-FR', en: 'en-US', de: 'de-DE', es: 'es-ES' };
 const CURRENCY_LOCALES = { EUR: 'fr-FR', USD: 'en-US', GBP: 'en-GB', CHF: 'fr-CH' };
-
-// Bpifrance fund presets (and a couple of generic categories)
-const BPI_FUNDS = {
-  'bpi-lv':         { label: 'Bpifrance Large Venture',            typical: 10_000_000, bpi: true },
-  'bpi-fts':        { label: 'Bpifrance French Tech Souveraineté', typical:  5_000_000, bpi: true },
-  'bpi-innobio':    { label: 'Bpifrance Innobio',                  typical:  5_000_000, bpi: true },
-  'bpi-patient':    { label: 'Bpifrance Patient Capital',          typical:  8_000_000, bpi: true },
-  'bpi-innov':      { label: 'Bpifrance — Fonds Innovation',       typical:  1_500_000, bpi: true },
-  'bpi-fts-seed':   { label: 'Bpifrance French Tech Seed',         typical:    500_000, bpi: true },
-  'bpi-definvest':  { label: 'Bpifrance Définvest',                typical:  5_000_000, bpi: true },
-  'bpi-lac1':       { label: 'Bpifrance Lac1',                     typical: 20_000_000, bpi: true },
-  'vc':             { label: 'VC institutionnel',                  typical:  2_000_000, bpi: false },
-  'corporate':      { label: 'Corporate Venture',                  typical:  2_000_000, bpi: false },
-  'ba':             { label: 'Business Angel',                     typical:    200_000, bpi: false },
-  'family':         { label: 'Family Office',                      typical:  1_000_000, bpi: false },
-  'other':          { label: 'Autre',                              typical:          0, bpi: false },
-};
-
-// Bpifrance ecosystem resource links (curated)
-const BPI_RESOURCES = [
-  { title: 'Bpifrance Hub',            sub: "Plateforme entrepreneurs · diagnostics · communauté", host: 'hub.bpifrance.fr',       icon: 'hub',           url: 'https://hub.bpifrance.fr/' },
-  { title: 'Bpifrance Création',       sub: 'Démarches juridiques · création · financement',       host: 'bpifrance-creation.fr', icon: 'rocket_launch', url: 'https://bpifrance-creation.fr/' },
-  { title: 'BSA AIR — modèle type',    sub: "Contrat type Bpifrance / French Tech (équivalent SAFE)", host: 'bpifrance.fr',          icon: 'description',   url: 'https://www.bpifrance.fr/' },
-  { title: 'Pacte Dutreil & BSPCE',    sub: 'Régime fiscal · BSPCE · conditions éligibilité',      host: 'service-public.fr',     icon: 'gavel',         url: 'https://entreprendre.service-public.fr/' },
-  { title: 'Guichet Entreprises',      sub: 'Dépôt M2 · modifications statutaires · INPI',          host: 'inpi.fr',               icon: 'business',      url: 'https://procedures.inpi.fr/' },
-  { title: 'BODACC',                   sub: "Publications légales d'augmentation de capital",       host: 'bodacc.fr',             icon: 'campaign',      url: 'https://www.bodacc.fr/' },
-  { title: 'AFIC / France Invest',     sub: 'Modèles term sheets · standards de marché',           host: 'franceinvest.eu',       icon: 'handshake',     url: 'https://www.franceinvest.eu/' },
-  { title: 'Bpifrance Le Lab',         sub: 'Études économiques · benchmarks levée de fonds',      host: 'lelab.bpifrance.fr',    icon: 'insights',      url: 'https://lelab.bpifrance.fr/' },
-];
-
-// Entity-type rules for capital increases under French law
-const ENTITY_RULES = {
-  sas:  { majorityKey: 'majority_sas',  convocationKey: 'convocation_sas'  },
-  sa:   { majorityKey: 'majority_sa',   convocationKey: 'convocation_sa'   },
-  sarl: { majorityKey: 'majority_sarl', convocationKey: 'convocation_sarl' },
-};
-
-// Legal checklist items (in order)
-const LEGAL_STEPS = [
-  { key: 'termsheet',    step: '01' },
-  { key: 'duediligence', step: '02' },
-  { key: 'convocation',  step: '03' },
-  { key: 'age',          step: '04' },
-  { key: 'bulletins',    step: '05' },
-  { key: 'depositaire',  step: '06' },
-  { key: 'statuts',      step: '07' },
-  { key: 'greffe',       step: '08' },
-  { key: 'bodacc',       step: '09' },
-  { key: 'inpi',         step: '10' },
-  { key: 'pacte',        step: '11' },
-];
 
 /* ─────────────── i18n dictionary ─────────────── */
 const I18N = {
@@ -160,63 +89,6 @@ const I18N = {
     label_poolTiming_hint: "Pré-money : dilue les fondateurs · Post-money : dilue tous",
     poolTiming_pre: "Pré-money",
     poolTiming_post: "Post-money",
-    label_poolMode: "Régime fiscal",
-    label_poolMode_hint: "BSPCE : régime fiscal privilégié français pour startups éligibles",
-    poolMode_bspce: "BSPCE",
-    poolMode_aga: "AGA",
-    poolMode_bsa: "BSA",
-    poolMode_so: "Stock-Options",
-
-    label_pariPassu: "Règle pari-passu Bpifrance",
-    label_entityType: "Forme juridique",
-    entity_sas: "SAS / SASU",
-    entity_sa: "SA",
-    entity_sarl: "SARL",
-
-    section_legal: "Conformité juridique · checklist Bpifrance",
-    section_legal_sub: "Étapes obligatoires pour une augmentation de capital en France",
-    section_resources: "Ressources Bpifrance",
-    section_resources_sub: "Outils, modèles de term sheet, parcours entrepreneurs",
-
-    legal_majorityRequired: "Majorité requise",
-    legal_convocation: "Délai de convocation",
-    legal_filing: "Dépôt greffe",
-    legal_filing_delay: "1 mois après AGE",
-    legal_progress: "Avancement",
-
-    majority_sas: "Selon statuts (souvent 2/3 ou unanimité)",
-    majority_sa: "2/3 des votants présents",
-    majority_sarl: "3/4 des parts sociales",
-    convocation_sas: "Libre (souvent 8 jours)",
-    convocation_sa: "15 jours minimum",
-    convocation_sarl: "15 jours minimum",
-
-    legal_termsheet_t: "Term sheet signée",
-    legal_termsheet_s: "Accord sur valorisation, droits, pacte",
-    legal_duediligence_t: "Due diligence Bpifrance",
-    legal_duediligence_s: "Audit juridique, financier, technique",
-    legal_convocation_t: "Convocation AGE",
-    legal_convocation_s: "Ordre du jour : augmentation, suppression DPS",
-    legal_age_t: "Vote en AGE",
-    legal_age_s: "Procès-verbal · majorité statutaire",
-    legal_bulletins_t: "Bulletins de souscription",
-    legal_bulletins_s: "Signés par chaque souscripteur",
-    legal_depositaire_t: "Certificat du dépositaire",
-    legal_depositaire_s: "Émis par la banque (fonds bloqués)",
-    legal_statuts_t: "Statuts mis à jour",
-    legal_statuts_s: "Nouveau capital, nouveaux actionnaires",
-    legal_greffe_t: "Dépôt greffe (M2 + statuts + PV)",
-    legal_greffe_s: "Sous 1 mois après AGE · ~150 €",
-    legal_bodacc_t: "Publication BODACC",
-    legal_bodacc_s: "Automatique après dépôt greffe",
-    legal_inpi_t: "Inscription INPI / RNE",
-    legal_inpi_s: "Mise à jour du registre national des entreprises",
-    legal_pacte_t: "Pacte d'actionnaires",
-    legal_pacte_s: "Gouvernance, drag/tag, liquidité (optionnel)",
-
-    warn_pariPassu: "Règle pari-passu Bpifrance : {fund} représente {pct} du tour (> seuil {threshold}). Bpifrance doit généralement co-investir ≤ {threshold} avec d'autres investisseurs.",
-    tag_bpi: "BPI",
-    investor_fund_label: "Fonds / type",
 
     label_exitValue: "Valeur de sortie (exit)",
     label_exitValue_hint: "Glisser pour explorer plusieurs scénarios",
@@ -342,63 +214,6 @@ const I18N = {
     label_poolTiming_hint: "Pre-money dilutes founders · Post-money dilutes everyone",
     poolTiming_pre: "Pre-money",
     poolTiming_post: "Post-money",
-    label_poolMode: "Tax regime",
-    label_poolMode_hint: "BSPCE: French tax-advantaged regime for eligible startups",
-    poolMode_bspce: "BSPCE",
-    poolMode_aga: "Free shares",
-    poolMode_bsa: "Warrants",
-    poolMode_so: "Stock options",
-
-    label_pariPassu: "Bpifrance pari-passu rule",
-    label_entityType: "Legal entity",
-    entity_sas: "SAS / SASU",
-    entity_sa: "SA",
-    entity_sarl: "SARL",
-
-    section_legal: "Legal compliance · Bpifrance checklist",
-    section_legal_sub: "Mandatory steps for a French capital increase",
-    section_resources: "Bpifrance resources",
-    section_resources_sub: "Tools, term sheet templates, entrepreneur journey",
-
-    legal_majorityRequired: "Required majority",
-    legal_convocation: "Notice period",
-    legal_filing: "Court registry filing",
-    legal_filing_delay: "Within 1 month of AGM",
-    legal_progress: "Progress",
-
-    majority_sas: "Per articles (often 2/3 or unanimity)",
-    majority_sa: "2/3 of present voters",
-    majority_sarl: "3/4 of shares",
-    convocation_sas: "Free (usually 8 days)",
-    convocation_sa: "15 days minimum",
-    convocation_sarl: "15 days minimum",
-
-    legal_termsheet_t: "Term sheet signed",
-    legal_termsheet_s: "Agreement on valuation, rights, shareholders' agreement",
-    legal_duediligence_t: "Bpifrance due diligence",
-    legal_duediligence_s: "Legal, financial, technical audit",
-    legal_convocation_t: "AGM notice",
-    legal_convocation_s: "Agenda: capital increase, waiver of preemptive rights",
-    legal_age_t: "AGM vote",
-    legal_age_s: "Minutes · statutory majority",
-    legal_bulletins_t: "Subscription forms",
-    legal_bulletins_s: "Signed by each subscriber",
-    legal_depositaire_t: "Depositary certificate",
-    legal_depositaire_s: "Issued by the bank (escrowed funds)",
-    legal_statuts_t: "Updated articles",
-    legal_statuts_s: "New capital, new shareholders",
-    legal_greffe_t: "Registry filing (M2 + articles + minutes)",
-    legal_greffe_s: "Within 1 month of AGM · ~€150",
-    legal_bodacc_t: "BODACC publication",
-    legal_bodacc_s: "Automatic after registry filing",
-    legal_inpi_t: "INPI / RNE registration",
-    legal_inpi_s: "National business registry update",
-    legal_pacte_t: "Shareholders' agreement",
-    legal_pacte_s: "Governance, drag/tag, liquidity (optional)",
-
-    warn_pariPassu: "Bpifrance pari-passu rule: {fund} represents {pct} of the round (> threshold {threshold}). Bpifrance typically co-invests ≤ {threshold} alongside private investors.",
-    tag_bpi: "BPI",
-    investor_fund_label: "Fund / type",
 
     label_exitValue: "Exit value",
     label_exitValue_hint: "Drag to explore scenarios",
@@ -524,63 +339,6 @@ const I18N = {
     label_poolTiming_hint: "Pre-Money: verwässert Gründer · Post-Money: verwässert alle",
     poolTiming_pre: "Pre-Money",
     poolTiming_post: "Post-Money",
-    label_poolMode: "Steuerregime",
-    label_poolMode_hint: "BSPCE: französisches steuerlich begünstigtes Regime für berechtigte Startups",
-    poolMode_bspce: "BSPCE",
-    poolMode_aga: "Gratisaktien",
-    poolMode_bsa: "Optionsscheine",
-    poolMode_so: "Stock Options",
-
-    label_pariPassu: "Bpifrance Pari-passu-Regel",
-    label_entityType: "Rechtsform",
-    entity_sas: "SAS / SASU",
-    entity_sa: "SA",
-    entity_sarl: "SARL",
-
-    section_legal: "Rechtliche Compliance · Bpifrance Checkliste",
-    section_legal_sub: "Pflichtschritte für eine französische Kapitalerhöhung",
-    section_resources: "Bpifrance Ressourcen",
-    section_resources_sub: "Tools, Term-Sheet-Vorlagen, Unternehmerpfad",
-
-    legal_majorityRequired: "Erforderliche Mehrheit",
-    legal_convocation: "Einberufungsfrist",
-    legal_filing: "Handelsregisteranmeldung",
-    legal_filing_delay: "Innerhalb 1 Monat nach HV",
-    legal_progress: "Fortschritt",
-
-    majority_sas: "Laut Satzung (oft 2/3 oder Einstimmigkeit)",
-    majority_sa: "2/3 der anwesenden Stimmen",
-    majority_sarl: "3/4 der Anteile",
-    convocation_sas: "Frei (meist 8 Tage)",
-    convocation_sa: "Mindestens 15 Tage",
-    convocation_sarl: "Mindestens 15 Tage",
-
-    legal_termsheet_t: "Term Sheet unterzeichnet",
-    legal_termsheet_s: "Einigung zu Bewertung, Rechten, Aktionärsvereinbarung",
-    legal_duediligence_t: "Bpifrance Due Diligence",
-    legal_duediligence_s: "Rechtliche, finanzielle, technische Prüfung",
-    legal_convocation_t: "HV-Einberufung",
-    legal_convocation_s: "Tagesordnung: Kapitalerhöhung, Bezugsrecht-Verzicht",
-    legal_age_t: "HV-Beschluss",
-    legal_age_s: "Protokoll · statutarische Mehrheit",
-    legal_bulletins_t: "Zeichnungsscheine",
-    legal_bulletins_s: "Von jedem Zeichner unterzeichnet",
-    legal_depositaire_t: "Depotbankzertifikat",
-    legal_depositaire_s: "Von der Bank ausgestellt (Treuhandgelder)",
-    legal_statuts_t: "Aktualisierte Satzung",
-    legal_statuts_s: "Neues Kapital, neue Aktionäre",
-    legal_greffe_t: "Handelsregister (M2 + Satzung + Protokoll)",
-    legal_greffe_s: "Innerhalb 1 Monat nach HV · ~150 €",
-    legal_bodacc_t: "BODACC-Veröffentlichung",
-    legal_bodacc_s: "Automatisch nach Registereintrag",
-    legal_inpi_t: "INPI / RNE-Eintragung",
-    legal_inpi_s: "Nationales Unternehmensregister",
-    legal_pacte_t: "Aktionärsvereinbarung",
-    legal_pacte_s: "Governance, Drag/Tag, Liquidität (optional)",
-
-    warn_pariPassu: "Bpifrance Pari-passu-Regel: {fund} entspricht {pct} der Runde (> Schwelle {threshold}). Bpifrance investiert typischerweise ≤ {threshold} neben privaten Investoren.",
-    tag_bpi: "BPI",
-    investor_fund_label: "Fonds / Typ",
 
     label_exitValue: "Exit-Wert",
     label_exitValue_hint: "Zum Erkunden ziehen",
@@ -706,63 +464,6 @@ const I18N = {
     label_poolTiming_hint: "Pre-money: diluye fundadores · Post-money: diluye a todos",
     poolTiming_pre: "Pre-money",
     poolTiming_post: "Post-money",
-    label_poolMode: "Régimen fiscal",
-    label_poolMode_hint: "BSPCE: régimen fiscal favorable francés para startups elegibles",
-    poolMode_bspce: "BSPCE",
-    poolMode_aga: "Acciones gratuitas",
-    poolMode_bsa: "Warrants",
-    poolMode_so: "Stock options",
-
-    label_pariPassu: "Regla pari-passu Bpifrance",
-    label_entityType: "Forma jurídica",
-    entity_sas: "SAS / SASU",
-    entity_sa: "SA",
-    entity_sarl: "SARL",
-
-    section_legal: "Cumplimiento legal · checklist Bpifrance",
-    section_legal_sub: "Pasos obligatorios para una ampliación de capital en Francia",
-    section_resources: "Recursos Bpifrance",
-    section_resources_sub: "Herramientas, plantillas de term sheet, recorrido emprendedor",
-
-    legal_majorityRequired: "Mayoría requerida",
-    legal_convocation: "Plazo de convocatoria",
-    legal_filing: "Registro mercantil",
-    legal_filing_delay: "Hasta 1 mes tras junta",
-    legal_progress: "Progreso",
-
-    majority_sas: "Según estatutos (a menudo 2/3 o unanimidad)",
-    majority_sa: "2/3 de votantes presentes",
-    majority_sarl: "3/4 de las participaciones",
-    convocation_sas: "Libre (normalmente 8 días)",
-    convocation_sa: "Mínimo 15 días",
-    convocation_sarl: "Mínimo 15 días",
-
-    legal_termsheet_t: "Term sheet firmada",
-    legal_termsheet_s: "Acuerdo sobre valoración, derechos, pacto",
-    legal_duediligence_t: "Due diligence Bpifrance",
-    legal_duediligence_s: "Auditoría jurídica, financiera, técnica",
-    legal_convocation_t: "Convocatoria junta",
-    legal_convocation_s: "Orden del día: ampliación, supresión derecho preferente",
-    legal_age_t: "Voto en junta",
-    legal_age_s: "Acta · mayoría estatutaria",
-    legal_bulletins_t: "Boletines de suscripción",
-    legal_bulletins_s: "Firmados por cada suscriptor",
-    legal_depositaire_t: "Certificado depositario",
-    legal_depositaire_s: "Emitido por el banco (fondos bloqueados)",
-    legal_statuts_t: "Estatutos actualizados",
-    legal_statuts_s: "Nuevo capital, nuevos accionistas",
-    legal_greffe_t: "Registro mercantil (M2 + estatutos + acta)",
-    legal_greffe_s: "Hasta 1 mes · ~150 €",
-    legal_bodacc_t: "Publicación BODACC",
-    legal_bodacc_s: "Automática tras registro",
-    legal_inpi_t: "Inscripción INPI / RNE",
-    legal_inpi_s: "Registro nacional de empresas",
-    legal_pacte_t: "Pacto de socios",
-    legal_pacte_s: "Gobernanza, drag/tag, liquidez (opcional)",
-
-    warn_pariPassu: "Regla pari-passu Bpifrance: {fund} representa {pct} de la ronda (> umbral {threshold}). Bpifrance suele co-invertir ≤ {threshold} junto a inversores privados.",
-    tag_bpi: "BPI",
-    investor_fund_label: "Fondo / tipo",
 
     label_exitValue: "Valor de salida",
     label_exitValue_hint: "Deslizar para explorar escenarios",
@@ -885,12 +586,7 @@ function loadState() {
         targetPct: Number(p.pool && p.pool.targetPct) || 0,
         timing: (p.pool && (p.pool.timing === 'post' || p.pool.timing === 'pre'))
           ? p.pool.timing : DEFAULTS.pool.timing,
-        mode: (p.pool && ['bspce','aga','bsa','so'].includes(p.pool.mode))
-          ? p.pool.mode : DEFAULTS.pool.mode,
       },
-      entityType: ['sas','sa','sarl'].includes(p.entityType) ? p.entityType : DEFAULTS.entityType,
-      pariPassuPct: Number(p.pariPassuPct) || DEFAULTS.pariPassuPct,
-      legalChecklist: Object.assign({}, DEFAULTS.legalChecklist, p.legalChecklist || {}),
       existingHolders: Array.isArray(p.existingHolders) && p.existingHolders.length
         ? p.existingHolders.map(h => ({ name: String(h.name ?? ''), shares: Number(h.shares) || 0 }))
         : structuredClone(DEFAULTS.existingHolders),
@@ -906,7 +602,6 @@ function loadState() {
       investors: Array.isArray(p.investors)
         ? p.investors.map(i => ({
             name: String(i.name ?? ''),
-            fund: BPI_FUNDS[i.fund] ? i.fund : 'other',
             amount: Number(i.amount) || 0,
             liqMultiple: Number(i.liqMultiple) || 1,
             participation: i.participation === 'participating' ? 'participating' : 'non-participating',
@@ -1111,9 +806,6 @@ function renderInvestors() {
   state.investors.forEach((inv, i) => {
     const card = document.createElement('div');
     card.className = 'row-card';
-    const fundOptions = Object.entries(BPI_FUNDS).map(([key, meta]) =>
-      `<option value="${key}" ${inv.fund === key ? 'selected' : ''}>${escapeHtml(meta.label)}</option>`
-    ).join('');
     card.innerHTML = `
       <div class="row-main">
         <input type="text" class="name" placeholder="${escapeHtml(t('investor_placeholder_name'))}" value="${escapeHtml(inv.name)}">
@@ -1122,11 +814,7 @@ function renderInvestors() {
           <span class="material-symbols-outlined" style="font-size:18px">close</span>
         </button>
       </div>
-      <div class="row-extra row-extra-3">
-        <div class="mini">
-          <label>${escapeHtml(t('investor_fund_label'))}</label>
-          <select class="fund">${fundOptions}</select>
-        </div>
+      <div class="row-extra row-extra-2">
         <div class="mini">
           <label>${escapeHtml(t('investor_liqMult_label'))}</label>
           <input type="text" class="liq numeric" value="${fmtNum(inv.liqMultiple, 2)}" inputmode="decimal">
@@ -1149,19 +837,6 @@ function renderInvestors() {
     card.querySelector('.amount').addEventListener('blur', e => {
       e.target.value = fmtNum(state.investors[i].amount, 0);
     });
-    card.querySelector('.fund').addEventListener('change', e => {
-      const newFund = e.target.value;
-      state.investors[i].fund = newFund;
-      // Auto-fill name if it still matches the previous preset label (UX nicety)
-      const meta = BPI_FUNDS[newFund];
-      if (meta) {
-        const prevMatchesAnyPreset = Object.values(BPI_FUNDS).some(m => m.label === state.investors[i].name);
-        if (prevMatchesAnyPreset || !state.investors[i].name.trim()) {
-          state.investors[i].name = meta.label;
-        }
-      }
-      renderInvestors(); saveState(); compute();
-    });
     card.querySelector('.liq').addEventListener('input', e => {
       state.investors[i].liqMultiple = parseNum(e.target.value); saveState(); compute();
     });
@@ -1181,7 +856,6 @@ function renderInvestors() {
 document.getElementById('addInv').addEventListener('click', () => {
   state.investors.push({
     name: t('new_investor_default'),
-    fund: 'other',
     amount: 250_000,
     liqMultiple: 1,
     participation: 'non-participating',
@@ -1206,7 +880,6 @@ bindInput('existingShares', () => state.existingShares, v => state.existingShare
 bindInput('nominalValue',   () => state.nominalValue,   v => state.nominalValue = v, 2);
 bindInput('poolTargetPct',  () => state.pool.targetPct, v => state.pool.targetPct = v, 1);
 bindInput('exitValue',      () => state.exit.value,     v => state.exit.value = v, 0);
-bindInput('pariPassuPct',   () => state.pariPassuPct,   v => state.pariPassuPct = v, 0);
 
 /* ─────────────── Pool toggles ─────────────── */
 const poolEnabledEl = document.getElementById('poolEnabled');
@@ -1224,20 +897,6 @@ document.getElementById('poolTiming').addEventListener('click', e => {
   document.querySelectorAll('#poolTiming button').forEach(b =>
     b.classList.toggle('on', b === btn));
   saveState(); compute();
-});
-
-document.getElementById('poolMode').addEventListener('click', e => {
-  const btn = e.target.closest('button[data-val]');
-  if (!btn) return;
-  state.pool.mode = btn.dataset.val;
-  document.querySelectorAll('#poolMode button').forEach(b =>
-    b.classList.toggle('on', b === btn));
-  saveState(); compute();
-});
-
-document.getElementById('entityType').addEventListener('change', e => {
-  state.entityType = e.target.value;
-  saveState(); renderLegalChecklist(); compute();
 });
 
 /* ─────────────── Exit toggle / slider ─────────────── */
@@ -1280,7 +939,6 @@ function applyCurrencyUI() {
   document.getElementById('nominalValue').value   = fmtNum(state.nominalValue, 2);
   document.getElementById('poolTargetPct').value  = fmtNum(state.pool.targetPct, 1);
   document.getElementById('exitValue').value      = fmtNum(state.exit.value, 0);
-  document.getElementById('pariPassuPct').value   = fmtNum(state.pariPassuPct, 0);
 }
 document.getElementById('currencyPick').addEventListener('click', e => {
   const btn = e.target.closest('button[data-cur]');
@@ -1298,76 +956,16 @@ document.getElementById('langPick').addEventListener('click', e => {
   applyI18n();
   syncPoolTimingUI();
   renderHolders(); renderConvertibles(); renderInvestors();
-  renderLegalChecklist();
   compute();
 });
 
 function syncPoolTimingUI() {
   document.querySelectorAll('#poolTiming button').forEach(b =>
     b.classList.toggle('on', b.dataset.val === state.pool.timing));
-  document.querySelectorAll('#poolMode button').forEach(b =>
-    b.classList.toggle('on', b.dataset.val === state.pool.mode));
   poolEnabledEl.checked = state.pool.enabled;
   poolBodyEl.classList.toggle('disabled', !state.pool.enabled);
   exitEnabledEl.checked = state.exit.enabled;
   exitBodyEl.classList.toggle('disabled', !state.exit.enabled);
-  document.getElementById('entityType').value = state.entityType;
-}
-
-/* ─────────────── Render: legal checklist ─────────────── */
-function renderLegalChecklist() {
-  const el = document.getElementById('legalChecklist');
-  el.innerHTML = '';
-  LEGAL_STEPS.forEach(step => {
-    const done = !!state.legalChecklist[step.key];
-    const item = document.createElement('div');
-    item.className = 'check-item' + (done ? ' done' : '');
-    item.innerHTML = `
-      <span class="check-box"></span>
-      <span class="check-text">
-        <span class="check-title"><span class="check-step">${step.step}</span>${escapeHtml(t('legal_' + step.key + '_t'))}</span>
-        <span class="check-sub">${escapeHtml(t('legal_' + step.key + '_s'))}</span>
-      </span>
-    `;
-    item.addEventListener('click', () => {
-      state.legalChecklist[step.key] = !state.legalChecklist[step.key];
-      saveState();
-      renderLegalChecklist();
-      updateLegalSummary();
-    });
-    el.appendChild(item);
-  });
-  updateLegalSummary();
-}
-
-function updateLegalSummary() {
-  const rules = ENTITY_RULES[state.entityType] || ENTITY_RULES.sas;
-  document.getElementById('legalMajority').textContent    = t(rules.majorityKey);
-  document.getElementById('legalConvocation').textContent = t(rules.convocationKey);
-  const done = LEGAL_STEPS.reduce((s, x) => s + (state.legalChecklist[x.key] ? 1 : 0), 0);
-  document.getElementById('legalProgress').textContent = `${done} / ${LEGAL_STEPS.length}`;
-}
-
-/* ─────────────── Render: Bpifrance resources ─────────────── */
-function renderResources() {
-  const el = document.getElementById('resourceGrid');
-  el.innerHTML = '';
-  BPI_RESOURCES.forEach(r => {
-    const a = document.createElement('a');
-    a.className = 'resource-card';
-    a.href = r.url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.innerHTML = `
-      <span class="ricon"><span class="material-symbols-outlined">${escapeHtml(r.icon)}</span></span>
-      <span class="rtext">
-        <span class="rtitle">${escapeHtml(r.title)}</span>
-        <span class="rsub">${escapeHtml(r.sub)}</span>
-        <span class="rhost">${escapeHtml(r.host)} ↗</span>
-      </span>
-    `;
-    el.appendChild(a);
-  });
 }
 
 /* ─────────────── Reset / Print / Export ─────────────── */
@@ -1379,7 +977,6 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   saveState();
   applyCurrencyUI(); syncPoolTimingUI();
   renderHolders(); renderConvertibles(); renderInvestors();
-  renderLegalChecklist();
   compute();
 });
 
@@ -1589,11 +1186,9 @@ function currentComputation() {
 
   state.investors.forEach((inv, i) => {
     const sh = newShares[i];
-    const fundMeta = BPI_FUNDS[inv.fund] || null;
     capRows.push({
       name: inv.name,
       classKey: 'pref', classLabel: 'AP',
-      isBpi: !!(fundMeta && fundMeta.bpi),
       beforeShares: 0, beforePct: 0,
       afterShares: sh,
       afterPct: totalSharesAfter > 0 ? sh / totalSharesAfter : 0,
@@ -1787,38 +1382,8 @@ function compute() {
   $('warnHolders').hidden = !mismatch;
   $('warnPool').hidden = c.poolFeasible;
 
-  // Pari-passu (Bpifrance co-investment) check
-  const totalRound = state.investors.reduce((s, x) => s + (x.amount || 0), 0);
-  const threshold = Math.max(0, Math.min(100, state.pariPassuPct)) / 100;
-  let breach = null;
-  if (totalRound > 0 && threshold > 0) {
-    for (const inv of state.investors) {
-      const meta = BPI_FUNDS[inv.fund];
-      if (meta && meta.bpi) {
-        const pct = (inv.amount || 0) / totalRound;
-        if (pct > threshold + 1e-9) {
-          breach = { fund: inv.name || meta.label, pct };
-          break;
-        }
-      }
-    }
-  }
-  if (breach) {
-    $('warnPariPassu').hidden = false;
-    $('warnPariPassuText').textContent = t('warn_pariPassu', {
-      fund: breach.fund,
-      pct: fmtPct(breach.pct, 2),
-      threshold: fmtPct(threshold, 0),
-    });
-  } else {
-    $('warnPariPassu').hidden = true;
-  }
-
   // Cap table
   renderCapTable(c);
-
-  // Legal summary refresh (majority/convocation localized)
-  updateLegalSummary();
 
   // Waterfall
   renderWaterfall(c);
@@ -1834,10 +1399,9 @@ function renderCapTable(c) {
       r.classKey === 'pool'   ? 'tag-pool'   :
       r.classKey === 'conv'   ? 'tag-conv'   :
       r.classKey === 'pref'   ? 'tag-pref'   : 'tag-common';
-    const bpiTag = r.isBpi ? ` <span class="tag tag-bpi">${escapeHtml(t('tag_bpi'))}</span>` : '';
     body.insertAdjacentHTML('beforeend', `
       <tr>
-        <td>${escapeHtml(r.name)} <span class="tag ${tagClass}">${escapeHtml(r.classLabel)}</span>${bpiTag}</td>
+        <td>${escapeHtml(r.name)} <span class="tag ${tagClass}">${escapeHtml(r.classLabel)}</span></td>
         <td>${r.beforeShares > 0 ? fmtNum(r.beforeShares, 0) : '—'}</td>
         <td>${r.beforeShares > 0 ? fmtPct(r.beforePct, 2) : '—'}</td>
         <td>${fmtNum(r.afterShares, 0)}</td>
@@ -1925,7 +1489,5 @@ syncPoolTimingUI();
 renderHolders();
 renderConvertibles();
 renderInvestors();
-renderLegalChecklist();
-renderResources();
 compute();
 updateStickySummary();

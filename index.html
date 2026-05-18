@@ -148,7 +148,7 @@
       </label>
     </header>
     <div class="section-body" id="poolBody">
-      <div class="row3">
+      <div class="row2">
         <div class="tf">
           <label for="poolTargetPct" data-i18n="label_poolTargetPct">Cible post-tour</label>
           <div class="tf-input">
@@ -164,16 +164,6 @@
             <button data-val="post" data-i18n="poolTiming_post">Post-money</button>
           </div>
           <span class="tf-helper" data-i18n="label_poolTiming_hint">Pré-money : dilue les fondateurs · Post-money : dilue tous</span>
-        </div>
-        <div class="tf">
-          <label data-i18n="label_poolMode">Régime fiscal</label>
-          <div class="seg" id="poolMode" role="radiogroup">
-            <button data-val="bspce" class="on" data-i18n="poolMode_bspce">BSPCE</button>
-            <button data-val="aga" data-i18n="poolMode_aga">AGA</button>
-            <button data-val="bsa" data-i18n="poolMode_bsa">BSA</button>
-            <button data-val="so" data-i18n="poolMode_so">Stock-Options</button>
-          </div>
-          <span class="tf-helper" data-i18n="label_poolMode_hint">BSPCE : régime fiscal privilégié français pour startups éligibles</span>
         </div>
       </div>
     </div>
@@ -219,18 +209,9 @@
   <section class="section">
     <header class="section-head">
       <span class="section-num">05</span>
-      <div class="head-grow">
+      <div>
         <h2 data-i18n="section_investors">Investisseurs · tour de financement</h2>
-        <p data-i18n="section_investors_sub">Souscripteurs · actions de préférence · Bpifrance</p>
-      </div>
-      <div class="head-side">
-        <label class="head-mini-field">
-          <span data-i18n="label_pariPassu">Règle pari-passu Bpifrance</span>
-          <div class="tf-input compact">
-            <input type="text" id="pariPassuPct" inputmode="decimal" autocomplete="off" style="text-align:right">
-            <span class="tf-prefix" style="border-left:1px solid var(--outline-soft);border-right:0">%</span>
-          </div>
-        </label>
+        <p data-i18n="section_investors_sub">Souscripteurs · actions de préférence</p>
       </div>
     </header>
     <div class="section-body">
@@ -255,10 +236,6 @@
     <div class="alert alert-warn" id="warnPool" hidden>
       <span class="material-symbols-outlined">block</span>
       <span data-i18n="warn_pool">Taille de pool incompatible avec le tour : réduisez la cible.</span>
-    </div>
-    <div class="alert alert-warn alert-bpi" id="warnPariPassu" hidden>
-      <span class="material-symbols-outlined">handshake</span>
-      <span id="warnPariPassuText"></span>
     </div>
   </div>
 
@@ -367,62 +344,6 @@
           <tbody id="waterfallBody"></tbody>
         </table>
       </div>
-    </div>
-  </section>
-
-  <!-- ════════ 09 · Conformité juridique ════════ -->
-  <section class="section">
-    <header class="section-head">
-      <span class="section-num">09</span>
-      <div class="head-grow">
-        <h2 data-i18n="section_legal">Conformité juridique · checklist Bpifrance</h2>
-        <p data-i18n="section_legal_sub">Étapes obligatoires pour une augmentation de capital en France</p>
-      </div>
-      <div class="head-side">
-        <label class="head-mini-field">
-          <span data-i18n="label_entityType">Forme juridique</span>
-          <select id="entityType" class="head-mini-select">
-            <option value="sas" data-i18n="entity_sas">SAS / SASU</option>
-            <option value="sa" data-i18n="entity_sa">SA</option>
-            <option value="sarl" data-i18n="entity_sarl">SARL</option>
-          </select>
-        </label>
-      </div>
-    </header>
-    <div class="section-body">
-      <div class="checklist" id="legalChecklist"></div>
-      <div class="legal-foot">
-        <div class="legal-stat">
-          <span class="lk" data-i18n="legal_majorityRequired">Majorité requise</span>
-          <span class="lv" id="legalMajority">—</span>
-        </div>
-        <div class="legal-stat">
-          <span class="lk" data-i18n="legal_convocation">Délai de convocation</span>
-          <span class="lv" id="legalConvocation">—</span>
-        </div>
-        <div class="legal-stat">
-          <span class="lk" data-i18n="legal_filing">Dépôt greffe</span>
-          <span class="lv" data-i18n="legal_filing_delay">1 mois après AGE</span>
-        </div>
-        <div class="legal-stat">
-          <span class="lk" data-i18n="legal_progress">Avancement</span>
-          <span class="lv" id="legalProgress">0 / 0</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════ 10 · Ressources Bpifrance ════════ -->
-  <section class="section">
-    <header class="section-head">
-      <span class="section-num">10</span>
-      <div>
-        <h2 data-i18n="section_resources">Ressources Bpifrance</h2>
-        <p data-i18n="section_resources_sub">Outils, modèles de term sheet, parcours entrepreneurs</p>
-      </div>
-    </header>
-    <div class="section-body">
-      <div class="resource-grid" id="resourceGrid"></div>
     </div>
   </section>
 

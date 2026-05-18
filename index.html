@@ -45,180 +45,210 @@
       </div>
     </div>
   </div>
+
+  <div class="sticky-summary" id="stickySummary" aria-hidden="true">
+    <div class="sticky-summary-inner">
+      <span class="ss-k" data-i18n="result_postMoney">Post-money</span>
+      <span class="ss-v" id="ss_postMoney">—</span>
+      <span class="ss-sep"></span>
+      <span class="ss-k" data-i18n="result_pricePerShare">Prix / action</span>
+      <span class="ss-v" id="ss_price">—</span>
+      <span class="ss-sep"></span>
+      <span class="ss-k" data-i18n="legend_new">Nouveaux investisseurs</span>
+      <span class="ss-v" id="ss_dilNew">—</span>
+    </div>
+  </div>
 </header>
 
 <main class="wrap">
 
-  <div class="grid">
-
-    <!-- ════════════════ INPUTS ════════════════ -->
-    <section class="col-inputs">
-
-      <!-- Round assumptions ─────────────────── -->
-      <div class="card">
-        <header class="card-head">
-          <span class="material-symbols-outlined card-icon">tune</span>
-          <div>
-            <h2 data-i18n="section_assumptions">Hypothèses du tour</h2>
-            <p class="card-sub" data-i18n="section_assumptions_sub">Pré-money · actions · nominale</p>
-          </div>
-        </header>
-
-        <div class="card-body">
-
-          <div class="tf">
-            <label for="preMoney" data-i18n="label_preMoney">Valorisation pré-money</label>
-            <div class="tf-input">
-              <span class="tf-prefix cur-symbol">€</span>
-              <input type="text" id="preMoney" inputmode="decimal" autocomplete="off">
-            </div>
-            <span class="tf-helper" data-i18n="label_preMoney_hint">Valeur entreprise avant l'opération (fully-diluted, ESOP inclus)</span>
-          </div>
-
-          <div class="row2">
-            <div class="tf">
-              <label for="existingShares" data-i18n="label_existingShares">Actions existantes</label>
-              <div class="tf-input">
-                <span class="tf-prefix">№</span>
-                <input type="text" id="existingShares" inputmode="decimal" autocomplete="off">
-              </div>
-              <span class="tf-helper" data-i18n="label_existingShares_hint">Total pré-opération</span>
-            </div>
-
-            <div class="tf">
-              <label for="nominalValue" data-i18n="label_nominalValue">Valeur nominale</label>
-              <div class="tf-input">
-                <span class="tf-prefix cur-symbol">€</span>
-                <input type="text" id="nominalValue" inputmode="decimal" autocomplete="off">
-              </div>
-              <span class="tf-helper" data-i18n="label_nominalValue_hint">Par action</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Option pool / ESOP ───────────────── -->
-      <div class="card">
-        <header class="card-head">
-          <span class="material-symbols-outlined card-icon">workspaces</span>
-          <div class="head-grow">
-            <h2 data-i18n="section_pool">Pool d'options (ESOP / BSPCE)</h2>
-            <p class="card-sub" data-i18n="section_pool_sub">Réservé aux salariés · BSPCE, AGA, BSA</p>
-          </div>
-          <label class="switch" title="Enabled">
-            <input type="checkbox" id="poolEnabled">
-            <span class="track"></span>
-          </label>
-        </header>
-
-        <div class="card-body" id="poolBody">
-          <div class="row2">
-            <div class="tf">
-              <label for="poolTargetPct" data-i18n="label_poolTargetPct">Cible post-tour</label>
-              <div class="tf-input">
-                <span class="tf-prefix">%</span>
-                <input type="text" id="poolTargetPct" inputmode="decimal" autocomplete="off">
-              </div>
-              <span class="tf-helper" data-i18n="label_poolTargetPct_hint">% du capital fully-diluted post-opération</span>
-            </div>
-
-            <div class="tf">
-              <label data-i18n="label_poolTiming">Création</label>
-              <div class="seg" id="poolTiming" role="radiogroup">
-                <button data-val="pre" class="on" data-i18n="poolTiming_pre">Pré-money</button>
-                <button data-val="post" data-i18n="poolTiming_post">Post-money</button>
-              </div>
-              <span class="tf-helper" id="poolTimingHelp" data-i18n="label_poolTiming_hint">Pré-money : dilue les fondateurs · Post-money : dilue tous</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Existing holders ─────────────────── -->
-      <div class="card">
-        <header class="card-head">
-          <span class="material-symbols-outlined card-icon">groups</span>
-          <div>
-            <h2 data-i18n="section_holders">Actionnaires existants</h2>
-            <p class="card-sub" data-i18n="section_holders_sub">Capital actuel · actions ordinaires</p>
-          </div>
-        </header>
-        <div class="card-body">
-          <div class="row-list" id="holderList"></div>
-          <button class="btn-ghost btn-add" id="addHolder">
-            <span class="material-symbols-outlined">add</span>
-            <span data-i18n="button_addHolder">Ajouter un actionnaire</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Convertibles ─────────────────────── -->
-      <div class="card">
-        <header class="card-head">
-          <span class="material-symbols-outlined card-icon">swap_horiz</span>
-          <div>
-            <h2 data-i18n="section_convertibles">Obligations convertibles · BSA AIR</h2>
-            <p class="card-sub" data-i18n="section_convertibles_sub">Convertissent au prix du tour (décote + plafond)</p>
-          </div>
-        </header>
-        <div class="card-body">
-          <div class="row-list" id="convList"></div>
-          <button class="btn-ghost btn-add" id="addConv">
-            <span class="material-symbols-outlined">add</span>
-            <span data-i18n="button_addConv">Ajouter une convertible</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- New investors ────────────────────── -->
-      <div class="card">
-        <header class="card-head">
-          <span class="material-symbols-outlined card-icon">trending_up</span>
-          <div>
-            <h2 data-i18n="section_investors">Investisseurs · tour de financement</h2>
-            <p class="card-sub" data-i18n="section_investors_sub">Souscripteurs · actions de préférence</p>
-          </div>
-        </header>
-        <div class="card-body">
-          <div class="row-list" id="investorList"></div>
-          <button class="btn-ghost btn-add" id="addInv">
-            <span class="material-symbols-outlined">add</span>
-            <span data-i18n="button_addInvestor">Ajouter un investisseur</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Alerts ───────────────────────────── -->
-      <div class="alert alert-warn" id="warn" hidden>
-        <span class="material-symbols-outlined">warning</span>
-        <span data-i18n="warn_nominal">Valeur nominale supérieure au prix d'émission — émission impossible à ce nominal.</span>
-      </div>
-      <div class="alert alert-warn" id="warnHolders" hidden>
-        <span class="material-symbols-outlined">info</span>
-        <span data-i18n="warn_holders">La somme des actionnaires existants ne correspond pas au total d'actions déclaré.</span>
-      </div>
-      <div class="alert alert-warn" id="warnPool" hidden>
-        <span class="material-symbols-outlined">block</span>
-        <span data-i18n="warn_pool">Taille de pool incompatible avec le tour : réduisez la cible.</span>
-      </div>
-
-    </section>
-
-    <!-- ════════════════ RESULTS ════════════════ -->
-    <section class="col-results">
-
-      <!-- Hero ─────────────────────────────── -->
-      <div class="card hero">
+  <!-- ════════ 00 · HERO ════════ -->
+  <section class="hero-block">
+    <div class="hero-eyebrow">
+      <span class="num">00</span>
+      <span data-i18n="hero_eyebrow">Vue d'ensemble · live</span>
+    </div>
+    <div class="hero-card">
+      <div class="hero-left">
         <span class="hero-k" data-i18n="result_postMoney">Valorisation post-money</span>
         <span class="hero-v" id="r_postMoney">—</span>
-        <div class="hero-line">
-          <span><span data-i18n="hero_investment">Investissement total</span><b id="r_totalInvest">—</b></span>
-          <span><span data-i18n="hero_implied">Post-money implicite (prix × actions)</span><b id="r_postImplied">—</b></span>
+        <div class="hero-meta">
+          <span><i data-i18n="hero_investment">Investissement total</i><b id="r_totalInvest">—</b></span>
+          <span><i data-i18n="hero_implied">Post-money implicite (prix × actions)</i><b id="r_postImplied">—</b></span>
+          <span><i data-i18n="hero_dilution">Dilution fondateurs</i><b id="r_heroDilution">—</b></span>
         </div>
       </div>
+      <div class="hero-right">
+        <div class="hero-bar" aria-hidden="true">
+          <span class="dil-existing" id="dilExisting"></span>
+          <span class="dil-pool"     id="dilPool"></span>
+          <span class="dil-conv"     id="dilConv"></span>
+          <span class="dil-new"      id="dilNew"></span>
+        </div>
+        <div class="hero-legend">
+          <span class="leg"><span class="sw sw-existing"></span><span data-i18n="legend_existing">Existants</span><b id="legExistingPct">—</b></span>
+          <span class="leg"><span class="sw sw-pool"></span><span data-i18n="legend_pool">Pool</span><b id="legPoolPct">—</b></span>
+          <span class="leg"><span class="sw sw-conv"></span><span data-i18n="legend_conv">Convertibles</span><b id="legConvPct">—</b></span>
+          <span class="leg"><span class="sw sw-new"></span><span data-i18n="legend_new">Nouveaux</span><b id="legNewPct">—</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <!-- Stat grid ─────────────────────────── -->
+  <!-- ════════ 01 · Hypothèses ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <div>
+        <h2 data-i18n="section_assumptions">Hypothèses du tour</h2>
+        <p data-i18n="section_assumptions_sub">Pré-money · actions · nominale</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row3">
+        <div class="tf">
+          <label for="preMoney" data-i18n="label_preMoney">Valorisation pré-money</label>
+          <div class="tf-input">
+            <span class="tf-prefix cur-symbol">€</span>
+            <input type="text" id="preMoney" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_preMoney_hint">Valeur entreprise avant l'opération (fully-diluted, ESOP inclus)</span>
+        </div>
+        <div class="tf">
+          <label for="existingShares" data-i18n="label_existingShares">Actions existantes</label>
+          <div class="tf-input">
+            <span class="tf-prefix">№</span>
+            <input type="text" id="existingShares" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_existingShares_hint">Total pré-opération</span>
+        </div>
+        <div class="tf">
+          <label for="nominalValue" data-i18n="label_nominalValue">Valeur nominale</label>
+          <div class="tf-input">
+            <span class="tf-prefix cur-symbol">€</span>
+            <input type="text" id="nominalValue" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_nominalValue_hint">Par action</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 02 · Pool ESOP ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <div class="head-grow">
+        <h2 data-i18n="section_pool">Pool d'options (ESOP / BSPCE)</h2>
+        <p data-i18n="section_pool_sub">Réservé aux salariés · BSPCE, AGA, BSA</p>
+      </div>
+      <label class="switch" title="Enabled">
+        <input type="checkbox" id="poolEnabled">
+        <span class="track"></span>
+      </label>
+    </header>
+    <div class="section-body" id="poolBody">
+      <div class="row2">
+        <div class="tf">
+          <label for="poolTargetPct" data-i18n="label_poolTargetPct">Cible post-tour</label>
+          <div class="tf-input">
+            <span class="tf-prefix">%</span>
+            <input type="text" id="poolTargetPct" inputmode="decimal" autocomplete="off">
+          </div>
+          <span class="tf-helper" data-i18n="label_poolTargetPct_hint">% du capital fully-diluted post-opération</span>
+        </div>
+        <div class="tf">
+          <label data-i18n="label_poolTiming">Création</label>
+          <div class="seg" id="poolTiming" role="radiogroup">
+            <button data-val="pre" class="on" data-i18n="poolTiming_pre">Pré-money</button>
+            <button data-val="post" data-i18n="poolTiming_post">Post-money</button>
+          </div>
+          <span class="tf-helper" data-i18n="label_poolTiming_hint">Pré-money : dilue les fondateurs · Post-money : dilue tous</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 03 · Actionnaires ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">03</span>
+      <div>
+        <h2 data-i18n="section_holders">Actionnaires existants</h2>
+        <p data-i18n="section_holders_sub">Capital actuel · actions ordinaires</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row-list" id="holderList"></div>
+      <button class="btn-ghost btn-add" id="addHolder">
+        <span class="material-symbols-outlined">add</span>
+        <span data-i18n="button_addHolder">Ajouter un actionnaire</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════ 04 · Convertibles ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">04</span>
+      <div>
+        <h2 data-i18n="section_convertibles">Obligations convertibles · BSA AIR</h2>
+        <p data-i18n="section_convertibles_sub">Convertissent au prix du tour (décote + plafond)</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row-list" id="convList"></div>
+      <button class="btn-ghost btn-add" id="addConv">
+        <span class="material-symbols-outlined">add</span>
+        <span data-i18n="button_addConv">Ajouter une convertible</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════ 05 · Investisseurs ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">05</span>
+      <div>
+        <h2 data-i18n="section_investors">Investisseurs · tour de financement</h2>
+        <p data-i18n="section_investors_sub">Souscripteurs · actions de préférence</p>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row-list" id="investorList"></div>
+      <button class="btn-ghost btn-add" id="addInv">
+        <span class="material-symbols-outlined">add</span>
+        <span data-i18n="button_addInvestor">Ajouter un investisseur</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Alerts inline (between inputs and results) -->
+  <div class="alerts">
+    <div class="alert alert-warn" id="warn" hidden>
+      <span class="material-symbols-outlined">warning</span>
+      <span data-i18n="warn_nominal">Valeur nominale supérieure au prix d'émission — émission impossible à ce nominal.</span>
+    </div>
+    <div class="alert alert-warn" id="warnHolders" hidden>
+      <span class="material-symbols-outlined">info</span>
+      <span data-i18n="warn_holders">La somme des actionnaires existants ne correspond pas au total d'actions déclaré.</span>
+    </div>
+    <div class="alert alert-warn" id="warnPool" hidden>
+      <span class="material-symbols-outlined">block</span>
+      <span data-i18n="warn_pool">Taille de pool incompatible avec le tour : réduisez la cible.</span>
+    </div>
+  </div>
+
+  <!-- ════════ 06 · Indicateurs clés ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">06</span>
+      <div>
+        <h2 data-i18n="section_metrics">Indicateurs clés</h2>
+        <p data-i18n="section_metrics_sub">Prix, dilution, augmentation, prime</p>
+      </div>
+    </header>
+    <div class="section-body">
       <div class="stat-grid">
         <div class="stat">
           <span class="k" data-i18n="result_pricePerShare">Prix par action</span>
@@ -241,103 +271,81 @@
           <span class="sub" data-i18n="result_premiumTotal_sub">Investissement − nominale</span>
         </div>
       </div>
+      <div class="dilution-foot" id="r_dilutionSub">—</div>
+    </div>
+  </section>
 
-      <!-- Dilution stacked bar ──────────────── -->
-      <div class="card dilution">
-        <div class="dilution-head">
-          <span class="material-symbols-outlined">pie_chart</span>
-          <span class="dilution-k" data-i18n="result_dilution">Répartition post-opération</span>
+  <!-- ════════ 07 · Cap table ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">07</span>
+      <div>
+        <h2 data-i18n="captable_title">Table de capitalisation</h2>
+        <p data-i18n="captable_subtitle">Avant et après l'opération · fully-diluted</p>
+      </div>
+    </header>
+    <div class="section-body cap-body">
+      <table class="cap">
+        <thead>
+          <tr>
+            <th data-i18n="captable_holder">Détenteur</th>
+            <th data-i18n="captable_before_shares">Avant</th>
+            <th>%</th>
+            <th data-i18n="captable_after_shares">Après</th>
+            <th>%</th>
+            <th data-i18n="captable_liqPref">Liq. pref.</th>
+            <th data-i18n="captable_distribution">Répartition</th>
+          </tr>
+        </thead>
+        <tbody id="capBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════ 08 · Waterfall ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">08</span>
+      <div class="head-grow">
+        <h2 data-i18n="section_exit">Scénario de sortie · waterfall</h2>
+        <p data-i18n="section_exit_sub">Préférence de liquidation et participation</p>
+      </div>
+      <label class="switch" title="Enabled">
+        <input type="checkbox" id="exitEnabled">
+        <span class="track"></span>
+      </label>
+    </header>
+    <div class="section-body" id="exitBody">
+      <div class="tf">
+        <label for="exitValue" data-i18n="label_exitValue">Valeur de sortie (exit)</label>
+        <div class="tf-input">
+          <span class="tf-prefix cur-symbol">€</span>
+          <input type="text" id="exitValue" inputmode="decimal" autocomplete="off">
         </div>
-        <div class="dilution-bar" aria-hidden="true">
-          <span class="dil-existing" id="dilExisting"></span>
-          <span class="dil-pool"     id="dilPool"></span>
-          <span class="dil-conv"     id="dilConv"></span>
-          <span class="dil-new"      id="dilNew"></span>
-        </div>
-        <div class="dilution-legend">
-          <span class="leg"><span class="sw sw-existing"></span><span data-i18n="legend_existing">Actionnaires existants</span><b id="legExistingPct">—</b></span>
-          <span class="leg"><span class="sw sw-pool"></span><span data-i18n="legend_pool">Pool ESOP</span><b id="legPoolPct">—</b></span>
-          <span class="leg"><span class="sw sw-conv"></span><span data-i18n="legend_conv">Convertibles</span><b id="legConvPct">—</b></span>
-          <span class="leg"><span class="sw sw-new"></span><span data-i18n="legend_new">Nouveaux investisseurs</span><b id="legNewPct">—</b></span>
-        </div>
-        <div class="dilution-foot" id="r_dilutionSub">—</div>
+        <input type="range" id="exitSlider" class="slider" min="0" max="100" step="1">
+        <span class="tf-helper" data-i18n="label_exitValue_hint">Glisser pour explorer plusieurs scénarios</span>
       </div>
 
-      <!-- Cap table ─────────────────────────── -->
-      <div class="card">
-        <header class="card-head">
-          <span class="material-symbols-outlined card-icon">table_chart</span>
-          <div>
-            <h2 data-i18n="captable_title">Table de capitalisation</h2>
-            <p class="card-sub" data-i18n="captable_subtitle">Avant et après l'opération · fully-diluted</p>
-          </div>
-        </header>
-        <div class="card-body cap-body">
-          <table class="cap">
-            <thead>
-              <tr>
-                <th data-i18n="captable_holder">Détenteur</th>
-                <th data-i18n="captable_before_shares">Avant</th>
-                <th>%</th>
-                <th data-i18n="captable_after_shares">Après</th>
-                <th>%</th>
-                <th data-i18n="captable_liqPref">Liq. pref.</th>
-                <th data-i18n="captable_distribution">Répartition</th>
-              </tr>
-            </thead>
-            <tbody id="capBody"></tbody>
-          </table>
-        </div>
+      <div class="waterfall-summary" id="waterfallSummary"></div>
+
+      <div class="cap-body">
+        <table class="cap waterfall" id="waterfallTable">
+          <thead>
+            <tr>
+              <th data-i18n="waterfall_holder">Détenteur</th>
+              <th data-i18n="waterfall_shares">Actions</th>
+              <th>%</th>
+              <th data-i18n="waterfall_liqPref">Pref.</th>
+              <th data-i18n="waterfall_payout">Reçu</th>
+              <th data-i18n="waterfall_payoutPct">% sortie</th>
+              <th data-i18n="waterfall_treatment">Traitement</th>
+            </tr>
+          </thead>
+          <tbody id="waterfallBody"></tbody>
+        </table>
       </div>
-
-      <!-- Exit waterfall ────────────────────── -->
-      <div class="card">
-        <header class="card-head">
-          <span class="material-symbols-outlined card-icon">water_drop</span>
-          <div class="head-grow">
-            <h2 data-i18n="section_exit">Scénario de sortie · waterfall</h2>
-            <p class="card-sub" data-i18n="section_exit_sub">Préférence de liquidation et participation</p>
-          </div>
-          <label class="switch" title="Enabled">
-            <input type="checkbox" id="exitEnabled">
-            <span class="track"></span>
-          </label>
-        </header>
-
-        <div class="card-body" id="exitBody">
-
-          <div class="tf">
-            <label for="exitValue" data-i18n="label_exitValue">Valeur de sortie (exit)</label>
-            <div class="tf-input">
-              <span class="tf-prefix cur-symbol">€</span>
-              <input type="text" id="exitValue" inputmode="decimal" autocomplete="off">
-            </div>
-            <input type="range" id="exitSlider" class="slider" min="0" max="100" step="1">
-            <span class="tf-helper" id="exitHelp" data-i18n="label_exitValue_hint">Glisser pour explorer plusieurs scénarios</span>
-          </div>
-
-          <div class="waterfall-summary" id="waterfallSummary"></div>
-
-          <table class="cap waterfall" id="waterfallTable">
-            <thead>
-              <tr>
-                <th data-i18n="waterfall_holder">Détenteur</th>
-                <th data-i18n="waterfall_shares">Actions</th>
-                <th>%</th>
-                <th data-i18n="waterfall_liqPref">Pref.</th>
-                <th data-i18n="waterfall_payout">Reçu</th>
-                <th data-i18n="waterfall_payoutPct">% sortie</th>
-                <th data-i18n="waterfall_treatment">Traitement</th>
-              </tr>
-            </thead>
-            <tbody id="waterfallBody"></tbody>
-          </table>
-
-        </div>
-      </div>
-
-    </section>
-  </div>
+    </div>
+  </section>
 
   <footer class="page-foot">
     <div class="foot-text">

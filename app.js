@@ -122,8 +122,13 @@ const I18N = {
     button_print: "Imprimer / PDF",
 
     result_postMoney: "Valorisation post-money",
+    hero_eyebrow: "Vue d'ensemble · live",
     hero_investment: "Investissement total",
     hero_implied: "Post-money implicite (prix × actions)",
+    hero_dilution: "Dilution fondateurs",
+
+    section_metrics: "Indicateurs clés",
+    section_metrics_sub: "Prix, dilution, augmentation, prime",
 
     result_pricePerShare: "Prix par action",
     result_pricePerShare_sub: "Pré-money ÷ FD pré-money",
@@ -242,8 +247,13 @@ const I18N = {
     button_print: "Print / PDF",
 
     result_postMoney: "Post-money valuation",
+    hero_eyebrow: "Overview · live",
     hero_investment: "Total investment",
     hero_implied: "Implied post-money (price × shares)",
+    hero_dilution: "Founder dilution",
+
+    section_metrics: "Key metrics",
+    section_metrics_sub: "Price, dilution, capital increase, premium",
 
     result_pricePerShare: "Price per share",
     result_pricePerShare_sub: "Pre-money ÷ FD pre-money",
@@ -362,8 +372,13 @@ const I18N = {
     button_print: "Drucken / PDF",
 
     result_postMoney: "Post-Money-Bewertung",
+    hero_eyebrow: "Überblick · live",
     hero_investment: "Gesamtinvestition",
     hero_implied: "Implizit (Preis × Aktien)",
+    hero_dilution: "Gründer-Verwässerung",
+
+    section_metrics: "Kennzahlen",
+    section_metrics_sub: "Preis, Verwässerung, Kapitalerhöhung, Agio",
 
     result_pricePerShare: "Preis pro Aktie",
     result_pricePerShare_sub: "Pre-Money ÷ FD Pre-Money",
@@ -482,8 +497,13 @@ const I18N = {
     button_print: "Imprimir / PDF",
 
     result_postMoney: "Valoración post-money",
+    hero_eyebrow: "Resumen · en vivo",
     hero_investment: "Inversión total",
     hero_implied: "Post-money implícito (precio × acciones)",
+    hero_dilution: "Dilución fundadores",
+
+    section_metrics: "Indicadores clave",
+    section_metrics_sub: "Precio, dilución, ampliación, prima",
 
     result_pricePerShare: "Precio por acción",
     result_pricePerShare_sub: "Pre-money ÷ acciones FD pre-money",
@@ -1318,9 +1338,16 @@ function compute() {
   const $ = id => document.getElementById(id);
 
   // Hero
-  $('r_postMoney').textContent  = fmtMoney(c.postMoney, 0);
+  $('r_postMoney').textContent   = fmtMoney(c.postMoney, 0);
   $('r_totalInvest').textContent = fmtMoney(c.totalInvestment, 0);
   $('r_postImplied').textContent = fmtMoney(c.postImplied, 0);
+  $('r_heroDilution').textContent = fmtPct(c.dilution, 2);
+
+  // Sticky summary bar
+  $('ss_postMoney').textContent = fmtMoney(c.postMoney, 0);
+  $('ss_price').textContent     = fmtMoneyCompact(c.P_round);
+  const pctNewForSticky = c.totalSharesAfter > 0 ? c.totalNewShares / c.totalSharesAfter : 0;
+  $('ss_dilNew').textContent    = fmtPct(pctNewForSticky, 2);
 
   // Stats
   $('r_pricePerShare').textContent   = fmtMoneyCompact(c.P_round);
@@ -1444,6 +1471,17 @@ function renderWaterfall(c) {
   `;
 }
 
+/* ─────────────── Sticky summary on scroll ─────────────── */
+const stickySummaryEl = document.getElementById('stickySummary');
+function updateStickySummary() {
+  const heroBlock = document.querySelector('.hero-block');
+  if (!heroBlock || !stickySummaryEl) return;
+  const heroBottom = heroBlock.getBoundingClientRect().bottom;
+  stickySummaryEl.classList.toggle('show', heroBottom < 0);
+}
+window.addEventListener('scroll', updateStickySummary, { passive: true });
+window.addEventListener('resize', updateStickySummary);
+
 /* ─────────────── Boot ─────────────── */
 applyI18n();
 applyCurrencyUI();
@@ -1452,3 +1490,4 @@ renderHolders();
 renderConvertibles();
 renderInvestors();
 compute();
+updateStickySummary();

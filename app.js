@@ -1,9 +1,17 @@
 /* ─────────────── Constants ─────────────── */
-const STORAGE_KEY = 'capital-increase-calculator/state/v3';
+const STORAGE_KEY = 'capital-increase-calculator/state/v4';
 
-const DEFAULTS = {
-  lang: 'fr',
-  currency: 'EUR',
+const SCENARIO_IDS = ['base', 'bull', 'bear'];
+const SCENARIO_FIELDS = ['dossier', 'preMoney', 'existingShares', 'nominalValue',
+                         'pool', 'existingHolders', 'convertibles', 'investors', 'exit'];
+
+const BASE_SCENARIO = {
+  dossier: {
+    company:   '',
+    date:      new Date().toISOString().slice(0, 10),
+    reference: '',
+    operator:  '',
+  },
 
   preMoney: 8_000_000,
   existingShares: 100_000,
@@ -52,6 +60,18 @@ const DEFAULTS = {
   exit: {
     enabled: true,
     value: 30_000_000,
+  },
+};
+
+const DEFAULTS = {
+  lang: 'fr',
+  currency: 'EUR',
+  currentScenario: 'base',
+  ...structuredClone(BASE_SCENARIO),
+  scenarios: {
+    base: structuredClone(BASE_SCENARIO),
+    bull: structuredClone(BASE_SCENARIO),
+    bear: structuredClone(BASE_SCENARIO),
   },
 };
 
@@ -184,6 +204,16 @@ const I18N = {
     new_holder_default: "Nouvel actionnaire",
     new_investor_default: "Nouvel investisseur",
     new_conv_default: "Nouvelle convertible",
+
+    section_dossier: "Dossier",
+    section_dossier_sub: "Identification de l'opération · scénarios",
+    dossier_company: "Société",
+    dossier_date: "Date d'opération",
+    dossier_reference: "Référence dossier",
+    dossier_operator: "Opérateur",
+    sc_base: "Base",
+    sc_bull: "Bull",
+    sc_bear: "Bear",
 
     note_label: "Note",
     note_placeholder: "Référence interne, dossier, commentaire back-office…",
@@ -356,6 +386,16 @@ const I18N = {
     new_investor_default: "New investor",
     new_conv_default: "New convertible",
 
+    section_dossier: "Deal record",
+    section_dossier_sub: "Operation identification · scenarios",
+    dossier_company: "Company",
+    dossier_date: "Operation date",
+    dossier_reference: "Reference / case ID",
+    dossier_operator: "Operator",
+    sc_base: "Base",
+    sc_bull: "Bull",
+    sc_bear: "Bear",
+
     note_label: "Note",
     note_placeholder: "Reference, dossier, back-office comment…",
 
@@ -526,6 +566,16 @@ const I18N = {
     new_holder_default: "Neuer Aktionär",
     new_investor_default: "Neuer Investor",
     new_conv_default: "Neue Wandelanleihe",
+
+    section_dossier: "Dossier",
+    section_dossier_sub: "Identifikation der Transaktion · Szenarien",
+    dossier_company: "Gesellschaft",
+    dossier_date: "Transaktionsdatum",
+    dossier_reference: "Referenz / Vorgangsnummer",
+    dossier_operator: "Bearbeiter",
+    sc_base: "Base",
+    sc_bull: "Bull",
+    sc_bear: "Bear",
 
     note_label: "Notiz",
     note_placeholder: "Referenz, Vorgang, Back-Office-Kommentar…",
@@ -698,6 +748,16 @@ const I18N = {
     new_investor_default: "Nuevo inversor",
     new_conv_default: "Nuevo convertible",
 
+    section_dossier: "Expediente",
+    section_dossier_sub: "Identificación de la operación · escenarios",
+    dossier_company: "Sociedad",
+    dossier_date: "Fecha de operación",
+    dossier_reference: "Referencia / expediente",
+    dossier_operator: "Operador",
+    sc_base: "Base",
+    sc_bull: "Bull",
+    sc_bear: "Bear",
+
     note_label: "Nota",
     note_placeholder: "Referencia, expediente, comentario back-office…",
 
@@ -757,61 +817,121 @@ const t = (key, vars) => {
 /* ─────────────── State ─────────────── */
 const state = loadState();
 
+function sanitizeScenario(p) {
+  p = p || {};
+  return {
+    dossier: {
+      company:   String((p.dossier && p.dossier.company)   ?? ''),
+      date:      String((p.dossier && p.dossier.date)      ?? BASE_SCENARIO.dossier.date),
+      reference: String((p.dossier && p.dossier.reference) ?? ''),
+      operator:  String((p.dossier && p.dossier.operator)  ?? ''),
+    },
+    preMoney: Number(p.preMoney) || 0,
+    existingShares: Number(p.existingShares) || 0,
+    nominalValue: Number(p.nominalValue) || 0,
+    pool: {
+      enabled: !!(p.pool && p.pool.enabled),
+      targetPct: Number(p.pool && p.pool.targetPct) || 0,
+      timing: (p.pool && (p.pool.timing === 'post' || p.pool.timing === 'pre'))
+        ? p.pool.timing : BASE_SCENARIO.pool.timing,
+    },
+    existingHolders: Array.isArray(p.existingHolders) && p.existingHolders.length
+      ? p.existingHolders.map(h => ({
+          name: String(h.name ?? ''),
+          shares: Number(h.shares) || 0,
+          note: String(h.note ?? ''),
+        }))
+      : structuredClone(BASE_SCENARIO.existingHolders),
+    convertibles: Array.isArray(p.convertibles)
+      ? p.convertibles.map(c => ({
+          name: String(c.name ?? ''),
+          type: ['bsa-air','safe','note'].includes(c.type) ? c.type : 'bsa-air',
+          amount: Number(c.amount) || 0,
+          discountPct: Number(c.discountPct) || 0,
+          cap: Number(c.cap) || 0,
+          note: String(c.note ?? ''),
+        }))
+      : structuredClone(BASE_SCENARIO.convertibles),
+    investors: Array.isArray(p.investors)
+      ? p.investors.map(i => ({
+          name: String(i.name ?? ''),
+          amount: Number(i.amount) || 0,
+          liqMultiple: Number(i.liqMultiple) || 1,
+          participation: i.participation === 'participating' ? 'participating' : 'non-participating',
+          note: String(i.note ?? ''),
+        }))
+      : structuredClone(BASE_SCENARIO.investors),
+    exit: {
+      enabled: !!(p.exit && p.exit.enabled),
+      value: Number(p.exit && p.exit.value) || 0,
+    },
+  };
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return structuredClone(DEFAULTS);
-    const p = JSON.parse(raw);
+    // Also try previous schema version for migration
+    const rawLegacy = raw ? null : localStorage.getItem('capital-increase-calculator/state/v3');
+    if (!raw && !rawLegacy) return structuredClone(DEFAULTS);
+    const p = JSON.parse(raw || rawLegacy);
+
+    const currentScenario = SCENARIO_IDS.includes(p.currentScenario) ? p.currentScenario : 'base';
+    const scenarios = {};
+    SCENARIO_IDS.forEach(id => {
+      scenarios[id] = sanitizeScenario(
+        (p.scenarios && p.scenarios[id]) || (id === currentScenario ? p : null)
+      );
+    });
+    const active = scenarios[currentScenario];
+
     return {
       lang: I18N[p.lang] ? p.lang : DEFAULTS.lang,
       currency: SYMBOLS[p.currency] ? p.currency : DEFAULTS.currency,
-      preMoney: Number(p.preMoney) || 0,
-      existingShares: Number(p.existingShares) || 0,
-      nominalValue: Number(p.nominalValue) || 0,
-      pool: {
-        enabled: !!(p.pool && p.pool.enabled),
-        targetPct: Number(p.pool && p.pool.targetPct) || 0,
-        timing: (p.pool && (p.pool.timing === 'post' || p.pool.timing === 'pre'))
-          ? p.pool.timing : DEFAULTS.pool.timing,
-      },
-      existingHolders: Array.isArray(p.existingHolders) && p.existingHolders.length
-        ? p.existingHolders.map(h => ({
-            name: String(h.name ?? ''),
-            shares: Number(h.shares) || 0,
-            note: String(h.note ?? ''),
-          }))
-        : structuredClone(DEFAULTS.existingHolders),
-      convertibles: Array.isArray(p.convertibles)
-        ? p.convertibles.map(c => ({
-            name: String(c.name ?? ''),
-            type: ['bsa-air','safe','note'].includes(c.type) ? c.type : 'bsa-air',
-            amount: Number(c.amount) || 0,
-            discountPct: Number(c.discountPct) || 0,
-            cap: Number(c.cap) || 0,
-            note: String(c.note ?? ''),
-          }))
-        : structuredClone(DEFAULTS.convertibles),
-      investors: Array.isArray(p.investors)
-        ? p.investors.map(i => ({
-            name: String(i.name ?? ''),
-            amount: Number(i.amount) || 0,
-            liqMultiple: Number(i.liqMultiple) || 1,
-            participation: i.participation === 'participating' ? 'participating' : 'non-participating',
-            note: String(i.note ?? ''),
-          }))
-        : structuredClone(DEFAULTS.investors),
-      exit: {
-        enabled: !!(p.exit && p.exit.enabled),
-        value: Number(p.exit && p.exit.value) || 0,
-      },
+      currentScenario,
+      ...structuredClone(active),
+      scenarios,
     };
   } catch {
     return structuredClone(DEFAULTS);
   }
 }
 
+function snapshotCurrent() {
+  const snap = {};
+  SCENARIO_FIELDS.forEach(k => { snap[k] = structuredClone(state[k]); });
+  return snap;
+}
+
 function saveState() {
+  // Mirror current top-level into the active scenario slot
+  state.scenarios[state.currentScenario] = snapshotCurrent();
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+}
+
+function applyScenarioFields(scn) {
+  SCENARIO_FIELDS.forEach(k => { state[k] = structuredClone(scn[k]); });
+}
+
+function switchScenario(newId) {
+  if (!SCENARIO_IDS.includes(newId)) return;
+  if (newId === state.currentScenario) return;
+  // Save current to active slot
+  state.scenarios[state.currentScenario] = snapshotCurrent();
+  // Switch
+  state.currentScenario = newId;
+  // Load target into top-level
+  applyScenarioFields(state.scenarios[newId]);
+  saveState();
+  // Re-render everything
+  applyCurrencyUI();
+  syncPoolTimingUI();
+  syncDossierUI();
+  syncScenarioUI();
+  renderHolders();
+  renderConvertibles();
+  renderInvestors();
+  compute();
 }
 
 /* ─────────────── Formatting ─────────────── */
@@ -893,7 +1013,7 @@ function renderHolders() {
       </div>
       <div class="row-note">
         <label>${escapeHtml(t('note_label'))}</label>
-        <input type="text" class="note" placeholder="${escapeHtml(t('note_placeholder'))}" value="${escapeHtml(h.note || '')}">
+        <textarea class="note" rows="2" placeholder="${escapeHtml(t('note_placeholder'))}">${escapeHtml(h.note || '')}</textarea>
       </div>
     `;
     card.querySelector('.name').addEventListener('input', e => {
@@ -960,7 +1080,7 @@ function renderConvertibles() {
       <div class="conv-detail" data-conv-detail></div>
       <div class="row-note">
         <label>${escapeHtml(t('note_label'))}</label>
-        <input type="text" class="note" placeholder="${escapeHtml(t('note_placeholder'))}" value="${escapeHtml(cv.note || '')}">
+        <textarea class="note" rows="2" placeholder="${escapeHtml(t('note_placeholder'))}">${escapeHtml(cv.note || '')}</textarea>
       </div>
     `;
     card.querySelector('.name').addEventListener('input', e => {
@@ -1040,7 +1160,7 @@ function renderInvestors() {
       </div>
       <div class="row-note">
         <label>${escapeHtml(t('note_label'))}</label>
-        <input type="text" class="note" placeholder="${escapeHtml(t('note_placeholder'))}" value="${escapeHtml(inv.note || '')}">
+        <textarea class="note" rows="2" placeholder="${escapeHtml(t('note_placeholder'))}">${escapeHtml(inv.note || '')}</textarea>
       </div>
     `;
     card.querySelector('.name').addEventListener('input', e => {
@@ -1095,6 +1215,51 @@ function bindInput(id, getter, setter, decimals = 0) {
     el.value = fmtNum(getter(), decimals);
   });
 }
+/* ─── Dossier inputs ──────────────── */
+function bindDossierText(id, key) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = state.dossier[key] || '';
+  el.addEventListener('input', () => {
+    state.dossier[key] = el.value;
+    saveState();
+  });
+}
+bindDossierText('dossierCompany',   'company');
+bindDossierText('dossierReference', 'reference');
+bindDossierText('dossierOperator',  'operator');
+{
+  const dateEl = document.getElementById('dossierDate');
+  if (dateEl) {
+    dateEl.value = state.dossier.date || '';
+    dateEl.addEventListener('input', () => {
+      state.dossier.date = dateEl.value;
+      saveState();
+    });
+  }
+}
+
+function syncDossierUI() {
+  const fields = { dossierCompany: 'company', dossierDate: 'date',
+                   dossierReference: 'reference', dossierOperator: 'operator' };
+  Object.entries(fields).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = state.dossier[key] || '';
+  });
+}
+
+/* ─── Scenario picker ─────────────── */
+document.getElementById('scenarioPick').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-sc]');
+  if (!btn) return;
+  switchScenario(btn.dataset.sc);
+});
+
+function syncScenarioUI() {
+  document.querySelectorAll('#scenarioPick button').forEach(b =>
+    b.classList.toggle('on', b.dataset.sc === state.currentScenario));
+}
+
 bindInput('preMoney',       () => state.preMoney,       v => state.preMoney = v, 0);
 bindInput('existingShares', () => state.existingShares, v => state.existingShares = v, 0);
 bindInput('nominalValue',   () => state.nominalValue,   v => state.nominalValue = v, 2);
@@ -1193,9 +1358,17 @@ document.getElementById('printBtn').addEventListener('click', () => window.print
 document.getElementById('resetBtn').addEventListener('click', () => {
   if (!confirm(t('reset_confirm'))) return;
   const lang = state.lang, currency = state.currency;
-  Object.assign(state, structuredClone(DEFAULTS), { lang, currency });
+  const currentScenario = state.currentScenario;
+  // Reset only the active scenario; preserve other scenarios
+  const preservedScenarios = state.scenarios;
+  preservedScenarios[currentScenario] = structuredClone(BASE_SCENARIO);
+  Object.assign(state, structuredClone(DEFAULTS), {
+    lang, currency, currentScenario,
+    scenarios: preservedScenarios,
+  });
+  applyScenarioFields(preservedScenarios[currentScenario]);
   saveState();
-  applyCurrencyUI(); syncPoolTimingUI();
+  applyCurrencyUI(); syncPoolTimingUI(); syncDossierUI(); syncScenarioUI();
   renderHolders(); renderConvertibles(); renderInvestors();
   compute();
 });
@@ -1980,6 +2153,8 @@ window.addEventListener('resize', updateStickySummary);
 applyI18n();
 applyCurrencyUI();
 syncPoolTimingUI();
+syncDossierUI();
+syncScenarioUI();
 renderHolders();
 renderConvertibles();
 renderInvestors();

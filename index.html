@@ -95,10 +95,58 @@
     </div>
   </section>
 
-  <!-- ════════ 01 · Hypothèses ════════ -->
+  <!-- ════════ 01 · Dossier ════════ -->
   <section class="section">
     <header class="section-head">
       <span class="section-num">01</span>
+      <div class="head-grow">
+        <h2 data-i18n="section_dossier">Dossier</h2>
+        <p data-i18n="section_dossier_sub">Identification de l'opération · scénarios</p>
+      </div>
+      <div class="scenario-pick" id="scenarioPick" role="group" aria-label="Scenario">
+        <button data-sc="base" class="on" data-i18n="sc_base">Base</button>
+        <button data-sc="bull" data-i18n="sc_bull">Bull</button>
+        <button data-sc="bear" data-i18n="sc_bear">Bear</button>
+      </div>
+    </header>
+    <div class="section-body">
+      <div class="row4">
+        <div class="tf">
+          <label for="dossierCompany" data-i18n="dossier_company">Société</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">business</span></span>
+            <input type="text" id="dossierCompany" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dossierDate" data-i18n="dossier_date">Date d'opération</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">event</span></span>
+            <input type="date" id="dossierDate" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dossierReference" data-i18n="dossier_reference">Référence dossier</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">tag</span></span>
+            <input type="text" id="dossierReference" autocomplete="off">
+          </div>
+        </div>
+        <div class="tf">
+          <label for="dossierOperator" data-i18n="dossier_operator">Opérateur</label>
+          <div class="tf-input">
+            <span class="tf-prefix"><span class="material-symbols-outlined" style="font-size:18px">person</span></span>
+            <input type="text" id="dossierOperator" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 02 · Hypothèses ════════ -->
+  <section class="section">
+    <header class="section-head">
+      <span class="section-num">02</span>
       <div>
         <h2 data-i18n="section_assumptions">Hypothèses du tour</h2>
         <p data-i18n="section_assumptions_sub">Pré-money · actions · nominale</p>
@@ -134,10 +182,10 @@
     </div>
   </section>
 
-  <!-- ════════ 02 · Pool ESOP/BSPCE ════════ -->
+  <!-- ════════ 03 · Pool ESOP/BSPCE ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">02</span>
+      <span class="section-num">03</span>
       <div class="head-grow">
         <h2 data-i18n="section_pool">Pool d'options (ESOP / BSPCE)</h2>
         <p data-i18n="section_pool_sub">Réservé aux salariés · BSPCE, AGA, BSA</p>
@@ -169,10 +217,10 @@
     </div>
   </section>
 
-  <!-- ════════ 03 · Actionnaires ════════ -->
+  <!-- ════════ 04 · Actionnaires ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">03</span>
+      <span class="section-num">04</span>
       <div>
         <h2 data-i18n="section_holders">Actionnaires existants</h2>
         <p data-i18n="section_holders_sub">Capital actuel · actions ordinaires</p>
@@ -187,10 +235,10 @@
     </div>
   </section>
 
-  <!-- ════════ 04 · Convertibles ════════ -->
+  <!-- ════════ 05 · Convertibles ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">04</span>
+      <span class="section-num">05</span>
       <div>
         <h2 data-i18n="section_convertibles">Obligations convertibles · BSA AIR</h2>
         <p data-i18n="section_convertibles_sub">Convertissent au prix du tour (décote + plafond)</p>
@@ -205,10 +253,10 @@
     </div>
   </section>
 
-  <!-- ════════ 05 · Investisseurs ════════ -->
+  <!-- ════════ 06 · Investisseurs ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">05</span>
+      <span class="section-num">06</span>
       <div>
         <h2 data-i18n="section_investors">Investisseurs · tour de financement</h2>
         <p data-i18n="section_investors_sub">Souscripteurs · actions de préférence</p>
@@ -239,10 +287,10 @@
     </div>
   </div>
 
-  <!-- ════════ 06 · Indicateurs clés ════════ -->
+  <!-- ════════ 07 · Indicateurs clés ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">06</span>
+      <span class="section-num">07</span>
       <div>
         <h2 data-i18n="section_metrics">Indicateurs clés</h2>
         <p data-i18n="section_metrics_sub">Prix, dilution, augmentation, prime</p>
@@ -275,10 +323,10 @@
     </div>
   </section>
 
-  <!-- ════════ 07 · Comptabilité & bilan ════════ -->
+  <!-- ════════ 08 · Comptabilité & bilan ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">07</span>
+      <span class="section-num">08</span>
       <div>
         <h2 data-i18n="section_accounting">Comptabilité & bilan capital social</h2>
         <p data-i18n="section_accounting_sub">Écritures, plan comptable général · capital social et prime d'émission</p>
@@ -322,10 +370,10 @@
     </div>
   </section>
 
-  <!-- ════════ 08 · Cap table ════════ -->
+  <!-- ════════ 09 · Cap table ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">08</span>
+      <span class="section-num">09</span>
       <div>
         <h2 data-i18n="captable_title">Table de capitalisation</h2>
         <p data-i18n="captable_subtitle">Avant et après l'opération · fully-diluted</p>
@@ -349,10 +397,10 @@
     </div>
   </section>
 
-  <!-- ════════ 09 · Waterfall ════════ -->
+  <!-- ════════ 10 · Waterfall ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">09</span>
+      <span class="section-num">10</span>
       <div class="head-grow">
         <h2 data-i18n="section_exit">Scénario de sortie · waterfall</h2>
         <p data-i18n="section_exit_sub">Préférence de liquidation et participation</p>
@@ -394,10 +442,10 @@
     </div>
   </section>
 
-  <!-- ════════ 10 · Contrôles & réconciliation ════════ -->
+  <!-- ════════ 11 · Contrôles & réconciliation ════════ -->
   <section class="section">
     <header class="section-head">
-      <span class="section-num">10</span>
+      <span class="section-num">11</span>
       <div>
         <h2 data-i18n="section_recon">Contrôles & réconciliation</h2>
         <p data-i18n="section_recon_sub">Invariants de cohérence · audit back-office</p>

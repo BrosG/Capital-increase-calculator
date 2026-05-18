@@ -479,9 +479,6 @@ body {
   opacity: 1; visibility: visible;
 }
 
-.row-card .mini label {
-  display: flex; align-items: center; gap: 4px;
-}
 .tf-input {
   display: flex; align-items: stretch;
   background: var(--surface);
@@ -588,6 +585,7 @@ body {
 
 .row-card .mini { display: flex; flex-direction: column; gap: 5px; }
 .row-card .mini label {
+  display: flex; align-items: center; gap: 4px;
   font-size: 10.5px; font-weight: 500;
   letter-spacing: .04em; text-transform: uppercase;
   color: var(--on-surface-3);
@@ -618,6 +616,24 @@ body {
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 30px;
+}
+
+/* Standalone dropdown for tool pages (pool, oc, split etc.) — matches .tf-input visual */
+.head-mini-select {
+  appearance: none;
+  width: 100%;
+  padding: 12px 32px 12px 14px;
+  border: 1px solid var(--outline);
+  background: var(--surface) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5l3 3 3-3' fill='none' stroke='%235f6368' stroke-width='1.5'/></svg>") no-repeat right 12px center;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono); font-size: 15px; font-weight: 500;
+  color: var(--on-surface); outline: none; cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+}
+.head-mini-select:hover { border-color: var(--on-surface-3); }
+.head-mini-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26,115,232,.18);
 }
 
 .row-card button.del {

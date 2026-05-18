@@ -258,7 +258,7 @@
     </header>
     <div class="section-body">
       <div class="row-list" id="holderList"></div>
-      <button class="btn-ghost btn-add" id="addHolder">
+      <button class="btn-ghost" id="addHolder">
         <span class="material-symbols-outlined">add</span>
         <span data-i18n="button_addHolder">Ajouter un actionnaire</span>
       </button>
@@ -276,7 +276,7 @@
     </header>
     <div class="section-body">
       <div class="row-list" id="convList"></div>
-      <button class="btn-ghost btn-add" id="addConv">
+      <button class="btn-ghost" id="addConv">
         <span class="material-symbols-outlined">add</span>
         <span data-i18n="button_addConv">Ajouter une convertible</span>
       </button>
@@ -294,7 +294,7 @@
     </header>
     <div class="section-body">
       <div class="row-list" id="investorList"></div>
-      <button class="btn-ghost btn-add" id="addInv">
+      <button class="btn-ghost" id="addInv">
         <span class="material-symbols-outlined">add</span>
         <span data-i18n="button_addInvestor">Ajouter un investisseur</span>
       </button>
@@ -303,15 +303,15 @@
 
   <!-- Alerts inline (between inputs and results) -->
   <div class="alerts">
-    <div class="alert alert-warn" id="warn" hidden>
+    <div class="alert" id="warn" hidden>
       <span class="material-symbols-outlined">warning</span>
       <span data-i18n="warn_nominal">Valeur nominale supérieure au prix d'émission — émission impossible à ce nominal.</span>
     </div>
-    <div class="alert alert-warn" id="warnHolders" hidden>
+    <div class="alert" id="warnHolders" hidden>
       <span class="material-symbols-outlined">info</span>
       <span data-i18n="warn_holders">La somme des actionnaires existants ne correspond pas au total d'actions déclaré.</span>
     </div>
-    <div class="alert alert-warn" id="warnPool" hidden>
+    <div class="alert" id="warnPool" hidden>
       <span class="material-symbols-outlined">block</span>
       <span data-i18n="warn_pool">Taille de pool incompatible avec le tour : réduisez la cible.</span>
     </div>

@@ -787,7 +787,6 @@ table.cap .bar-cell { padding: 4px 18px 4px 10px; width: 140px; }
 }
 .bar.b-blue   > span { background: var(--primary); }
 .bar.b-yellow > span { background: var(--yellow); }
-.bar.b-red    > span { background: var(--red); }
 .bar.b-green  > span { background: var(--green); }
 .bar.b-purple > span { background: var(--purple); }
 
@@ -805,7 +804,6 @@ table.cap .bar-cell { padding: 4px 18px 4px 10px; width: 140px; }
 .tag-pool   { background: var(--yellow-soft); color: var(--warn-ink); }
 .tag-conv   { background: var(--purple-soft); color: var(--purple); }
 .tag-pref   { background: var(--green-soft);  color: var(--green); }
-.tag-new    { background: var(--green-soft);  color: var(--green); }
 
 /* ═══ Waterfall ══════════════════════════════════════════ */
 .waterfall-summary {

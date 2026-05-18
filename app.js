@@ -121,7 +121,6 @@ const I18N = {
 
     conv_placeholder_name: "Nom (ex. BSA AIR — Bpifrance Pré-Seed)",
     conv_placeholder_amount: "Montant",
-    conv_placeholder_discount: "Décote",
     conv_placeholder_cap: "Plafond pré-money (vide = pas de cap)",
     conv_type_label: "Type",
     conv_type_bsaair: "BSA AIR",
@@ -162,7 +161,6 @@ const I18N = {
     result_premiumTotal: "Prime d'émission",
     result_premiumTotal_sub: "Investissement − nominale",
 
-    result_dilution: "Répartition post-opération",
     result_dilution_template:
       "Anciens actionnaires : 100 % → {existingPct} · Prime / action : {premiumPerShare} · Dilution fondateurs : {dilution}",
 
@@ -320,7 +318,6 @@ const I18N = {
 
     conv_placeholder_name: "Name (e.g. SAFE — Lead Seed)",
     conv_placeholder_amount: "Amount",
-    conv_placeholder_discount: "Discount",
     conv_placeholder_cap: "Pre-money cap (blank = no cap)",
     conv_type_label: "Type",
     conv_type_bsaair: "BSA AIR",
@@ -361,7 +358,6 @@ const I18N = {
     result_premiumTotal: "Issue premium",
     result_premiumTotal_sub: "Investment − nominal",
 
-    result_dilution: "Post-round breakdown",
     result_dilution_template:
       "Existing holders: 100% → {existingPct} · Premium / share: {premiumPerShare} · Founder dilution: {dilution}",
 
@@ -519,7 +515,6 @@ const I18N = {
 
     conv_placeholder_name: "Name (z.B. SAFE — Lead Seed)",
     conv_placeholder_amount: "Betrag",
-    conv_placeholder_discount: "Discount",
     conv_placeholder_cap: "Pre-Money Cap (leer = kein Cap)",
     conv_type_label: "Typ",
     conv_type_bsaair: "BSA AIR",
@@ -560,7 +555,6 @@ const I18N = {
     result_premiumTotal: "Agio",
     result_premiumTotal_sub: "Investition − Nennwert",
 
-    result_dilution: "Aufteilung post-Runde",
     result_dilution_template:
       "Altaktionäre: 100 % → {existingPct} · Agio/Aktie: {premiumPerShare} · Gründer-Verwässerung: {dilution}",
 
@@ -718,7 +712,6 @@ const I18N = {
 
     conv_placeholder_name: "Nombre (p. ej. SAFE — Lead Seed)",
     conv_placeholder_amount: "Cantidad",
-    conv_placeholder_discount: "Descuento",
     conv_placeholder_cap: "Cap pre-money (vacío = sin cap)",
     conv_type_label: "Tipo",
     conv_type_bsaair: "BSA AIR",
@@ -759,7 +752,6 @@ const I18N = {
     result_premiumTotal: "Prima de emisión",
     result_premiumTotal_sub: "Inversión − nominal",
 
-    result_dilution: "Reparto post-operación",
     result_dilution_template:
       "Accionistas antiguos: 100 % → {existingPct} · Prima/acción: {premiumPerShare} · Dilución fundadores: {dilution}",
 

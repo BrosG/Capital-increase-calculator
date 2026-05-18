@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calcul d'Augmentation de Capital — Pre-Money, Prime d'Émission, Dilution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="left">
+      <span>Édition № 01</span>
+      <span id="todayLabel">—</span>
+    </div>
+    <div class="title">
+      Augmentation<br>
+      <span style="font-style:normal; font-weight: 300;">de Capital</span>
+      <small>Pre-Money · Prime d'Émission · Dilution</small>
+    </div>
+    <div class="right">
+      <span>Devise / Currency</span>
+      <div class="currency-pick" id="currencyPick">
+        <button data-cur="EUR" class="on">EUR €</button>
+        <button data-cur="USD">USD $</button>
+        <button data-cur="GBP">GBP £</button>
+        <button data-cur="CHF">CHF</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ── INPUTS ────────────────────────────────────────── -->
+    <section>
+      <p class="eyebrow"><span class="num">I.</span> Hypothèses · Assumptions</p>
+      <div class="panel">
+
+        <div class="field">
+          <label>
+            Valorisation pré-money
+            <span class="hint">Pre-money valuation</span>
+          </label>
+          <div class="input-shell">
+            <span class="sigil cur-symbol">€</span>
+            <input type="text" id="preMoney" value="8 000 000" inputmode="decimal">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>
+              Actions existantes
+              <span class="hint">Existing shares</span>
+            </label>
+            <div class="input-shell">
+              <span class="sigil">№</span>
+              <input type="text" id="existingShares" value="100 000" inputmode="decimal">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>
+              Valeur nominale
+              <span class="hint">Nominal / par</span>
+            </label>
+            <div class="input-shell">
+              <span class="sigil cur-symbol">€</span>
+              <input type="text" id="nominalValue" value="1.00" inputmode="decimal">
+            </div>
+          </div>
+        </div>
+
+        <div class="investors">
+          <p class="eyebrow" style="margin-bottom:14px"><span class="num">II.</span> Actionnaires existants · Existing holders</p>
+          <div id="holderList"></div>
+          <button class="add-investor" id="addHolder">＋ Ajouter un actionnaire</button>
+        </div>
+
+        <div class="investors">
+          <p class="eyebrow" style="margin-bottom:14px"><span class="num">III.</span> Investisseurs · Investors</p>
+          <div id="investorList"></div>
+          <button class="add-investor" id="addInv">＋ Ajouter un investisseur</button>
+        </div>
+
+        <div class="warn-banner" id="warn">⚠ La valeur nominale est supérieure au prix d'émission.</div>
+        <div class="warn-banner" id="warnHolders">⚠ La somme des actionnaires existants ne correspond pas au total d'actions existantes.</div>
+      </div>
+    </section>
+
+    <!-- ── RESULTS ───────────────────────────────────────── -->
+    <section class="results">
+      <p class="eyebrow"><span class="num">IV.</span> Résultats · Computation</p>
+
+      <div class="stat-grid">
+        <div class="stat accent span2">
+          <span class="k">Post-money valuation</span>
+          <span class="v" id="r_postMoney">—</span>
+          <span class="sub">Pré-money + investissement total</span>
+        </div>
+
+        <div class="stat">
+          <span class="k">Prix par action</span>
+          <span class="v" id="r_pricePerShare">—</span>
+          <span class="sub">Issue price · pre-money ÷ actions</span>
+        </div>
+
+        <div class="stat">
+          <span class="k">Actions émises</span>
+          <span class="v" id="r_newShares">—</span>
+          <span class="sub">Nouvelles actions créées</span>
+        </div>
+
+        <div class="stat">
+          <span class="k">Augmentation nominale</span>
+          <span class="v" id="r_nominalIncrease">—</span>
+          <span class="sub">N × valeur nominale → capital social</span>
+        </div>
+
+        <div class="stat">
+          <span class="k">Prime d'émission totale</span>
+          <span class="v" id="r_premiumTotal">—</span>
+          <span class="sub">Investment − nominal increase</span>
+        </div>
+
+        <div class="stat dark span2">
+          <span class="k">Dilution des actionnaires existants</span>
+          <span class="v" id="r_dilution">—</span>
+          <span class="sub" id="r_dilutionSub">Existing holders go from 100 % to —</span>
+        </div>
+      </div>
+
+      <div class="captable">
+        <h3>Table de capitalisation</h3>
+        <div class="sub-h">Avant / Après opération</div>
+        <table class="cap" id="capTable">
+          <thead>
+            <tr>
+              <th style="width:30%">Détenteur</th>
+              <th>Actions avant</th>
+              <th>%</th>
+              <th>Actions après</th>
+              <th>%</th>
+              <th style="width:18%">Répartition</th>
+            </tr>
+          </thead>
+          <tbody id="capBody"></tbody>
+        </table>
+      </div>
+
+    </section>
+  </div>
+
+  <footer class="colophon">
+    <span>Calcul à titre indicatif — vérifier avec votre conseil juridique</span>
+    <em>Méthode : prix par action = pré-money ÷ actions existantes, dilution full-dilution simple.</em>
+    <div class="actions">
+      <button class="ghost" id="resetBtn">Réinitialiser</button>
+      <button class="ghost" id="exportBtn">Exporter · CSV</button>
+      <button id="printBtn">Imprimer · PDF</button>
+    </div>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -225,11 +225,13 @@ const I18N = {
     accounting_label: "Libellé",
     accounting_debit: "Débit",
     accounting_credit: "Crédit",
-    acc_512: "Banque — fonds reçus de la souscription",
+    acc_512: "Banque — nouvelle souscription en numéraire",
+    acc_1675: "Emprunts obligataires convertibles — débouclage BSA AIR / SAFE / OC",
     acc_101: "Capital social — émission au pair",
     acc_1041: "Prime d'émission — au-delà du nominal",
     acc_total: "Total",
     acc_note_pool: "Pool d'options : {count} actions autorisées (réserve hors capital social, à émettre au fur et à mesure des attributions / exercices).",
+    acc_note_conv: "Le compte 1675 correspond aux fonds reçus antérieurement au titre des BSA AIR / SAFE / OC, dont la conversion devient effective à la date de l'opération.",
 
     bilan_title: "Bilan capital social — variation",
     bilan_item: "Poste",
@@ -411,11 +413,13 @@ const I18N = {
     accounting_label: "Label",
     accounting_debit: "Debit",
     accounting_credit: "Credit",
-    acc_512: "Bank — subscription funds received",
+    acc_512: "Bank — new cash subscription",
+    acc_1675: "Convertible-note liability — BSA AIR / SAFE / OC settlement",
     acc_101: "Share capital — issuance at par",
     acc_1041: "Share premium — above par",
     acc_total: "Total",
     acc_note_pool: "Option pool: {count} authorized shares (reserve, outside share capital, to be issued upon grant/exercise).",
+    acc_note_conv: "Account 1675 clears the convertible liability (BSA AIR / SAFE / OC funds received earlier) into equity at this closing.",
 
     bilan_title: "Share-capital balance — variation",
     bilan_item: "Item",
@@ -597,11 +601,13 @@ const I18N = {
     accounting_label: "Bezeichnung",
     accounting_debit: "Soll",
     accounting_credit: "Haben",
-    acc_512: "Bank — Zeichnungsgelder erhalten",
+    acc_512: "Bank — neue Bareinzahlung",
+    acc_1675: "Wandelanleihe-Verbindlichkeit — Abwicklung BSA AIR / SAFE / OC",
     acc_101: "Grundkapital — Emission zum Nennwert",
     acc_1041: "Agio — über Nennwert",
     acc_total: "Gesamt",
     acc_note_pool: "Optionspool: {count} genehmigte Aktien (Reserve, außerhalb Grundkapital, bei Gewährung/Ausübung auszugeben).",
+    acc_note_conv: "Konto 1675 löst die vor dem Closing erhaltenen Wandelbeträge (BSA AIR / SAFE / OC) in Eigenkapital auf.",
 
     bilan_title: "Grundkapital — Veränderung",
     bilan_item: "Position",
@@ -783,11 +789,13 @@ const I18N = {
     accounting_label: "Concepto",
     accounting_debit: "Debe",
     accounting_credit: "Haber",
-    acc_512: "Banco — fondos recibidos de la suscripción",
+    acc_512: "Banco — nueva suscripción en efectivo",
+    acc_1675: "Pasivo convertible — liquidación BSA AIR / SAFE / OC",
     acc_101: "Capital social — emisión al nominal",
     acc_1041: "Prima de emisión — sobre nominal",
     acc_total: "Total",
     acc_note_pool: "Pool de opciones: {count} acciones autorizadas (reserva, fuera del capital social, a emitir al ejercitar).",
+    acc_note_conv: "La cuenta 1675 liquida los fondos convertibles (BSA AIR / SAFE / OC) recibidos previamente en patrimonio en el cierre.",
 
     bilan_title: "Capital social — variación",
     bilan_item: "Concepto",
@@ -1950,22 +1958,40 @@ function renderAccounting(c) {
   body.innerHTML = '';
 
   const issued = c.totalConvShares + c.totalNewShares;
-  const cash = c.totalInvestment;
+  const newCash = c.newInvestment;       // priced round only — actual cash on the closing date
+  const convDebouclage = c.convInvestment; // BSA AIR / SAFE liability cleared to equity, not new cash
+  const totalDebit = newCash + convDebouclage;
   const capIncrease = issued * c.nom;
-  const premium = cash - capIncrease;
+  const premium = totalDebit - capIncrease;
 
-  if (cash === 0 && issued === 0) {
+  if (totalDebit === 0 && issued === 0) {
     body.insertAdjacentHTML('beforeend', `
       <tr><td colspan="4" class="label-col" style="text-align:center; color:var(--on-surface-3)">—</td></tr>
     `);
   } else {
+    const debitRows = [];
+    if (newCash > 0) {
+      debitRows.push(`
+        <tr>
+          <td>512</td>
+          <td class="label-col">${escapeHtml(t('acc_512'))}</td>
+          <td>${fmtMoney(newCash, 0)}</td>
+          <td>—</td>
+        </tr>
+      `);
+    }
+    if (convDebouclage > 0) {
+      debitRows.push(`
+        <tr>
+          <td>1675</td>
+          <td class="label-col">${escapeHtml(t('acc_1675'))}</td>
+          <td>${fmtMoney(convDebouclage, 0)}</td>
+          <td>—</td>
+        </tr>
+      `);
+    }
     body.insertAdjacentHTML('beforeend', `
-      <tr>
-        <td>512</td>
-        <td class="label-col">${escapeHtml(t('acc_512'))}</td>
-        <td>${fmtMoney(cash, 0)}</td>
-        <td>—</td>
-      </tr>
+      ${debitRows.join('')}
       <tr class="credit">
         <td>101</td>
         <td class="label-col">${escapeHtml(t('acc_101'))}</td>
@@ -1980,18 +2006,20 @@ function renderAccounting(c) {
       </tr>
       <tr class="subtotal">
         <td colspan="2">${escapeHtml(t('acc_total'))}</td>
-        <td>${fmtMoney(cash, 0)}</td>
+        <td>${fmtMoney(totalDebit, 0)}</td>
         <td>${fmtMoney(capIncrease + premium, 0)}</td>
       </tr>
     `);
   }
 
-  const noteEl = document.getElementById('accountingNote');
+  const notes = [];
   if (c.totalPoolPost > 0) {
-    noteEl.textContent = t('acc_note_pool', { count: fmtNum(c.totalPoolPost, 0) });
-  } else {
-    noteEl.textContent = '';
+    notes.push(t('acc_note_pool', { count: fmtNum(c.totalPoolPost, 0) }));
   }
+  if (convDebouclage > 0) {
+    notes.push(t('acc_note_conv'));
+  }
+  document.getElementById('accountingNote').textContent = notes.join(' · ');
 }
 
 function renderBilan(c) {
